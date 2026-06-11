@@ -122,7 +122,6 @@ const MyTorch = () => {
   });
 
   const handleLikeProject = async (project: ProjectCard) => {
-    console.log('Saving project:', project.title);
     
     try {
       const { data, error } = await supabase
@@ -207,7 +206,6 @@ const MyTorch = () => {
                 try {
                   // Use the scanImage API function instead of direct Vision API calls
                   const detectedItems = await scanImage(base64);
-                  console.log('Detected items:', detectedItems);
                   
                   const newMaterials = Array.from(new Set(detectedItems))
                     .filter(d => {
@@ -219,7 +217,6 @@ const MyTorch = () => {
                       );
                     });
                   
-                  console.log('New materials to add:', newMaterials);
                   if (newMaterials.length === 0) {
                     setScanStatus(t('myBench.noNewIngredients'));
                     alert(t('myBench.noNewIngredients'));
@@ -227,7 +224,6 @@ const MyTorch = () => {
                     // Check user before saving
                     try {
                       const sessionValid = await isSessionValid();
-                      console.log('Current user:', user);
                       if (!sessionValid || !user) {
                         setScanStatus(t('myBench.notSignedIn'));
                         alert(t('myBench.notSignedIn'));

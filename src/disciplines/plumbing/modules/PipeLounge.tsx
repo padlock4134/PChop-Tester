@@ -144,7 +144,6 @@ const PipeLounge = () => {
 
   const handlePipeBookImport = async (selectedRecipe: any) => {
 
-    console.log('Importing fit:', selectedRecipe);
 
     
 

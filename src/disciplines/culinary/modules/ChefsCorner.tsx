@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import ChefFreddieWidget from './ChefFreddieWidget';
+import ChefFreddieWidget from '../components/ChefFreddieWidget';
 import { useFreddieContext } from '../components/FreddieContext';
 import { fetchKitchen } from './kitchenSupabase';
 import CookBookImportModal from '../components/CookBookImportModal';
@@ -162,7 +162,6 @@ const ChefsCorner = () => {
 
   // Handler for modal import - select a recipe to showcase
   const handleCookBookImport = async (selectedRecipe: any) => {
-    console.log('Importing recipe:', selectedRecipe);
     
     if (!selectedRecipe) {
       console.error('No recipe selected');

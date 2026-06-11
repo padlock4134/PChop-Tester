@@ -194,9 +194,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
         
         // Read stored admin discipline and set it as selected
         const storedDiscipline = localStorage.getItem('adminSelectedDiscipline');
-        console.log('Admin Dashboard - Stored discipline from localStorage:', storedDiscipline);
         if (storedDiscipline && storedDiscipline !== 'total') {
-          console.log('Admin Dashboard - Setting selected discipline to:', storedDiscipline);
           setSelectedDiscipline(storedDiscipline as DisciplineKey);
         }
       } catch (error) {
@@ -211,9 +209,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   useEffect(() => {
     setTimeout(() => {
       const storedDiscipline = localStorage.getItem('adminSelectedDiscipline');
-      console.log('Admin Dashboard - Mount check - Stored discipline:', storedDiscipline);
       if (storedDiscipline && storedDiscipline !== 'total') {
-        console.log('Admin Dashboard - Force setting dropdown to:', storedDiscipline);
         setSelectedDiscipline(storedDiscipline as DisciplineKey);
       }
     }, 100); // Small delay to ensure component is fully mounted
@@ -224,7 +220,6 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
     const handleStorageChange = (e: StorageEvent) => {
       if (e.key === 'adminSelectedDiscipline') {
         const newDiscipline = e.newValue;
-        console.log('Admin Dashboard - Discipline changed to:', newDiscipline);
         if (newDiscipline && newDiscipline !== 'total') {
           setSelectedDiscipline(newDiscipline as DisciplineKey);
         } else {
@@ -241,7 +236,6 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   useEffect(() => {
     const storedDiscipline = localStorage.getItem('adminSelectedDiscipline');
     if (storedDiscipline && storedDiscipline !== 'total') {
-      console.log('Admin Dashboard - Forcing dropdown to:', storedDiscipline);
       setSelectedDiscipline(storedDiscipline as DisciplineKey);
     }
   }, []);
@@ -928,7 +922,6 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
         setUploadProgress(fileProgress + 50);
         const aiSuggestion = processorData.aiSuggestion;
 
-        console.log('AI suggestion for', file.name, ':', aiSuggestion);
 
         // Always stage the file and show mapping review for user confirmation
         const { error: stagingError } = await supabase
@@ -1149,7 +1142,6 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
     const profilesSubscription = supabase
       .channel('profiles_changes')
       .on('postgres_changes', { event: '*', schema: 'public', table: 'profiles' }, () => {
-        console.log('Profile data changed, refreshing admin stats...');
         fetchAdminData();
       })
       .subscribe();
@@ -1157,7 +1149,6 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
     const sessionsSubscription = supabase
       .channel('sessions_changes')
       .on('postgres_changes', { event: '*', schema: 'public', table: 'schedule_sessions' }, () => {
-        console.log('Session data changed, refreshing admin stats...');
         fetchAdminData();
       })
       .subscribe();
@@ -1165,7 +1156,6 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
     const reportsSubscription = supabase
       .channel('reports_changes')
       .on('postgres_changes', { event: '*', schema: 'public', table: 'session_reports' }, () => {
-        console.log('New reports received, refreshing admin stats...');
         fetchAdminData();
       })
       .subscribe();
@@ -7536,9 +7526,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               </button>
               <button
                 onClick={() => {
-                  console.log('=== BUTTON CLICKED ===');
                   const aiSuggestion = currentMapping.aiSuggestion;
-                  console.log('AI suggestion:', aiSuggestion);
 
                   if (!aiSuggestion) {
                     return;
@@ -7557,7 +7545,6 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       week_number: lesson.weekNumber || null
                     }));
 
-                    console.log('Inserting lessons in batches:', lessonsToInsert.length);
                     const batchSize = 50;
                     let insertedCount = 0;
                     let errorOccurred = false;
@@ -7585,7 +7572,6 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
                       insertedCount += batch.length;
                       setLessonImportProgressState({ current: insertedCount, total: lessonsToInsert.length, status: `Imported ${insertedCount}/${lessonsToInsert.length} lessons` });
-                      console.log(`Inserted batch ${batchIndex + 1}: ${insertedCount}/${lessonsToInsert.length} lessons`);
                     };
 
                     // Process in batches
@@ -7600,7 +7586,6 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       }
 
                       if (!errorOccurred) {
-                        console.log('All lessons inserted successfully');
                         setLessonImportProgressState({ current: lessonsToInsert.length, total: lessonsToInsert.length, status: 'Complete!' });
                         // Show success modal after short delay
                         setTimeout(() => {
@@ -7634,7 +7619,6 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       week_number: metadata.weekNumber || null
                     };
 
-                    console.log('Inserting single lesson:', lessonToInsert);
                     setShowMappingReviewModal(false);
                     supabase
                       .from('curriculum_content')
@@ -7644,7 +7628,6 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                           console.error('Lesson insert error:', error);
                           showError(`Failed to import lesson: ${error.message}`);
                         } else {
-                          console.log('Lesson inserted successfully');
                           setDownloadedReportInfo({
                             type: 'Lesson Imported',
                             count: 1,

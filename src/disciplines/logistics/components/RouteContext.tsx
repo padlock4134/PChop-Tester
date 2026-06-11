@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 import type { RouteCard } from './RouteMatcherModal';
 
 type RouteContextType = {
@@ -14,16 +14,10 @@ export const RouteProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const [selectedRoute, setSelectedRoute] = useState<RouteCard | null>(null);
   const [routes, setRoutes] = useState<RouteCard[]>([]);
 
-  // Log when selectedRoute changes
-  useEffect(() => {
-    console.log('RouteContext - selectedRoute updated:', selectedRoute);
-  }, [selectedRoute]);
-
   return (
     <RouteContext.Provider value={{ 
       selectedRoute, 
       setSelectedRoute: (route) => {
-        console.log('Setting route in context with nutrition:', route?.nutrition);
         setSelectedRoute((prev: any) => route ? ({
           ...route,
           nutrition: route.nutrition

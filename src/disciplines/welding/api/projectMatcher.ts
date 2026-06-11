@@ -301,15 +301,12 @@ Return ONLY the JSON array, no other text.`;
       .replace(/[\u201C\u201D]/g, '"')  // Replace smart quotes with regular quotes
       .replace(/[\u2018\u2019]/g, "'");  // Replace smart apostrophes
     
-    console.log('Cleaned JSON text length:', jsonText.length);
     
     projects = JSON.parse(jsonText);
     
     if (!Array.isArray(projects)) throw new Error('Response not an array');
   } catch (err: unknown) {
     console.error('Failed to parse projects:', err);
-    console.log('Raw content:', anthropicData.content[0].text);
-    console.log('Error at position:', err instanceof Error ? err.message : String(err));
     return generateFallbackProjects(userId, materials, numProjects);
   }
 
@@ -429,13 +426,11 @@ Return ONLY the JSON array, no other text.`;
       throw new Error('Invalid response format from Anthropic API');
     }
     const responseText = anthropicData.content[0].text;
-    console.log('Raw Anthropic response:', responseText);
     
     // More robust JSON extraction
     const match = responseText.match(/\[\s*\{[\s\S]*\}\s*\]/);
     if (match) {
       parsedProjects = JSON.parse(match[0]);
-      console.log('Parsed projects:', parsedProjects);
     } else {
       console.error('No JSON array found in response:', responseText);
       throw new Error('No project data found in API response');

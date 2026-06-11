@@ -152,7 +152,6 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
           <div className="text-center text-maineBlue font-bold py-10">{t('recipeMatcher.noMoreSuggestions')}<br/>{t('recipeMatcher.tryUpdatingCupboard')}</div>
         ) : (
           (() => {
-            console.log('Recipe healthTags:', recipes[currentIdx].healthTags);
             return (
               <div className="flex flex-col items-center">
                 <div className="bg-sand rounded-xl shadow-lg border border-black p-4 w-full max-w-md mb-4 relative">

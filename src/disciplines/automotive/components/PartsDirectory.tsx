@@ -126,7 +126,6 @@ const MarketDirectory: React.FC = () => {
         );
         
         const initialData = await initialResponse.json();
-        console.log('Initial Places API response:', initialData);
         
         if (!initialResponse.ok) {
           throw new Error(initialData.error || `API returned ${initialResponse.status}`);
@@ -150,13 +149,11 @@ const MarketDirectory: React.FC = () => {
           
           for (const query of queries) {
             try {
-              console.log(`Searching for ${category} with query: ${query}`);
               const specialtyResponse = await fetch(
                 `/.netlify/functions/text-search-places?lat=${coordinates.lat}&lng=${coordinates.lng}&radius=${radius}&query=${encodeURIComponent(query)}`
               );
               
               const specialtyData = await specialtyResponse.json();
-              console.log(`${category} search response for "${query}":`, specialtyData);
               
               if (specialtyData.status === 'OK' && specialtyData.results) {
                 // Filter out non-automotive places
@@ -324,7 +321,6 @@ const MarketDirectory: React.FC = () => {
           );
           return distance <= 15;
         } catch (err) {
-          console.log('Distance calculation error for', place.name, err);
           return true; // Keep the place on error to avoid empty results
         }
       });

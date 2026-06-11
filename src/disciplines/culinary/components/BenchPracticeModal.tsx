@@ -47,7 +47,6 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose, 
 
       // Check if we have a default scene
       if (defaultScene) {
-        console.log('Loading default AR scene');
         setArScene(defaultScene);
         setIsPracticing(true);
         return;

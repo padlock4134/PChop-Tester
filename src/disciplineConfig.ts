@@ -1,4 +1,4 @@
-import { supabase } from './disciplines/culinary/api/supabaseClient';
+import { supabase } from './supabaseClient';
 
 // Base discipline configuration mapping (hardcoded disciplines)
 export const BASE_DISCIPLINE_CONFIG = {

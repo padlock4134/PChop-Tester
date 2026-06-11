@@ -32,7 +32,6 @@ export const useAutoLogout = (options: UseAutoLogoutOptions = {}): UseAutoLogout
   const countdownIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const logout = () => {
-    console.log('Auto-logout triggered due to inactivity');
     setShowWarning(false);
     redirectToLogout('/.netlify/functions/auth-logout');
   };
@@ -86,12 +85,10 @@ export const useAutoLogout = (options: UseAutoLogoutOptions = {}): UseAutoLogout
   };
 
   const stayLoggedIn = () => {
-    console.log('User chose to stay logged in');
     resetTimer();
   };
 
   const logoutNow = () => {
-    console.log('User chose to log out immediately');
     clearAllTimers();
     logout();
   };

@@ -124,7 +124,6 @@ const MyGarage = () => {
   });
 
   const handleLikeRecipe = async (recipe: RecipeCard) => {
-    console.log('Saving recipe with nutrition data:', recipe.nutrition);
     
     try {
       const { data, error } = await supabase
@@ -210,7 +209,6 @@ const MyGarage = () => {
                 try {
                   // Use the scanImage API function instead of direct Vision API calls
                   const detectedItems = await scanImage(base64);
-                  console.log('Detected items:', detectedItems);
                   
                   const newIngredients = Array.from(new Set(detectedItems))
                     .filter(d => {
@@ -222,7 +220,6 @@ const MyGarage = () => {
                       );
                     });
                   
-                  console.log('New ingredients to add:', newIngredients);
                   if (newIngredients.length === 0) {
                     setScanStatus(t('myGarage.noNewIngredients'));
                     alert(t('myGarage.noNewIngredients'));
@@ -230,7 +227,6 @@ const MyGarage = () => {
                     // Check user before saving
                     try {
                       const sessionValid = await isSessionValid();
-                      console.log('Current user:', user);
                       if (!sessionValid || !user) {
                         setScanStatus(t('myGarage.notSignedIn'));
                         alert(t('myGarage.notSignedIn'));

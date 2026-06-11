@@ -91,7 +91,6 @@ const StudentProgressDashboard: React.FC = () => {
       const interval = setInterval(() => {
         setCurrentSessionIndex((prev) => {
           const nextIndex = (prev + 1) % activeLiveSessions.length;
-          console.log('Auto-scrolling to session:', nextIndex, activeLiveSessions[nextIndex]?.hostName);
           return nextIndex;
         });
       }, 3000); // 3 second intervals
@@ -102,26 +101,20 @@ const StudentProgressDashboard: React.FC = () => {
 
   // Initialize auto-scroll on component mount
   useEffect(() => {
-    console.log('Live sessions loaded:', activeLiveSessions.length, 'sessions');
-    console.log('Current session index:', currentSessionIndex);
-    console.log('Is paused:', isPaused);
     
     // Force start auto-scroll immediately
     if (activeLiveSessions.length > 1) {
-      console.log('Starting auto-scroll with', activeLiveSessions.length, 'sessions');
     }
   }, []);
 
   // Debug current session changes
   useEffect(() => {
     if (activeLiveSessions[currentSessionIndex]) {
-      console.log('Current session changed to:', currentSessionIndex, '-', activeLiveSessions[currentSessionIndex].hostName, activeLiveSessions[currentSessionIndex].dishName);
     }
   }, [currentSessionIndex]);
 
   // Join live session function
   const joinLiveSession = (session: any) => {
-    console.log('Joining live session:', session);
     setCurrentLiveSession(session);
     setIsViewer(true);
     setViewerCount(session.viewers);

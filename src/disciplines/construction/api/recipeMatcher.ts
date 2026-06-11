@@ -292,15 +292,12 @@ Return ONLY the JSON array, no other text.`;
       .replace(/[\u201C\u201D]/g, '"')  // Replace smart quotes with regular quotes
       .replace(/[\u2018\u2019]/g, "'");  // Replace smart apostrophes
     
-    console.log('Cleaned JSON text length:', jsonText.length);
     
     recipes = JSON.parse(jsonText);
     
     if (!Array.isArray(recipes)) throw new Error('Response not an array');
   } catch (err: unknown) {
     console.error('Failed to parse recipes:', err);
-    console.log('Raw content:', anthropicData.content[0].text);
-    console.log('Error at position:', err instanceof Error ? err.message : String(err));
     return localConstructionFallback(ingredients, numRecipes);
   }
 
@@ -410,13 +407,11 @@ Return ONLY the JSON array, no other text.`;
       return localConstructionFallback(ingredients, count);
     }
     const responseText = anthropicData.content[0].text;
-    console.log('Raw Anthropic response:', responseText);
     
     // More robust JSON extraction
     const match = responseText.match(/\[\s*\{[\s\S]*\}\s*\]/);
     if (match) {
       recipes = JSON.parse(match[0]);
-      console.log('Parsed recipes:', recipes);
     } else {
       console.error('No JSON array found in response:', responseText);
       return localConstructionFallback(ingredients, count);

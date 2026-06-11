@@ -55,8 +55,6 @@ const PlumbingSchool = () => {
   const { t } = useTranslation();
   const { updateContext } = useFreddieContext();
   const { selectedRecipe } = useRecipeContext();
-  console.log('Plumbing School - Project data:', selectedRecipe?.nutrition);
-  console.log('Plumbing School - Full Project:', selectedRecipe);
   const [modalIdx, setModalIdx] = useState<null | number>(null);
   const [fitNutrition, setFitNutrition] = useState<KeyNutrients | null>(null);
   const [servingSize, setServingSize] = useState(2);
@@ -65,7 +63,6 @@ const PlumbingSchool = () => {
   const syllabusData = useCurriculumSyllabus(supabase, 'plumbing');
 
   const handleLessonClick = (lessonId: string) => {
-    console.log(`Navigating to lesson: ${lessonId}`);
   };
 
   useEffect(() => {
@@ -174,9 +171,6 @@ const PlumbingSchool = () => {
     let cancelled = false;
     async function fetchVideos() {
       // Now using API key rotation system for better quota management
-      console.log('[PlumbingSchool] Fetching videos with API key rotation');
-      console.log('[PlumbingSchool] Tutorials to fetch:', tutorials);
-      console.log('[PlumbingSchool] Selected project:', selectedRecipe);
 
       const newUrls: (string | null)[] = [null, null];
       await Promise.all(tutorials.map(async (tut, idx) => {
@@ -188,11 +182,7 @@ const PlumbingSchool = () => {
             idx
           );
 
-          console.log(`[PlumbingSchool] Tutorial ${idx} (${tut.type || 'legacy'}) query:`, query);
-
           const result: TutorialVideoResult = await getTutorialVideo(query);
-          console.log(`[PlumbingSchool] Tutorial ${idx} result:`, result);
-
           if (result && result.url) {
             newUrls[idx] = result.url;
           }

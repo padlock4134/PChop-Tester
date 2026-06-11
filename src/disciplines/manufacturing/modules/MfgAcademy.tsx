@@ -55,8 +55,6 @@ const MfgAcademy = () => {
   const { t } = useTranslation();
   const { updateContext } = useFreddieContext();
   const { selectedRecipe } = useRecipeContext();
-  console.log('Culinary School - Recipe nutrition:', selectedRecipe?.nutrition);
-  console.log('Culinary School - Full Recipe:', selectedRecipe);
   const [modalIdx, setModalIdx] = useState<null | number>(null);
   const [recipeNutrition, setRecipeNutrition] = useState<KeyNutrients | null>(null);
   const [orderSize, setOrderSize] = useState(100);
@@ -65,7 +63,6 @@ const MfgAcademy = () => {
   const syllabusData = useCurriculumSyllabus(supabase, 'manufacturing');
 
   const handleLessonClick = (lessonId: string) => {
-    console.log(`Navigating to lesson: ${lessonId}`);
   };
 
   useEffect(() => {
@@ -174,9 +171,6 @@ const MfgAcademy = () => {
     let cancelled = false;
     async function fetchVideos() {
       // Now using API key rotation system for better quota management
-      console.log('[CulinarySchool] Fetching videos with API key rotation');
-      console.log('[CulinarySchool] Tutorials to fetch:', tutorials);
-      console.log('[CulinarySchool] Selected recipe:', selectedRecipe);
 
       const newUrls: (string | null)[] = [null, null];
       await Promise.all(tutorials.map(async (tut, idx) => {
@@ -188,11 +182,7 @@ const MfgAcademy = () => {
             idx
           );
 
-          console.log(`[CulinarySchool] Tutorial ${idx} (${tut.type || 'legacy'}) query:`, query);
-
           const result: TutorialVideoResult = await getTutorialVideo(query);
-          console.log(`[CulinarySchool] Tutorial ${idx} result:`, result);
-
           if (result && result.url) {
             newUrls[idx] = result.url;
           }

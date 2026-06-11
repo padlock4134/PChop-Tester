@@ -318,15 +318,12 @@ Return ONLY the JSON array, no other text.`;
       .replace(/[\u201C\u201D]/g, '"')  // Replace smart quotes with regular quotes
       .replace(/[\u2018\u2019]/g, "'");  // Replace smart apostrophes
     
-    console.log('Cleaned JSON text length:', jsonText.length);
     
     routes = JSON.parse(jsonText);
     
     if (!Array.isArray(routes)) throw new Error('Response not an array');
   } catch (err: unknown) {
     console.error('Failed to parse routes:', err);
-    console.log('Raw content:', anthropicData.content[0].text);
-    console.log('Error at position:', err instanceof Error ? err.message : String(err));
     return generateFallbackRoutes(userId, items, numRoutes);
   }
 
@@ -443,13 +440,11 @@ Return ONLY the JSON array, no other text.`;
       throw new Error('Invalid response format from Anthropic API');
     }
     const responseText = anthropicData.content[0].text;
-    console.log('Raw Anthropic response:', responseText);
     
     // More robust JSON extraction
     const match = responseText.match(/\[\s*\{[\s\S]*\}\s*\]/);
     if (match) {
       routes = JSON.parse(match[0]);
-      console.log('Parsed routes:', routes);
     } else {
       console.error('No JSON array found in response:', responseText);
       throw new Error('No route data found in API response');

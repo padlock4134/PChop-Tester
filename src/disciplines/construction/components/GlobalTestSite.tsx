@@ -171,7 +171,6 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
           return;
         }
 
-        console.log('Session saved successfully to database:', data);
         
         // Log the scheduling activity for admin dashboard
         logUserActivity('session_scheduled', {
@@ -301,10 +300,8 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
   // Update video element when stream changes
   useEffect(() => {
     if (stream && videoRef.current) {
-      console.log('Setting video stream');
       videoRef.current.srcObject = stream;
       videoRef.current.onloadedmetadata = () => {
-        console.log('Video metadata loaded');
         if (videoRef.current) {
           videoRef.current.play().catch(console.error);
         }
@@ -330,7 +327,6 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
       }
       
       // Set up MediaRecorder for video recording
-      console.log('Setting up MediaRecorder...');
       const recorder = new MediaRecorder(mediaStream, {
         mimeType: 'video/webm;codecs=vp9'
       });
@@ -338,22 +334,18 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
       const chunks: BlobPart[] = [];
       
       recorder.ondataavailable = (event) => {
-        console.log('Data available:', event.data.size, 'bytes');
         if (event.data.size > 0) {
           chunks.push(event.data);
         }
       };
       
       recorder.onstop = () => {
-        console.log('MediaRecorder stopped. Total chunks:', chunks.length);
         const blob = new Blob(chunks, { type: 'video/webm' });
-        console.log('Created blob:', blob.size, 'bytes');
         setRecordedBlob(blob);
       };
       
       recorder.start(1000); // Record in 1-second chunks
       setMediaRecorder(recorder);
-      console.log('MediaRecorder started');
       
       setIsRecording(true);
       setViewerCount(Math.floor(Math.random() * 30) + 15);
@@ -374,7 +366,6 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
   };
 
   const handleSaveSession = async () => {
-    console.log('Save session called. Blob:', recordedBlob);
     if (!recordedBlob) {
       alert('No recording found to save.');
       setSaveConfirmModalOpen(false);
@@ -401,7 +392,6 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
       const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
       const filename = `${user?.id}/${videoTitle.replace(/[^a-zA-Z0-9]/g, '-')}-${timestamp}.webm`;
       
-      console.log('Attempting to upload:', filename, 'Size:', recordedBlob.size, 'Public:', isPublic);
       
       // Upload to Supabase Storage with metadata
       const { data, error} = await supabase.storage
@@ -425,7 +415,6 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
         return;
       }
 
-      console.log('Video saved successfully:', data);
       
       // Show branded success modal instead of alert
       setSavedVideoTitle(videoTitle);
@@ -509,7 +498,6 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
         return;
       }
 
-      console.log('Video saved successfully:', data);
       alert('Video saved successfully to Practice Videos!');
       
       // End the session after successful save
@@ -1064,9 +1052,6 @@ END:VCALENDAR`;
                       playsInline
                       muted
                       className="w-full h-full object-cover"
-                      onLoadStart={() => console.log('Video load start')}
-                      onCanPlay={() => console.log('Video can play')}
-                      onPlay={() => console.log('Video playing')}
                       onError={(e) => console.error('Video error:', e)}
                     />
                   ) : (

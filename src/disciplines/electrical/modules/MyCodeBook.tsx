@@ -602,7 +602,6 @@ const MyCodeBook = () => {
                 <button
                   onClick={() => {
                     // Future: Add edit collection functionality
-                    console.log('Edit collection:', selectedCollection.name);
                   }}
                   className="px-4 py-2 bg-seafoam text-maineBlue rounded hover:bg-maineBlue hover:text-seafoam transition-colors"
                 >
@@ -1357,7 +1356,6 @@ const MyCodeBook = () => {
                       ...prev,
                       [assignments[currentAssignmentPage].id]: selectedVideoOption
                     }));
-                    console.log('Video submitted for assignment', assignments[currentAssignmentPage].id, ':', selectedVideoOption);
                     setShowVideoConfirmModal(false);
                     setSelectedVideoOption('');
                     // Could show success message here

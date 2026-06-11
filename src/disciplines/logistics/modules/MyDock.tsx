@@ -122,7 +122,6 @@ const MyDock = () => {
   });
 
   const handleLikeRoute = async (route: RouteCard) => {
-    console.log('Saving route with nutrition data:', route.nutrition);
     
     try {
       const { data, error } = await supabase
@@ -208,7 +207,6 @@ const MyDock = () => {
                 try {
                   // Use the scanImage API function instead of direct Vision API calls
                   const detectedItems = await scanImage(base64);
-                  console.log('Detected items:', detectedItems);
                   
                   const newItems = Array.from(new Set(detectedItems))
                     .filter(d => {
@@ -220,7 +218,6 @@ const MyDock = () => {
                       );
                     });
                   
-                  console.log('New items to add:', newItems);
                   if (newItems.length === 0) {
                     setScanStatus(t('myDock.noNewIngredients', { defaultValue: 'No new items detected.' }));
                     alert(t('myDock.noNewIngredients', { defaultValue: 'No new items detected.' }));
@@ -228,7 +225,6 @@ const MyDock = () => {
                     // Check user before saving
                     try {
                       const sessionValid = await isSessionValid();
-                      console.log('Current user:', user);
                       if (!sessionValid || !user) {
                         setScanStatus(t('myDock.notSignedIn'));
                         alert(t('myDock.notSignedIn'));

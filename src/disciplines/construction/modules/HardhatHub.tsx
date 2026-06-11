@@ -160,7 +160,6 @@ const HardhatHub = () => {
 
   // Handler for modal import - select a recipe to showcase
   const handleCookBookImport = async (selectedRecipe: any) => {
-    console.log('Importing recipe:', selectedRecipe);
     
     if (!selectedRecipe) {
       console.error('No recipe selected');

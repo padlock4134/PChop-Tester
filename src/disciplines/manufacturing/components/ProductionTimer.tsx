@@ -79,7 +79,6 @@ const ProductionTimer: React.FC<ProductionTimerProps> = ({ orderSize, setOrderSi
       oscillator.start(audioContext.currentTime);
       oscillator.stop(audioContext.currentTime + 1);
     } catch (error) {
-      console.log('Audio not supported');
     }
   };
 

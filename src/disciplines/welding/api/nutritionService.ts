@@ -66,8 +66,6 @@ const MATERIAL_DATABASE: Record<string, WeldingMaterial> = {
 
 // Look up material data from local database
 export async function fetchMaterialData(material: string): Promise<WeldingMaterial | null> {
-  console.log(`Looking up material specs for: ${material}`);
-
   const key = material.toLowerCase().trim();
   // Try exact match first, then partial match
   const match = MATERIAL_DATABASE[key]

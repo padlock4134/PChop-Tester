@@ -138,7 +138,6 @@ const ProjectMatcherModal: React.FC<Props> = ({ open, onClose, benchMaterials, o
           <div className="text-center text-maineBlue font-bold py-10">{'No more suggestions.'}<br/>{'Try updating your bench inventory!'}</div>
         ) : (
           (() => {
-            console.log('Project healthTags:', projects[currentIdx].healthTags);
             return (
               <div className="flex flex-col items-center">
                 <div className="bg-sand rounded-xl shadow-lg border border-black p-4 w-full max-w-md mb-4 relative">

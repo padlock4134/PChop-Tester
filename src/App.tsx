@@ -1,4 +1,4 @@
-import React, { useEffect, useState, createContext, useContext, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Routes, Route, useLocation, useNavigate, Navigate, useParams } from 'react-router-dom';
 import {
   AuthStatus,
@@ -8,7 +8,7 @@ import {
   WristbandAuthProvider
 } from '@wristband/react-client-auth';
 import './i18n';
-import { DisciplineProvider, useDiscipline } from './DisciplineContext';
+import { DisciplineProvider } from './DisciplineContext';
 import { getDisciplineFromPath, isCustomDiscipline } from './disciplineConfig';
 
 import DisciplineSelector from './DisciplineSelector';
@@ -121,49 +121,19 @@ import { FreddieProvider as ManufacturingFreddieProvider } from './disciplines/m
 import { RecipeProvider as ManufacturingRecipeProvider } from './disciplines/manufacturing/components/ProcessContext';
 import DisciplineSupabaseProvider, { useSupabase } from './components/DisciplineSupabaseProvider';
 import type { WristbandSessionMetadata } from './disciplines/culinary/types/session-types';
-import { setSupabaseJwt } from './disciplines/culinary/api/supabaseClient';
-import { setSupabaseJwt as setPlumbingSupabaseJwt } from './disciplines/plumbing/api/supabaseClient';
-import { getSupabaseClient as setAutomotiveSupabaseJwt } from './disciplines/automotive/api/supabaseClient';
-import { getSupabaseClient as setConstructionSupabaseJwt } from './disciplines/construction/api/supabaseClient';
-import { setSupabaseJwt as setElectricalSupabaseJwt } from './disciplines/electrical/api/supabaseClient';
-import { setSupabaseJwt as setHvacSupabaseJwt } from './disciplines/hvac/api/supabaseClient';
-import { setSupabaseJwt as setManufacturingSupabaseJwt } from './disciplines/manufacturing/api/supabaseClient';
-import { setSupabaseJwt as setLogisticsSupabaseJwt } from './disciplines/logistics/api/supabaseClient';
-import { setSupabaseJwt as setMachiningSupabaseJwt } from './disciplines/welding/api/supabaseClient';
-import { useDeviceDetect, getResponsiveClasses } from './disciplines/culinary/utils/responsiveUtils';
+import { setSupabaseJwt } from './supabaseClient';
 import InactivityWarningModal from './disciplines/culinary/components/InactivityWarningModal';
 import { useAutoLogout } from './disciplines/culinary/hooks/useAutoLogout';
 import { useCloseSessionOnUnload } from './hooks/useCloseSessionOnUnload';
 import UnifiedAdminDashboard from './components/UnifiedAdminDashboard';
+import { AdminToggleProvider } from './contexts/AdminToggleContext';
+export { useAdminToggle } from './contexts/AdminToggleContext';
 
-// Admin toggle context
-const AdminToggleContext = createContext<{ isAdminMode: boolean; toggleAdminMode: () => void }>({ 
-  isAdminMode: false, 
-  toggleAdminMode: () => {} 
-});
-export const useAdminToggle = () => useContext(AdminToggleContext);
-
-// Admin Toggle Provider Component
-const AdminToggleProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [isAdminMode, setIsAdminMode] = useState(false);
-  
-  const toggleAdminMode = () => {
-    setIsAdminMode(!isAdminMode);
-  };
-  
-  return (
-    <AdminToggleContext.Provider value={{ isAdminMode, toggleAdminMode }}>
-      {children}
-    </AdminToggleContext.Provider>
-  );
-};
 
 const HomeRedirect = () => {
   const navigate = useNavigate();
   const { authStatus } = useWristbandAuth();
   const { user, isLoading } = useSupabase();
-
-  console.log('HomeRedirect - isLoading:', isLoading, 'authStatus:', authStatus, 'user:', !!user);
 
   useEffect(() => {
     if (isLoading) return;
@@ -176,7 +146,6 @@ const HomeRedirect = () => {
 
     // If authenticated and user is loaded, go to discipline selector
     if (authStatus === AuthStatus.AUTHENTICATED && user) {
-      console.log('HomeRedirect - Authenticated, navigating to selector');
       navigate('/select-discipline', { replace: true });
     }
   }, [authStatus, user, isLoading, navigate]);
@@ -323,9 +292,6 @@ const AppRoutes = () => {
   const navigate = useNavigate();
   const { authStatus } = useWristbandAuth();
   const { user, isLoading } = useSupabase();
-  const { isAdminMode } = useAdminToggle();
-  const { currentDiscipline } = useDiscipline();
-  const hasRedirected = useRef(false);
 
   useCloseSessionOnUnload(authStatus === AuthStatus.AUTHENTICATED && !!user && !isLoading);
 
@@ -356,9 +322,6 @@ const AppRoutes = () => {
   // Auto logout functionality
   const { showWarning, countdown, stayLoggedIn, logoutNow } = useAutoLogout();
   
-  // Render logic happens AFTER hooks
-  console.log('AppRoutes - isLoading:', isLoading, 'user:', !!user, 'path:', location.pathname);
-  
   // While Wristband is still determining auth status, show a loading screen.
   if (authStatus !== AuthStatus.AUTHENTICATED && authStatus !== AuthStatus.UNAUTHENTICATED) {
     return (
@@ -370,7 +333,6 @@ const AppRoutes = () => {
 
   // If Wristband confirms the user is NOT authenticated, redirect to login immediately.
   if (authStatus === AuthStatus.UNAUTHENTICATED) {
-    console.log('AppRoutes - User unauthenticated, redirecting to login');
     window.location.href = '/.netlify/functions/auth-login';
     return null;
   }
@@ -538,14 +500,6 @@ const App = () => {
           const { metadata } = sessionResponse;
           const { supabaseToken } = metadata as WristbandSessionMetadata;
           setSupabaseJwt(supabaseToken);
-          setPlumbingSupabaseJwt(supabaseToken);
-          setAutomotiveSupabaseJwt(supabaseToken);
-          setConstructionSupabaseJwt(supabaseToken);
-          setElectricalSupabaseJwt(supabaseToken);
-          setHvacSupabaseJwt(supabaseToken);
-          setManufacturingSupabaseJwt(supabaseToken);
-          setLogisticsSupabaseJwt(supabaseToken);
-          setMachiningSupabaseJwt(supabaseToken);
         }}
       >
         <RecipeProvider>

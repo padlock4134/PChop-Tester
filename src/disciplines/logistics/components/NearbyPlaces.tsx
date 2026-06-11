@@ -55,13 +55,10 @@ const NearbyPlaces: React.FC = () => {
       setError(null);
       try {
         const radius = 24140; // 15 miles in meters
-        console.log('Fetching places with coordinates:', coordinates);
         const url = `/.netlify/functions/get-places?lat=${coordinates.lat}&lng=${coordinates.lng}&radius=${radius}&type=supermarket,convenience_store,bakery,restaurant,shipment_takeaway`;
-        console.log('Fetching from URL:', url);
         
         const response = await fetch(url);
         const rawResponse = await response.text(); // Get raw text first
-        console.log('Raw response text:', rawResponse);
         
         let data;
         try {
@@ -71,7 +68,6 @@ const NearbyPlaces: React.FC = () => {
           throw new Error('Invalid response format');
         }
         
-        console.log('Parsed Places API response:', data);
         
         if (!response.ok) {
           console.error('Places API Error:', {

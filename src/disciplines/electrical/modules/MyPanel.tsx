@@ -246,7 +246,6 @@ const MyPanel = () => {
 
   const handleLikeRecipe = async (recipe: RecipeCard) => {
 
-    console.log('Saving recipe with nutrition data:', recipe.nutrition);
 
     
 
@@ -418,7 +417,6 @@ const MyPanel = () => {
 
                   const detectedItems = await scanImage(base64);
 
-                  console.log('Detected items:', detectedItems);
 
                   
 
@@ -442,7 +440,6 @@ const MyPanel = () => {
 
                   
 
-                  console.log('New ingredients to add:', newIngredients);
 
                   if (newIngredients.length === 0) {
 
@@ -458,7 +455,6 @@ const MyPanel = () => {
 
                       const sessionValid = await isSessionValid();
 
-                      console.log('Current user:', user);
 
                       if (!sessionValid || !user) {
 

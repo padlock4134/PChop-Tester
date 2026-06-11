@@ -1,5 +1,5 @@
 import { DisciplineKey, BaseDisciplineKey, BASE_DISCIPLINE_CONFIG } from './disciplineConfig';
-import { supabase } from './disciplines/culinary/api/supabaseClient';
+import { supabase } from './supabaseClient';
 
 export interface DisciplineSkin {
   key: DisciplineKey;

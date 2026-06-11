@@ -54,8 +54,6 @@ const HvacSchool = () => {
   const { t } = useTranslation();
   const { updateContext } = useFreddieContext();
   const { selectedRecipe } = useRecipeContext();
-  console.log('HVAC School - Service data:', selectedRecipe?.nutrition);
-  console.log('HVAC School - Full Service Call:', selectedRecipe);
   const [modalIdx, setModalIdx] = useState<null | number>(null);
   const [recipeNutrition, setRecipeNutrition] = useState<KeyNutrients | null>(null);
   const [servingSize, setServingSize] = useState(2);
@@ -64,7 +62,6 @@ const HvacSchool = () => {
   const syllabusData = useCurriculumSyllabus(supabase, 'hvac');
 
   const handleLessonClick = (lessonId: string) => {
-    console.log(`Navigating to lesson: ${lessonId}`);
   };
 
   useEffect(() => {
@@ -177,9 +174,6 @@ const HvacSchool = () => {
     let cancelled = false;
     async function fetchVideos() {
       // Now using API key rotation system for better quota management
-      console.log('[HvacSchool] Fetching videos with API key rotation');
-      console.log('[HvacSchool] Tutorials to fetch:', tutorials);
-      console.log('[HvacSchool] Selected service call:', selectedRecipe);
 
       const newUrls: (string | null)[] = [null, null];
       await Promise.all(tutorials.map(async (tut, idx) => {
@@ -191,11 +185,7 @@ const HvacSchool = () => {
             idx
           );
 
-          console.log(`[HvacSchool] Tutorial ${idx} (${tut.type || 'legacy'}) query:`, query);
-
           const result: TutorialVideoResult = await getTutorialVideo(query);
-          console.log(`[HvacSchool] Tutorial ${idx} result:`, result);
-
           if (result && result.url) {
             newUrls[idx] = result.url;
           }

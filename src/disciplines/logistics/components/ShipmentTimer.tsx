@@ -79,7 +79,6 @@ const CookingTimer: React.FC<CookingTimerProps> = ({ servingSize, setServingSize
       oscillator.start(audioContext.currentTime);
       oscillator.stop(audioContext.currentTime + 1);
     } catch (error) {
-      console.log('Audio not supported');
     }
   };
 

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 import type { RecipeCard } from './FitMatcherModal';
 
 type RecipeContextType = {
@@ -14,16 +14,10 @@ export const RecipeProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   const [selectedRecipe, setSelectedRecipe] = useState<RecipeCard | null>(null);
   const [fits, setRecipes] = useState<RecipeCard[]>([]);
 
-  // Log when selectedRecipe changes
-  useEffect(() => {
-    console.log('RecipeContext - selectedRecipe updated:', selectedRecipe);
-  }, [selectedRecipe]);
-
   return (
     <RecipeContext.Provider value={{ 
       selectedRecipe, 
       setSelectedRecipe: (fit) => {
-        console.log('Setting fit in context with nutrition:', fit?.nutrition);
         setSelectedRecipe((prev: any) => fit ? ({
           ...fit,
           nutrition: fit.nutrition

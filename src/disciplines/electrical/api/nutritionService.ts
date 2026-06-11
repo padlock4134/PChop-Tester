@@ -18,15 +18,10 @@ const USDA_API_URL = 'https://api.nal.usda.gov/fdc/v1/foods/search';
 const API_KEY = (import.meta as any).env.VITE_USDA_API_KEY;
 
 export async function fetchNutritionData(ingredient: string): Promise<Food | null> {
-  console.log(`Fetching nutrition for: ${ingredient}`);
-  
   try {
     const response = await fetch(`${USDA_API_URL}?api_key=${API_KEY}&query=${encodeURIComponent(ingredient)}`);
     
-    console.log(`USDA API status: ${response.status}`);
-    
     const data = await response.json();
-    console.log('USDA API response:', data);
     
     if (data.foods && data.foods.length > 0) {
       const food = data.foods[0];
@@ -125,14 +120,9 @@ export async function calculateRecipeNutrition(
     ingredients.map(ingredient => fetchNutritionData(ingredient))
   );
   
-  console.log('Fetched nutrition data:', nutritionData);
-  
   nutritionData.forEach((food, index) => {
     if (food) {
-      console.log(`Food ${index}: ${food.name}`, food.nutrients);
-      
       const nutrients = getKeyNutrients(food.nutrients);
-      console.log(`Key nutrients for ${food.name}:`, nutrients);
       
       // Log if any nutrient is zero
       if (nutrients.carbs === 0) console.warn(`Carbs zero for ${food.name}`);

@@ -120,7 +120,6 @@ export const usePoseTracking = (): PoseTrackingResult => {
       setIsTracking(true);
       setError(null);
       
-      console.log('Pose tracking started, stream:', stream.id);
       
     } catch (err: any) {
       console.error('Pose tracking error:', err);
@@ -130,7 +129,6 @@ export const usePoseTracking = (): PoseTrackingResult => {
   }, [onPoseResults]);
   
   const stopTracking = useCallback(() => {
-    console.log('Stopping pose tracking...');
     
     // Cancel animation frame
     if (animationFrameRef.current) {
@@ -140,9 +138,7 @@ export const usePoseTracking = (): PoseTrackingResult => {
     
     // Stop all tracks on the stream (THIS IS THE KEY!)
     if (streamRef.current) {
-      console.log('Stopping stream tracks:', streamRef.current.getTracks().length);
       streamRef.current.getTracks().forEach(track => {
-        console.log('Stopping track:', track.kind, track.label);
         track.stop();
       });
       streamRef.current = null;
@@ -166,14 +162,12 @@ export const usePoseTracking = (): PoseTrackingResult => {
       try {
         poseRef.current.close();
       } catch (e) {
-        console.log('Pose close error (can ignore):', e);
       }
       poseRef.current = null;
     }
     
     setIsTracking(false);
     setPoseDetected(false);
-    console.log('Pose tracking stopped');
   }, []);
   
   // Cleanup on unmount

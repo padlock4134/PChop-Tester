@@ -121,7 +121,6 @@ const WarehouseDirectory: React.FC = () => {
         );
         
         const initialData = await initialResponse.json();
-        console.log('Initial Places API response:', initialData);
         
         if (!initialResponse.ok) {
           throw new Error(initialData.error || `API returned ${initialResponse.status}`);
@@ -145,13 +144,11 @@ const WarehouseDirectory: React.FC = () => {
           
           for (const query of queries) {
             try {
-              console.log(`Searching for ${category} with query: ${query}`);
               const specialtyResponse = await fetch(
                 `/.netlify/functions/text-search-places?lat=${coordinates.lat}&lng=${coordinates.lng}&radius=${radius}&query=${encodeURIComponent(query)}`
               );
               
               const specialtyData = await specialtyResponse.json();
-              console.log(`${category} search response for "${query}":`, specialtyData);
               
               if (specialtyData.status === 'OK' && specialtyData.results) {
                 // Filter out food-related place types and big box retailers
@@ -205,13 +202,10 @@ const WarehouseDirectory: React.FC = () => {
       
       // Debug: Log if we find common logistics specialty providers
       if (nameLower.includes('freight') || nameLower.includes('terminal')) {
-        console.log('Found Freight Terminal during categorization:', place);
       }
       if (nameLower.includes('warehouse') || nameLower.includes('distribution')) {
-        console.log('Found Warehouse provider during categorization:', place);
       }
       if (nameLower.includes('cold') || nameLower.includes('reefer')) {
-        console.log('Found Cold Storage provider during categorization:', place);
       }
       
       // Check if it's a big box retailer (already filtered, but double-check)
@@ -344,7 +338,6 @@ const WarehouseDirectory: React.FC = () => {
           );
           return distance <= 15;
         } catch (err) {
-          console.log('Distance calculation error for', place.name, err);
           return true; // Keep the place on error to avoid empty results
         }
       });

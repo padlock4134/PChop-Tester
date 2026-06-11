@@ -109,7 +109,6 @@ const DispatchLounge = () => {
 
   // Handler for modal import - select a route to showcase
   const handleRunbookImport = async (selectedRoute: any) => {
-    console.log('Importing route:', selectedRoute);
     
     if (!selectedRoute) {
       console.error('No route selected');

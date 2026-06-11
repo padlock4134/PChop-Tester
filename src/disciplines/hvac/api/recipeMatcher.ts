@@ -212,14 +212,10 @@ export interface RecipeMatchOptions {
 async function calculateRecipeNutrition(
   ingredients: string[]
 ): Promise<KeyNutrients> {
-  console.log('Calculating nutrition for ingredients:', ingredients);
-  
   try {
     const nutritionData = await Promise.all(
       ingredients.map(ingredient => fetchNutritionData(ingredient))
     );
-    
-    console.log('Nutrition data:', nutritionData);
     
     const totalNutrition: KeyNutrients = {
       carbs: 0,
@@ -235,21 +231,15 @@ async function calculateRecipeNutrition(
     
     nutritionData.forEach((food, index) => {
       if (food) {
-        console.log(`Food ${index}: ${food.name}`, food.nutrients);
-        
         const nutrients = getKeyNutrients(food.nutrients);
-        console.log(`Key nutrients for ${food.name}:`, nutrients);
         
         Object.keys(nutrients).forEach(key => {
           const k = key as keyof KeyNutrients;
           totalNutrition[k] += nutrients[k];
         });
-        
-        console.log('Updated total nutrition:', totalNutrition);
       }
     });
     
-    console.log('Total nutrition:', totalNutrition);
     return totalNutrition;
   } catch (error) {
     console.error('Error in calculateRecipeNutrition:', error);
@@ -397,15 +387,11 @@ Return ONLY the JSON array, no other text.`;
       .replace(/[\u201C\u201D]/g, '"')  // Replace smart quotes with regular quotes
       .replace(/[\u2018\u2019]/g, "'");  // Replace smart apostrophes
     
-    console.log('Cleaned JSON text length:', jsonText.length);
-    
     recipes = JSON.parse(jsonText);
     
     if (!Array.isArray(recipes)) throw new Error('Response not an array');
   } catch (err: unknown) {
     console.error('Failed to parse recipes:', err);
-    console.log('Raw content:', anthropicData.content[0].text);
-    console.log('Error at position:', err instanceof Error ? err.message : String(err));
     return generateFallbackRecipes(userId, normalizedIngredients, numRecipes);
   }
 
@@ -532,13 +518,10 @@ Return ONLY the JSON array, no other text.`;
       throw new Error('Invalid response format from Anthropic API');
     }
     const responseText = anthropicData.content[0].text;
-    console.log('Raw Anthropic response:', responseText);
-    
     // More robust JSON extraction
     const match = responseText.match(/\[\s*\{[\s\S]*\}\s*\]/);
     if (match) {
       recipes = JSON.parse(match[0]);
-      console.log('Parsed recipes:', recipes);
     } else {
       console.error('No JSON array found in response:', responseText);
       throw new Error('No recipe data found in API response');

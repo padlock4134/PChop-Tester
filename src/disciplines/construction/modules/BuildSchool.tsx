@@ -54,8 +54,6 @@ const BuildSchool = () => {
   const { t } = useTranslation();
   const { updateContext } = useFreddieContext();
   const { selectedRecipe } = useRecipeContext();
-  console.log('Build School - Project data:', selectedRecipe?.nutrition);
-  console.log('Build School - Full Project:', selectedRecipe);
   const [modalIdx, setModalIdx] = useState<null | number>(null);
   const [recipeNutrition, setRecipeNutrition] = useState<KeyNutrients | null>(null);
   const [servingSize, setServingSize] = useState(2);
@@ -64,7 +62,6 @@ const BuildSchool = () => {
   const syllabusData = useCurriculumSyllabus(supabase, 'construction');
 
   const handleLessonClick = (lessonId: string) => {
-    console.log(`Navigating to lesson: ${lessonId}`);
   };
 
   useEffect(() => {
@@ -173,9 +170,6 @@ const BuildSchool = () => {
     let cancelled = false;
     async function fetchVideos() {
       // Now using API key rotation system for better quota management
-      console.log('[BuildSchool] Fetching videos with API key rotation');
-      console.log('[BuildSchool] Tutorials to fetch:', tutorials);
-      console.log('[BuildSchool] Selected project:', selectedRecipe);
 
       const newUrls: (string | null)[] = [null, null];
       await Promise.all(tutorials.map(async (tut, idx) => {
@@ -187,11 +181,7 @@ const BuildSchool = () => {
             idx
           );
 
-          console.log(`[BuildSchool] Tutorial ${idx} (${tut.type || 'legacy'}) query:`, query);
-
           const result: TutorialVideoResult = await getTutorialVideo(query);
-          console.log(`[BuildSchool] Tutorial ${idx} result:`, result);
-
           if (result && result.url) {
             newUrls[idx] = result.url;
           }

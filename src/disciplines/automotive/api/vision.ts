@@ -3,14 +3,12 @@
 
 export async function scanImage(base64Image: string): Promise<string[]> {
   try {
-    console.log('Scanning image with Vision API...');
     const response = await fetch('/.netlify/functions/vision-proxy', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ base64Image, discipline: 'automotive' })
     });
 
-    console.log('Vision API response status:', response.status);
     
     if (!response.ok) {
       const errorText = await response.text();
@@ -27,7 +25,6 @@ export async function scanImage(base64Image: string): Promise<string[]> {
     }
 
     const { results } = await response.json();
-    console.log('Vision API results count:', results?.length || 0);
     return results || [];
   } catch (error) {
     console.error('Vision API error:', error);

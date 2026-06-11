@@ -11,6 +11,12 @@
   targetPort = 3000
   autoLaunch = false
 
+# Route /api/chefFreddieQuery to the Netlify function
+[[redirects]]
+  from = "/api/chefFreddieQuery"
+  to = "/.netlify/functions/chefFreddieQuery"
+  status = 200
+
 # ✅ Standard SPA redirect for React Router
 [[redirects]]
   from = "/*"

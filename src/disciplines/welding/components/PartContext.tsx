@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 import type { ProjectCard } from './PartMatcherModal';
 
 type ProjectContextType = {
@@ -14,16 +14,10 @@ export const ProjectProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const [selectedProject, setSelectedProject] = useState<ProjectCard | null>(null);
   const [projects, setProjects] = useState<ProjectCard[]>([]);
 
-  // Log when selectedProject changes
-  useEffect(() => {
-    console.log('ProjectContext - selectedProject updated:', selectedProject);
-  }, [selectedProject]);
-
   return (
     <ProjectContext.Provider value={{ 
       selectedProject, 
       setSelectedProject: (project) => {
-        console.log('Setting project in context:', project?.title);
         setSelectedProject(project);
       }, 
       projects, 

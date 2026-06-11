@@ -160,7 +160,6 @@ const GearheadLounge = () => {
 
   // Handler for modal import - select a recipe to showcase
   const handleManualImport = async (selectedRecipe: any) => {
-    console.log('Importing recipe:', selectedRecipe);
     
     if (!selectedRecipe) {
       console.error('No recipe selected');

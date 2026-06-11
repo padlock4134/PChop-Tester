@@ -54,8 +54,6 @@ const ElecSchool = () => {
   const { t } = useTranslation();
   const { updateContext } = useFreddieContext();
   const { selectedRecipe } = useRecipeContext();
-  console.log('Elec School - Job data:', selectedRecipe?.nutrition);
-  console.log('Elec School - Full Job:', selectedRecipe);
   const [modalIdx, setModalIdx] = useState<null | number>(null);
   const [recipeNutrition, setRecipeNutrition] = useState<KeyNutrients | null>(null);
   const [servingSize, setServingSize] = useState(2);
@@ -64,7 +62,6 @@ const ElecSchool = () => {
   const syllabusData = useCurriculumSyllabus(supabase, 'electrical');
 
   const handleLessonClick = (lessonId: string) => {
-    console.log(`Navigating to lesson: ${lessonId}`);
   };
 
   useEffect(() => {
@@ -173,9 +170,6 @@ const ElecSchool = () => {
     let cancelled = false;
     async function fetchVideos() {
       // Now using API key rotation system for better quota management
-      console.log('[ElecSchool] Fetching videos with API key rotation');
-      console.log('[ElecSchool] Tutorials to fetch:', tutorials);
-      console.log('[ElecSchool] Selected job:', selectedRecipe);
 
       const newUrls: (string | null)[] = [null, null];
       await Promise.all(tutorials.map(async (tut, idx) => {
@@ -187,11 +181,7 @@ const ElecSchool = () => {
             idx
           );
 
-          console.log(`[ElecSchool] Tutorial ${idx} (${tut.type || 'legacy'}) query:`, query);
-
           const result: TutorialVideoResult = await getTutorialVideo(query);
-          console.log(`[ElecSchool] Tutorial ${idx} result:`, result);
-
           if (result && result.url) {
             newUrls[idx] = result.url;
           }

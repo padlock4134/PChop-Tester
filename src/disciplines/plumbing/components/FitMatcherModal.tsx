@@ -158,7 +158,6 @@ function generateTutorials(fit: RecipeCard) {
         ) : (
           (() => {
             const activeTags = fits[currentIdx].complianceTags ?? fits[currentIdx].healthTags ?? [];
-            console.log('Procedure tags:', activeTags);
             return (
               <div className="flex flex-col items-center">
                 <div className="bg-sand rounded-xl shadow-lg border border-black p-4 w-full max-w-md mb-4 relative">

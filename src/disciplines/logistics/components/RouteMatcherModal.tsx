@@ -145,7 +145,6 @@ const RouteMatcherModal: React.FC<Props> = ({ open, onClose, inventoryItems, onL
           <div className="text-center text-maineBlue font-bold py-10">{'No more suggestions.'}<br/>{'Try updating your dock inventory!'}</div>
         ) : (
           (() => {
-            console.log('Route healthTags:', routes[currentIdx].healthTags);
             return (
               <div className="flex flex-col items-center">
                 <div className="bg-sand rounded-xl shadow-lg border border-black p-4 w-full max-w-md mb-4 relative">

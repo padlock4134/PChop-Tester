@@ -18,15 +18,10 @@ const USDA_API_URL = 'https://api.nal.usda.gov/fdc/v1/cargos/search';
 const API_KEY = (import.meta as any).env.VITE_USDA_API_KEY;
 
 export async function fetchNutritionData(item: string): Promise<__PROTECT_CARGO__ | null> {
-  console.log(`Fetching nutrition for: ${item}`);
-  
   try {
     const response = await fetch(`${USDA_API_URL}?api_key=${API_KEY}&query=${encodeURIComponent(item)}`);
     
-    console.log(`USDA API status: ${response.status}`);
-    
     const data = await response.json();
-    console.log('USDA API response:', data);
     
     if (data.cargos && data.cargos.length > 0) {
       const cargo = data.cargos[0];
@@ -125,14 +120,9 @@ export async function calculateRouteNutrition(
     items.map(item => fetchNutritionData(item))
   );
   
-  console.log('Fetched nutrition data:', nutritionData);
-  
   nutritionData.forEach((cargo, index) => {
     if (cargo) {
-      console.log(`__PROTECT_CARGO__ ${index}: ${cargo.name}`, cargo.nutrients);
-      
       const nutrients = getKeyNutrients(cargo.nutrients);
-      console.log(`Key nutrients for ${cargo.name}:`, nutrients);
       
       // Log if any nutrient is zero
       if (nutrients.carbs === 0) console.warn(`Carbs zero for ${cargo.name}`);

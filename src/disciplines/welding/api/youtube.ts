@@ -27,6 +27,5 @@ function isRelevantYouTubeResult(result: any, item: string): boolean {
 
 export async function getTutorialVideoUrl(query: string, projectTitle?: string, type: 'primary_material' | 'equipment' | 'project' = 'project'): Promise<string | null> {
   // YouTube API disabled to prevent quota issues affecting user's personal account
-  console.log(`[YouTube API] Disabled. Query was: ${query}, Project: ${projectTitle}, Type: ${type}`);
   return null;
 }

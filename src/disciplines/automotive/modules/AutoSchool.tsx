@@ -54,8 +54,6 @@ const AutoSchool = () => {
   const { t } = useTranslation();
   const { updateContext } = useFreddieContext();
   const { selectedRecipe } = useRecipeContext();
-  console.log('Auto School - Repair data:', selectedRecipe?.nutrition);
-  console.log('Auto School - Full Repair Order:', selectedRecipe);
   const [modalIdx, setModalIdx] = useState<null | number>(null);
   const [recipeNutrition, setRecipeNutrition] = useState<KeyNutrients | null>(null);
   const [teamSize, setTeamSize] = useState(2);
@@ -64,7 +62,6 @@ const AutoSchool = () => {
   const syllabusData = useCurriculumSyllabus(supabase, 'automotive');
 
   const handleLessonClick = (lessonId: string) => {
-    console.log(`Navigating to lesson: ${lessonId}`);
   };
 
   useEffect(() => {
@@ -174,9 +171,6 @@ const AutoSchool = () => {
     let cancelled = false;
     async function fetchVideos() {
       // Now using API key rotation system for better quota management
-      console.log('[AutoSchool] Fetching videos with API key rotation');
-      console.log('[AutoSchool] Tutorials to fetch:', tutorials);
-      console.log('[AutoSchool] Selected repair order:', selectedRecipe);
 
       const newUrls: (string | null)[] = [null, null];
       await Promise.all(tutorials.map(async (tut, idx) => {
@@ -188,11 +182,7 @@ const AutoSchool = () => {
             idx
           );
 
-          console.log(`[AutoSchool] Tutorial ${idx} (${tut.type || 'legacy'}) query:`, query);
-
           const result: TutorialVideoResult = await getTutorialVideo(query);
-          console.log(`[AutoSchool] Tutorial ${idx} result:`, result);
-
           if (result && result.url) {
             newUrls[idx] = result.url;
           }

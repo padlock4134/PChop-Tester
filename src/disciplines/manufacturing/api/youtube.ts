@@ -27,6 +27,5 @@ function isRelevantYouTubeResult(result: any, item: string): boolean {
 
 export async function getTutorialVideoUrl(query: string, recipeTitle?: string, type: 'main_ingredient' | 'equipment' | 'recipe' = 'recipe'): Promise<string | null> {
   // YouTube API disabled to prevent quota issues affecting user's personal account
-  console.log(`[YouTube API] Disabled. Query was: ${query}, Recipe: ${recipeTitle}, Type: ${type}`);
   return null;
 }

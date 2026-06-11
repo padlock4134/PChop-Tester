@@ -168,7 +168,6 @@ const MyFloor = () => {
   });
 
   const handleLikeRecipe = async (recipe: RecipeCard) => {
-    console.log('Saving recipe with nutrition data:', recipe.nutrition);
     
     try {
       const { data, error } = await supabase
@@ -254,7 +253,6 @@ const MyFloor = () => {
                 try {
                   // Use the scanImage API function instead of direct Vision API calls
                   const detectedItems = await scanImage(base64);
-                  console.log('Detected items:', detectedItems);
                   
                   const newIngredients = Array.from(new Set(detectedItems))
                     .filter(d => {
@@ -266,7 +264,6 @@ const MyFloor = () => {
                       );
                     });
                   
-                  console.log('New ingredients to add:', newIngredients);
                   if (newIngredients.length === 0) {
                     setScanStatus(t('myFloor.noNewIngredients'));
                     alert(t('myFloor.noNewIngredients'));
@@ -274,7 +271,6 @@ const MyFloor = () => {
                     // Check user before saving
                     try {
                       const sessionValid = await isSessionValid();
-                      console.log('Current user:', user);
                       if (!sessionValid || !user) {
                         setScanStatus(t('myFloor.notSignedIn'));
                         alert(t('myFloor.notSignedIn'));

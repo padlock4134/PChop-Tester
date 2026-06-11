@@ -129,7 +129,6 @@ const MyVan = () => {
   });
 
   const handleLikeRecipe = async (fit: RecipeCard) => {
-    console.log('Saving fit with specs data:', fit.specs);
     
     try {
       const { data, error } = await supabase
@@ -215,7 +214,6 @@ const MyVan = () => {
                 try {
                   // Use the scanImage API function instead of direct Vision API calls
                   const detectedItems = await scanImage(base64);
-                  console.log('Detected items:', detectedItems);
                   
                   const newParts = Array.from(new Set(detectedItems))
                     .filter(d => {
@@ -227,7 +225,6 @@ const MyVan = () => {
                       );
                     });
                   
-                  console.log('New parts to add:', newParts);
                   if (newParts.length === 0) {
                     setScanStatus(t('myVan.noNewIngredients'));
                     alert(t('myVan.noNewIngredients'));
@@ -235,7 +232,6 @@ const MyVan = () => {
                     // Check user before saving
                     try {
                       const sessionValid = await isSessionValid();
-                      console.log('Current user:', user);
                       if (!sessionValid || !user) {
                         setScanStatus(t('myVan.notSignedIn'));
                         alert(t('myVan.notSignedIn'));

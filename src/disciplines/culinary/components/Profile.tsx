@@ -980,7 +980,6 @@ const Profile = () => {
         logoImg.src = '/logo.png';
       });
     } catch (error) {
-      console.log('Logo not found, using text fallback');
       // Fallback - center the report title
       doc.setFontSize(14);
       doc.setTextColor(37, 99, 235);
@@ -1365,7 +1364,6 @@ const Profile = () => {
 
         // Ensure XP is a number and has a default value of 0
         const xp = typeof profile.xp === 'number' ? profile.xp : 0;
-        console.log('Profile XP:', profile.xp, 'Parsed XP:', xp);
         
         // Map the database fields to the component's state
         setUserProfile({
@@ -1462,14 +1460,12 @@ const Profile = () => {
       
       try {
         setAvatarUploading(true);
-        console.log('Starting avatar upload process...');
         
         // Create a unique filename
         const fileExt = file.name.split('.').pop();
         const fileName = `${userProfile.id}-${Date.now()}.${fileExt}`;
         const filePath = fileName; // Don't use nested paths
         
-        console.log('Uploading file:', fileName);
         
         // Upload to Supabase Storage using the 'avatarphotos' bucket
         const { data: uploadData, error: uploadError } = await supabase.storage
@@ -1484,7 +1480,6 @@ const Profile = () => {
           throw uploadError;
         }
         
-        console.log('Upload successful:', uploadData);
         
         // Get the public URL
         const { data } = supabase.storage
@@ -1493,7 +1488,6 @@ const Profile = () => {
           
         const avatarUrl = data?.publicUrl;
         
-        console.log('Avatar URL:', avatarUrl);
         
         if (!avatarUrl) {
           throw new Error('Failed to get avatar URL');
@@ -1510,7 +1504,6 @@ const Profile = () => {
           throw updateError;
         }
         
-        console.log('Profile update successful:', updateData);
         
         // Update the local state with proper type safety
         setUserProfile(prevProfile => {
@@ -1523,7 +1516,6 @@ const Profile = () => {
           return prevProfile;
         });
         
-        console.log('Avatar updated successfully');
       } catch (error) {
         console.error('Error uploading avatar:', error);
         alert('Failed to upload avatar. Please try again.');
@@ -1547,14 +1539,6 @@ const Profile = () => {
   // Corrected XP progress calculation
   const getCorrectXPProgress = (totalXP: number) => {
     const level = getCorrectLevel(totalXP);
-    
-    // Debug the calculation
-    console.log('🔧 XP Progress Debug:', {
-      totalXP,
-      level,
-      currentLevelXP: WOW_CLASSIC_XP_TABLE[level - 1],
-      nextLevelXP: WOW_CLASSIC_XP_TABLE[level]
-    });
     
     const currentLevelXP = WOW_CLASSIC_XP_TABLE[level - 1] || 0;
     const nextLevelXP = WOW_CLASSIC_XP_TABLE[level] || 0;
@@ -1610,16 +1594,6 @@ const Profile = () => {
         const { title, icon } = LEVEL_TITLES_AND_ICONS[titleIndex];
         const progressPercent = (current / required) * 100;
         
-        console.log('🎯 Corrected Level Debug:', { 
-          xp, 
-          level, 
-          current, 
-          required, 
-          title, 
-          progressPercent,
-          expectedLevel10: xp >= 6500 ? 'Should be Level 10+' : 'Below Level 10'
-        });
-        
         setLevelProgress({
           title,
           level,
@@ -1631,16 +1605,12 @@ const Profile = () => {
 
         // Auto-enable talents at level 10
         if (level >= 10) {
-          console.log(' Level 10+ reached! Enabling talents...');
           setShowTalents(true);
-        } else {
-          console.log('⏳ Not level 10 yet. Current level:', level);
         }
 
         // Update talent points
         setTalentPoints(Math.floor(xp / 100));
 
-        console.log('Profile refreshed - New XP:', xp, 'Level:', level);
       }
     } catch (error) {
       console.error('Error refreshing profile:', error);
@@ -1689,7 +1659,6 @@ const Profile = () => {
                   top: 0,
                   left: 0
                 }}
-                onLoad={() => console.log('✅ Avatar loaded:', userProfile.avatar)}
                 onError={(e) => console.error('❌ Avatar failed:', userProfile.avatar, e)}
               />
             ) : (
@@ -2032,7 +2001,6 @@ const Profile = () => {
                             // Add talent to unlocked list
                             if (!unlockedTalents.includes(talent.name)) {
                               setUnlockedTalents([...unlockedTalents, talent.name]);
-                              console.log(`Unlocked ${talent.name}`);
                             }
                           }}
                           className={`text-xs px-2 py-1 rounded transition-colors font-medium ${
@@ -2053,8 +2021,6 @@ const Profile = () => {
                                 videoUrl: ``
                               });
                               setTutorialModalOpen(true);
-                            } else {
-                              console.log(`${talent.name} not unlocked yet!`);
                             }
                           }}
                           disabled={!unlockedTalents.includes(talent.name)}

@@ -124,7 +124,6 @@ const MarketDirectory: React.FC = () => {
         );
         
         const initialData = await initialResponse.json();
-        console.log('Initial Places API response:', initialData);
         
         if (!initialResponse.ok) {
           throw new Error(initialData.error || `API returned ${initialResponse.status}`);
@@ -148,13 +147,11 @@ const MarketDirectory: React.FC = () => {
           
           for (const query of queries) {
             try {
-              console.log(`Searching for ${category} with query: ${query}`);
               const specialtyResponse = await fetch(
                 `/.netlify/functions/text-search-places?lat=${coordinates.lat}&lng=${coordinates.lng}&radius=${radius}&query=${encodeURIComponent(query)}`
               );
               
               const specialtyData = await specialtyResponse.json();
-              console.log(`${category} search response for "${query}":`, specialtyData);
               
               if (specialtyData.status === 'OK' && specialtyData.results) {
                 // Filter out restaurants and big box retailers
@@ -208,13 +205,10 @@ const MarketDirectory: React.FC = () => {
       
       // Debug: Log if we find Harbor Fish or other specialty markets
       if (nameLower.includes('harbor') && nameLower.includes('fish')) {
-        console.log('Found Harbor Fish during categorization:', place);
       }
       if (nameLower.includes('merrill') && nameLower.includes('seafood')) {
-        console.log('Found Merrill Seafood during categorization:', place);
       }
       if ((nameLower.includes('pat') || nameLower.includes('pat\'s')) && nameLower.includes('meat')) {
-        console.log('Found Pat\'s Meat Market during categorization:', place);
       }
       
       // Check if it's a big box retailer (already filtered, but double-check)
@@ -354,7 +348,6 @@ const MarketDirectory: React.FC = () => {
           );
           return distance <= 15;
         } catch (err) {
-          console.log('Distance calculation error for', place.name, err);
           return true; // Keep the place on error to avoid empty results
         }
       });

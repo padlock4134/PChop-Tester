@@ -91,7 +91,6 @@ const WeldingSchool = () => {
 
   const { selectedProject } = useProjectContext();
 
-  console.log('Welding School - Full Job Ticket:', selectedProject);
 
   const [modalIdx, setModalIdx] = useState<null | number>(null);
 
@@ -106,7 +105,6 @@ const WeldingSchool = () => {
 
   const handleLessonClick = (lessonId: string) => {
 
-    console.log(`Navigating to lesson: ${lessonId}`);
 
   };
 
@@ -298,11 +296,8 @@ const WeldingSchool = () => {
 
       // Now using API key rotation system for better quota management
 
-      console.log('[WeldingSchool] Fetching videos with API key rotation');
 
-      console.log('[WeldingSchool] Tutorials to fetch:', tutorials);
 
-      console.log('[WeldingSchool] Selected job ticket:', selectedProject);
 
 
 
@@ -326,13 +321,11 @@ const WeldingSchool = () => {
 
 
 
-          console.log(`[WeldingSchool] Tutorial ${idx} (${tut.type || 'legacy'}) query:`, query);
 
 
 
           const result: TutorialVideoResult = await getTutorialVideo(query);
 
-          console.log(`[WeldingSchool] Tutorial ${idx} result:`, result);
 
 
 

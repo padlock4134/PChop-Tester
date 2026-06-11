@@ -155,7 +155,6 @@ const WeldersHub = () => {
 
   // Handler for modal import - select a project to showcase
   const handleSpecBookImport = async (selectedProject: any) => {
-    console.log('Importing project:', selectedProject);
     
     if (!selectedProject) {
       console.error('No project selected');

@@ -65,15 +65,12 @@ export const SupabaseProvider: React.FC<SupabaseProviderProps> = ({ children }) 
 
   useEffect(() => {
     const getSupabaseUser = async () => {
-      console.log('[SupabaseProvider] Starting user provisioning...');
       try {
         // First make sure a Supabase<->Wristband user mapping exists
         const user = await getOrProvisionUserByExtenalId(wristbandUserId, wristbandTenantId);
-        console.log('[SupabaseProvider] User provisioned:', user.id);
 
         // Then make sure that Supabase user has a profile record
         await ensureProfileExists(user.id, wristbandEmail);
-        console.log('[SupabaseProvider] Profile exists');
         setUser(user);
 
         // Award daily XP for all authenticated users
@@ -83,20 +80,16 @@ export const SupabaseProvider: React.FC<SupabaseProviderProps> = ({ children }) 
         console.error('[SupabaseProvider] Error getting user:', error);
         navigate('/');
       } finally {
-        console.log('[SupabaseProvider] Setting isLoading to false');
         setIsLoading(false);
       }
     };
 
     // Only attempt to fetch Supabase user if their Wristband auth succeeded.
     if (isAuthenticated) {
-      console.log('[SupabaseProvider] User is authenticated, fetching Supabase user');
       getSupabaseUser();
     } else {
-      console.log('[SupabaseProvider] User not authenticated yet, isAuthenticated:', isAuthenticated);
       // If not authenticated after initial check, stop loading
       if (isAuthenticated === false) {
-        console.log('[SupabaseProvider] User is not authenticated, setting isLoading to false');
         setIsLoading(false);
       }
     }

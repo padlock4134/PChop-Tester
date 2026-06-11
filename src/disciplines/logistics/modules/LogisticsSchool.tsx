@@ -54,8 +54,6 @@ const LogisticsSchool = () => {
   const { t } = useTranslation();
   const { updateContext } = useFreddieContext();
   const { selectedRoute } = useRouteContext();
-  console.log('Logistics School - Shipment data:', selectedRoute?.nutrition);
-  console.log('Logistics School - Full Operation:', selectedRoute);
   const [modalIdx, setModalIdx] = useState<null | number>(null);
   const [routeNutrition, setRouteNutrition] = useState<KeyNutrients | null>(null);
   const [servingSize, setServingSize] = useState(2);
@@ -64,7 +62,6 @@ const LogisticsSchool = () => {
   const syllabusData = useCurriculumSyllabus(supabase, 'logistics');
 
   const handleLessonClick = (lessonId: string) => {
-    console.log(`Navigating to lesson: ${lessonId}`);
   };
 
   useEffect(() => {
@@ -173,9 +170,6 @@ const LogisticsSchool = () => {
     let cancelled = false;
     async function fetchVideos() {
       // Now using API key rotation system for better quota management
-      console.log('[LogisticsSchool] Fetching videos with API key rotation');
-      console.log('[LogisticsSchool] Tutorials to fetch:', tutorials);
-      console.log('[LogisticsSchool] Selected operation:', selectedRoute);
 
       const newUrls: (string | null)[] = [null, null];
       await Promise.all(tutorials.map(async (tut, idx) => {
@@ -187,11 +181,7 @@ const LogisticsSchool = () => {
             idx
           );
 
-          console.log(`[LogisticsSchool] Tutorial ${idx} (${tut.type || 'legacy'}) query:`, query);
-
           const result: TutorialVideoResult = await getTutorialVideo(query);
-          console.log(`[LogisticsSchool] Tutorial ${idx} result:`, result);
-
           if (result && result.url) {
             newUrls[idx] = result.url;
           }
