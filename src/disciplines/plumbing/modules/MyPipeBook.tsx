@@ -1047,7 +1047,6 @@ const MyPipeBook = () => {
                   ) : (
                     <div className="text-center py-4 mb-3">
                       <div className="text-4xl mb-2">📝</div>
-                      <p className="text-gray-500 text-sm">{t('myPipeBook.noRecipesYet')}</p>
                       <p className="text-gray-500 text-sm">{t('myPipeBook.addRecipesFirst')}</p>
                     </div>
                   )}
@@ -1589,7 +1588,7 @@ const MyPipeBook = () => {
                   <div className="text-6xl mb-4">🎬</div>
                   <p className="text-gray-600">{t('myPipeBook.loadingYourVideos')}</p>
                 </div>
-              ) : (savedVideos.length === 0 && false) ? (
+              ) : savedVideos.length === 0 ? (
                 <div className="text-center py-12">
                   <div className="text-6xl mb-4">🎥</div>
                   <p className="text-gray-600 text-lg">{t('myPipeBook.noVideosSaved')}</p>
@@ -1597,29 +1596,7 @@ const MyPipeBook = () => {
                 </div>
               ) : (
                 <div className="space-y-4">
-                  {(savedVideos.length > 0 ? savedVideos : [
-                    {
-                      name: `${t('myPipeBook.demoVideos.pipeLayoutPracticeSession', { defaultValue: 'Pipe Layout Practice Session' })}.webm`,
-                      url: 'https://placehold.co/640x360/1e293b/white?text=Pipe+Layout+Demo',
-                      created_at: new Date(Date.now() - 86400000 * 2).toISOString(),
-                      userId: user?.id || 'demo-user',
-                      isPublic: true
-                    },
-                    {
-                      name: `${t('myPipeBook.demoVideos.pipeLayoutAssignment', { defaultValue: 'Pipe Layout Assignment' })}.webm`,
-                      url: 'https://placehold.co/640x360/1e293b/white?text=DWV+Assembly+Demo',
-                      created_at: new Date(Date.now() - 86400000 * 5).toISOString(),
-                      userId: user?.id || 'demo-user',
-                      isPublic: false
-                    },
-                    {
-                      name: `${t('myPipeBook.demoVideos.waterHeaterServiceFinal', { defaultValue: 'Water Heater Service Final' })}.webm`,
-                      url: 'https://placehold.co/640x360/1e293b/white?text=Water+Heater+Service',
-                      created_at: new Date(Date.now() - 86400000 * 7).toISOString(),
-                      userId: user?.id || 'demo-user',
-                      isPublic: true
-                    }
-                  ])
+                  {savedVideos
                     .filter(video => {
                       // User filter
                       if (userFilter === 'me' && video.userId !== user?.id) return false;
@@ -1672,7 +1649,7 @@ const MyPipeBook = () => {
             {/* Footer */}
             <div className="bg-purple-50 border-t-4 border-purple-400 p-4 text-center">
               <p className="text-purple-700 text-sm">
-                <strong>{savedVideos.length > 0 ? savedVideos.length : 3}</strong> {t('myPipeBook.videosSavedCount', { defaultValue: 'videos saved' })}
+                <strong>{savedVideos.length}</strong> {t('myPipeBook.videosSavedCount', { defaultValue: 'videos saved' })}
               </p>
             </div>
           </div>

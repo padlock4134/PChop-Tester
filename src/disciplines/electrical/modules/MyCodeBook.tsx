@@ -971,7 +971,6 @@ const MyCodeBook = () => {
                 ) : (
                   <div className="text-center py-8">
                     <div className="text-4xl mb-2">📝</div>
-                    <p className="text-gray-500 text-sm">{t('myCodeBook.noRecipesYet')}</p>
                     <p className="text-gray-500 text-sm">{t('myCodeBook.addRecipesFirst')}</p>
                   </div>
                 )}
@@ -1511,7 +1510,7 @@ const MyCodeBook = () => {
                   <div className="text-6xl mb-4">🎬</div>
                   <p className="text-gray-600">{t('myCodeBook.loadingYourVideos')}</p>
                 </div>
-              ) : (savedVideos.length === 0 && false) ? (
+              ) : savedVideos.length === 0 ? (
                 <div className="text-center py-12">
                   <div className="text-6xl mb-4">🎥</div>
                   <p className="text-gray-600 text-lg">{t('myCodeBook.noVideosSaved')}</p>
@@ -1519,29 +1518,7 @@ const MyCodeBook = () => {
                 </div>
               ) : (
                 <div className="space-y-4">
-                  {(savedVideos.length > 0 ? savedVideos : [
-                    {
-                      name: 'Circuit Mapping Practice Session.webm',
-                      url: 'https://placehold.co/640x360/1e293b/white?text=Circuit+Mapping+Demo',
-                      created_at: new Date(Date.now() - 86400000 * 2).toISOString(),
-                      userId: user?.id || 'demo-user',
-                      isPublic: true
-                    },
-                    {
-                      name: 'Circuit Mapping Assignment.webm',
-                      url: 'https://placehold.co/640x360/1e293b/white?text=Breaker+Sizing+Demo',
-                      created_at: new Date(Date.now() - 86400000 * 5).toISOString(),
-                      userId: user?.id || 'demo-user',
-                      isPublic: false
-                    },
-                    {
-                      name: 'Motor Control Final.webm',
-                      url: 'https://placehold.co/640x360/1e293b/white?text=Motor+Control+Troubleshooting',
-                      created_at: new Date(Date.now() - 86400000 * 7).toISOString(),
-                      userId: user?.id || 'demo-user',
-                      isPublic: true
-                    }
-                  ])
+                  {savedVideos
                     .filter(video => {
                       // User filter
                       if (userFilter === 'me' && video.userId !== user?.id) return false;
@@ -1594,7 +1571,7 @@ const MyCodeBook = () => {
             {/* Footer */}
             <div className="bg-purple-50 border-t-4 border-purple-400 p-4 text-center">
               <p className="text-purple-700 text-sm">
-                <strong>{savedVideos.length > 0 ? savedVideos.length : 3}</strong> video{(savedVideos.length > 0 ? savedVideos.length : 3) !== 1 ? 's' : ''} saved
+                <strong>{savedVideos.length}</strong> video{savedVideos.length !== 1 ? 's' : ''} saved
               </p>
             </div>
           </div>

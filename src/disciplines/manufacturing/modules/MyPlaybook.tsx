@@ -878,7 +878,6 @@ const MyPlaybook = () => {
                   {processes.length === 0 && (
                     <div className="text-center py-4 mb-3">
                       <div className="text-4xl mb-2">📝</div>
-                      <p className="text-gray-500 text-sm">{t('myPlaybook.noRecipesYet')}</p>
                       <p className="text-gray-500 text-sm">{t('myPlaybook.addRecipesFirst')}</p>
                     </div>
                   )}
@@ -1420,7 +1419,7 @@ const MyPlaybook = () => {
                   <div className="text-6xl mb-4">🎬</div>
                   <p className="text-gray-600">{t('myPlaybook.loadingYourVideos')}</p>
                 </div>
-              ) : (savedVideos.length === 0 && false) ? (
+              ) : savedVideos.length === 0 ? (
                 <div className="text-center py-12">
                   <div className="text-6xl mb-4">🎥</div>
                   <p className="text-gray-600 text-lg">{t('myPlaybook.noVideosSaved')}</p>
@@ -1428,29 +1427,7 @@ const MyPlaybook = () => {
                 </div>
               ) : (
                 <div className="space-y-4">
-                  {(savedVideos.length > 0 ? savedVideos : [
-                    {
-                      name: '5S Workspace Organization.webm',
-                      url: 'https://placehold.co/640x360/1e293b/white?text=5S+Organization+Demo',
-                      created_at: new Date(Date.now() - 86400000 * 2).toISOString(),
-                      userId: user?.id || 'demo-user',
-                      isPublic: true
-                    },
-                    {
-                      name: 'Quality Control Inspection Assignment.webm',
-                      url: 'https://placehold.co/640x360/1e293b/white?text=QC+Inspection+Demo',
-                      created_at: new Date(Date.now() - 86400000 * 5).toISOString(),
-                      userId: user?.id || 'demo-user',
-                      isPublic: false
-                    },
-                    {
-                      name: 'Assembly Process Final.webm',
-                      url: 'https://placehold.co/640x360/1e293b/white?text=Assembly+Process',
-                      created_at: new Date(Date.now() - 86400000 * 7).toISOString(),
-                      userId: user?.id || 'demo-user',
-                      isPublic: true
-                    }
-                  ])
+                  {savedVideos
                     .filter(video => {
                       // User filter
                       if (userFilter === 'me' && video.userId !== user?.id) return false;
@@ -1503,7 +1480,7 @@ const MyPlaybook = () => {
             {/* Footer */}
             <div className="bg-purple-50 border-t-4 border-purple-400 p-4 text-center">
               <p className="text-purple-700 text-sm">
-                <strong>{savedVideos.length > 0 ? savedVideos.length : 3}</strong> video{(savedVideos.length > 0 ? savedVideos.length : 3) !== 1 ? 's' : ''} saved
+                <strong>{savedVideos.length}</strong> video{savedVideos.length !== 1 ? 's' : ''} saved
               </p>
             </div>
           </div>

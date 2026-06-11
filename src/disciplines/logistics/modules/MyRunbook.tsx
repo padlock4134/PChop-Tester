@@ -973,7 +973,6 @@ const MyRunbook = () => {
                 ) : (
                   <div className="text-center py-8">
                     <div className="text-4xl mb-2">📝</div>
-                    <p className="text-gray-500 text-sm">{t('myRunbook.noRecipesYet')}</p>
                     <p className="text-gray-500 text-sm">{t('myRunbook.addRecipesFirst')}</p>
                   </div>
                 )}
@@ -1513,7 +1512,7 @@ const MyRunbook = () => {
                   <div className="text-6xl mb-4">🎬</div>
                   <p className="text-gray-600">{t('myRunbook.loadingYourVideos')}</p>
                 </div>
-              ) : (savedVideos.length === 0 && false) ? (
+              ) : savedVideos.length === 0 ? (
                 <div className="text-center py-12">
                   <div className="text-6xl mb-4">🎥</div>
                   <p className="text-gray-600 text-lg">{t('myRunbook.noVideosSaved')}</p>
@@ -1521,29 +1520,7 @@ const MyRunbook = () => {
                 </div>
               ) : (
                 <div className="space-y-4">
-                  {(savedVideos.length > 0 ? savedVideos : [
-                    {
-                      name: 'Receiving Workflow Practice Session.webm',
-                      url: 'https://placehold.co/640x360/1e293b/white?text=Receiving+Workflow+Demo',
-                      created_at: new Date(Date.now() - 86400000 * 2).toISOString(),
-                      userId: user?.id || 'demo-user',
-                      isPublic: true
-                    },
-                    {
-                      name: 'Warehouse Receiving Assignment.webm',
-                      url: 'https://placehold.co/640x360/1e293b/white?text=Load+Sequencing+Demo',
-                      created_at: new Date(Date.now() - 86400000 * 5).toISOString(),
-                      userId: user?.id || 'demo-user',
-                      isPublic: false
-                    },
-                    {
-                      name: 'Final-Mile Delivery Final.webm',
-                      url: 'https://placehold.co/640x360/1e293b/white?text=Final-Mile+Delivery',
-                      created_at: new Date(Date.now() - 86400000 * 7).toISOString(),
-                      userId: user?.id || 'demo-user',
-                      isPublic: true
-                    }
-                  ])
+                  {savedVideos
                     .filter(video => {
                       // User filter
                       if (userFilter === 'me' && video.userId !== user?.id) return false;
@@ -1596,7 +1573,7 @@ const MyRunbook = () => {
             {/* Footer */}
             <div className="bg-purple-50 border-t-4 border-purple-400 p-4 text-center">
               <p className="text-purple-700 text-sm">
-                <strong>{savedVideos.length > 0 ? savedVideos.length : 3}</strong> video{(savedVideos.length > 0 ? savedVideos.length : 3) !== 1 ? 's' : ''} saved
+                <strong>{savedVideos.length}</strong> video{savedVideos.length !== 1 ? 's' : ''} saved
               </p>
             </div>
           </div>
