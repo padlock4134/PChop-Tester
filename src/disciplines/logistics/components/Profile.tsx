@@ -1063,8 +1063,6 @@ const Profile = () => {
     doc.setTextColor(150, 150, 150);
     const footerWidth1 = doc.getTextWidth(cleanText('PorkChop Ed Tech | Technical Education Analytics Platform'));
     doc.text(cleanText('PorkChop Ed Tech | Technical Education Analytics Platform'), 105 - footerWidth1/2, 270);
-    const footerWidth2 = doc.getTextWidth(cleanText('This report contains demonstration data for platform capabilities.'));
-    doc.text(cleanText('This report contains demonstration data for platform capabilities.'), 105 - footerWidth2/2, 277);
     
     return doc;
   };
@@ -1077,63 +1075,18 @@ const Profile = () => {
       // Generate CSV content
       if (fileName === 'skill-mastery-tracking') {
         return `Student ID,Student Name,Technical Skills Score,Core Techniques Score,Safety Certification,Task Completion Rate,Overall Progress
-STU001,Alex Johnson,85,78,Certified,80%,81%
-STU002,Maria Garcia,92,88,Certified,95%,92%
-STU003,David Chen,67,72,In Progress,65%,68%
-STU004,Sarah Williams,88,85,Certified,90%,88%
-STU005,Michael Brown,75,80,Certified,75%,77%
-STU006,Emma Davis,90,87,Certified,85%,87%
-STU007,James Wilson,82,79,In Progress,78%,80%
-STU008,Lisa Anderson,95,92,Certified,98%,95%
-STU009,Robert Taylor,70,75,Certified,70%,72%
-STU010,Jennifer Martinez,86,83,Certified,88%,86%`;
+`;
       } else if (fileName === 'class-performance') {
         return `Class ID,Class Name,Average Score,Completion Rate,Knowledge Gaps,Assignment Timeliness,Instructor
-CLS001,Fundamentals of Engineering,82,85%,Blueprint Interpretation,90%,Instructor Martinez
-CLS002,Advanced Engineering Techniques,88,78%,System Diagnostics,85%,Instructor Johnson
-CLS003,Precision Fabrication Lab,91,92%,Tolerance Control,95%,Instructor Williams
-CLS004,Systems Integration,85,80%,Configuration Logic,88%,Instructor Chen
-CLS005,Workplace Safety & Compliance,94,96%,Safety Procedures,98%,Instructor Davis
-CLS006,Production Planning & Costing,79,75%,Resource Allocation,82%,Instructor Brown
-CLS007,Operations Management,83,82%,Workflow Coordination,87%,Instructor Wilson
-CLS008,Process Analytics,87,89%,Data Analysis,91%,Instructor Anderson
-CLS009,Applied Technical Capstone,90,88%,Technical Presentation,93%,Instructor Taylor
-CLS010,Professional Workspace Management,86,84%,Team Leadership,89%,Instructor Garcia`;
+`;
       } else {
         return `Report Type,${reportTitle}
-Generated Date,${currentDate}
-Sample Data,This is demo data for ${reportTitle}
-Metric 1,85%
-Metric 2,78%
-Metric 3,92%
-Status,Active`;
+Generated Date,${currentDate}`;
       }
     } else {
       // Generate Excel-compatible CSV
-      return `${reportTitle} - Comprehensive Analysis
-Generated: ${currentDate}
-Report Type: Excel Format Demo
-
-Summary Statistics:
-Metric,Value,Target,Status
-Overall Performance,85%,80%,Above Target
-Completion Rate,78%,75%,Above Target
-Student Satisfaction,92%,85%,Excellent
-Engagement Level,88%,80%,Above Target
-
-Detailed Data:
-ID,Name,Score,Status,Notes
-001,Sample Entry 1,85,Good,Demo data
-002,Sample Entry 2,92,Excellent,Demo data
-003,Sample Entry 3,78,Satisfactory,Demo data
-004,Sample Entry 4,88,Good,Demo data
-005,Sample Entry 5,91,Excellent,Demo data
-
-Analysis Notes:
-This is demonstration data for ${reportTitle}
-In production this would contain real student/class data
-Charts and pivot tables would be included
-Automated calculations and formulas would be present`;
+      return `${reportTitle}
+Generated: ${currentDate}`;
     }
   };
 

@@ -1165,8 +1165,6 @@ const Profile = () => {
     doc.setTextColor(150, 150, 150);
     const footerWidth1 = doc.getTextWidth(cleanText('PorkChop Ed Tech | Culinary Education Analytics Platform'));
     doc.text(cleanText('PorkChop Ed Tech | Culinary Education Analytics Platform'), 105 - footerWidth1/2, 270);
-    const footerWidth2 = doc.getTextWidth(cleanText('This report contains demonstration data for platform capabilities.'));
-    doc.text(cleanText('This report contains demonstration data for platform capabilities.'), 105 - footerWidth2/2, 277);
     
     return doc;
   };

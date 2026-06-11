@@ -7443,13 +7443,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   onClick={() => {
                     try {
                       // Generate attendee list data
-                      const attendeeData = [
-                        { name: 'Sarah Johnson', email: 'sarah.j@email.com', status: 'Confirmed', class: '2020' },
-                        { name: 'Michael Chen', email: 'michael.c@email.com', status: 'Confirmed', class: '2019' },
-                        { name: 'Emma Rodriguez', email: 'emma.r@email.com', status: 'Confirmed', class: '2020' },
-                        { name: 'James Wilson', email: 'james.w@email.com', status: 'Declined', class: '2018' },
-                        { name: 'Lisa Anderson', email: 'lisa.a@email.com', status: 'No Response', class: '2021' }
-                      ];
+                      const attendeeData: {name: string; email: string; status: string; class: string}[] = [];
                       
                       const csv = convertToCSV(attendeeData);
                       const timestamp = new Date().toISOString().split('T')[0];
@@ -7626,13 +7620,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     onClick={() => {
                     try {
                       // Generate career event attendee data
-                      const attendeeData = [
-                        { name: 'Sarah Johnson', email: 'sarah.j@email.com', program: skin.people.defaultProgram, class: '2025', status: 'Confirmed' },
-                        { name: 'Michael Chen', email: 'michael.c@email.com', program: 'Advanced Program', class: '2025', status: 'Confirmed' },
-                        { name: 'Emma Rodriguez', email: 'emma.r@email.com', program: 'Management Program', class: '2026', status: 'Pending' },
-                        { name: 'James Wilson', email: 'james.w@email.com', program: skin.people.defaultProgram, class: '2025', status: 'Confirmed' },
-                        { name: 'Lisa Anderson', email: 'lisa.a@email.com', program: 'Advanced Program', class: '2026', status: 'Confirmed' }
-                      ];
+                      const attendeeData: {name: string; email: string; program: string; class: string; status: string}[] = [];
                       
                       const csv = convertToCSV(attendeeData);
                       const timestamp = new Date().toISOString().split('T')[0];
