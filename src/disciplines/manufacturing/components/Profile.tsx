@@ -324,11 +324,7 @@ const ClassScheduleModal = ({ open, onClose, onOpenRegistration }: { open: boole
   const { t } = useTranslation();
   if (!open) return null;
   
-  const currentClasses = [
-    { icon: '🔧', name: 'Precision Machining Fundamentals', instructor: 'Mr. Martinez', time: 'Mon/Wed 9:00 AM' },
-    { icon: '⚙️', name: 'Assembly Line Techniques', instructor: 'Mr. Johnson', time: 'Tue/Thu 11:00 AM' },
-    { icon: '🏭', name: 'Quality Control Processes', instructor: 'Mr. Williams', time: 'Fri 1:00 PM' }
-  ];
+  const currentClasses: any[] = [];
   
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
@@ -546,13 +542,7 @@ const ClassRegistrationModal = ({ open, onClose }: { open: boolean; onClose: () 
   const { t } = useTranslation();
   if (!open) return null;
   
-  const availableClasses = [
-    { name: 'Advanced CNC Programming', instructor: 'Mr. Rodriguez', time: 'Mon/Wed 2:00 PM', spots: 8 },
-    { name: 'Industrial Automation', instructor: 'Mr. Kim', time: 'Tue/Thu 10:00 AM', spots: 12 },
-    { name: 'Welding Fundamentals', instructor: 'Mr. Anderson', time: 'Fri 3:00 PM', spots: 6 },
-    { name: 'OSHA Safety Certification', instructor: 'Mr. Thompson', time: 'Sat 9:00 AM', spots: 15 },
-    { name: 'Production Management', instructor: 'Mr. Brown', time: 'Mon/Wed 6:00 PM', spots: 10 }
-  ];
+  const availableClasses: any[] = [];
   
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
