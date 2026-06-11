@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-// @ts-ignore
-import chefFreddiePng from '../images/logo.png';
 import { useFreddieContext } from './SparkFreddieContext';
 import { askChefFreddie } from '../api/chefFreddie';
 import { useSupabase } from '../../../components/DisciplineSupabaseProvider';
@@ -112,11 +110,7 @@ const SparkFreddieWidget = () => {
         onClick={() => setOpen(o => !o)}
         aria-label="Open Sparky the Lineman AI Assistant"
       >
-        <img
-          src={chefFreddiePng}
-          alt="Sparky the Lineman"
-          className="w-12 h-12 rounded-full object-cover border-2 border-seafoam bg-white"
-        />
+        <span className="text-3xl">⚡</span>
       </button>
 
       {open && (

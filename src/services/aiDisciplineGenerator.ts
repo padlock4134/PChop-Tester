@@ -121,14 +121,14 @@ You must return ONLY valid JSON (no markdown, no explanations) with this exact s
   "name": "Display name of the discipline",
   "icon": "Single emoji that represents this trade",
   "modules": {
-    "workspace": "Name for hands-on practice area (like 'My Kitchen' for culinary)",
-    "notebook": "Name for personal learning journal (like 'My Cookbook' for culinary)",
-    "community": "Name for peer discussion area (like 'Chef's Corner' for culinary)",
-    "school": "Name for formal coursework area (like 'Culinary School' for culinary)",
+    "workspace": "Name for hands-on practice area (like 'My Torch' for welding, 'My Panel' for electrical)",
+    "notebook": "Name for personal learning journal (like 'My WeldBook' for welding, 'My Codebook' for electrical)",
+    "community": "Name for peer discussion area (like 'Welders Hub' for welding, 'Wire Lounge' for electrical)",
+    "school": "Name for formal coursework area (like 'Welding School' for welding, 'Elec School' for electrical)",
     "practiceBench": "Fun, creative name for the AR/VR hands-on practice simulator (like 'Charcuterie Board' for culinary, 'The Kitchen Sink' for plumbing, 'The Factory Floor' for manufacturing — should be a playful industry-specific metaphor)"
   },
   "assistant": {
-    "name": "Friendly AI assistant name (like 'Chef Freddie' for culinary)",
+    "name": "Friendly AI assistant name (like 'Tojimaster Kito' for culinary)",
     "greeting": "Welcoming message introducing the assistant and what it can help with (2-3 sentences)",
     "systemPrompt": "System prompt defining the AI's role as a curriculum assistant for this trade (2-3 sentences, focus on practical skills and industry standards)",
     "quickActions": [

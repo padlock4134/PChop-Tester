@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-// @ts-ignore
-import jakeWelderPng from '../images/logo.png';
 import { useFreddieContext } from './BenchFreddieContext';
 import { askJake } from '../api/jakeAI';
 import { useSupabase } from '../../../components/DisciplineSupabaseProvider';
@@ -112,11 +110,7 @@ const BenchFreddieWidget = () => {
         onClick={() => setOpen(o => !o)}
         aria-label="Open Ironworker Jake AI Assistant"
       >
-        <img
-          src={jakeWelderPng}
-          alt="Ironworker Jake"
-          className="w-12 h-12 rounded-full object-cover border-2 border-seafoam bg-white"
-        />
+        <span className="text-3xl">👨‍🏭</span>
       </button>
 
       {open && (

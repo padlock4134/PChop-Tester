@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import i18n from 'i18next';
-// @ts-ignore
-import mentorFreddiePng from '../images/logo.png';
 import { useFreddieContext } from './PipeFreddieContext';
 import { askMentorFreddie } from '../api/peteAI';
 import { useSupabase } from '../../../components/DisciplineSupabaseProvider';
@@ -131,11 +129,7 @@ const MentorFreddieWidget = () => {
         onClick={() => setOpen(o => !o)}
         aria-label="Open Pete the Plumber AI Assistant"
       >
-        <img
-          src={mentorFreddiePng}
-          alt="Pete the Plumber"
-          className="w-12 h-12 rounded-full object-cover border-2 border-seafoam bg-white"
-        />
+        <span className="text-3xl">🪠</span>
       </button>
 
       {open && (

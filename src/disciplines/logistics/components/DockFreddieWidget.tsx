@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-// @ts-ignore
-import dispatcherFreddiePng from '../images/logo.png';
 import { useFreddieContext } from './DockFreddieContext';
 import { askDispatcherFreddie } from '../api/chefFreddie';
 import { useSupabase } from '../../../components/DisciplineSupabaseProvider';
@@ -112,11 +110,7 @@ const DockFreddieWidget = () => {
         onClick={() => setOpen(o => !o)}
         aria-label="Open Gear Jamming Daniel AI Assistant"
       >
-        <img
-          src={dispatcherFreddiePng}
-          alt="Gear Jamming Daniel"
-          className="w-12 h-12 rounded-full object-cover border-2 border-seafoam bg-white"
-        />
+        <span className="text-3xl">📦</span>
       </button>
 
       {open && (

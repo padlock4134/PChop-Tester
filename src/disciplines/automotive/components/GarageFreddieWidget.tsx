@@ -2,9 +2,6 @@ import React, { useState, useEffect } from 'react';
 
 import { useTranslation } from 'react-i18next';
 
-// @ts-ignore
-
-import garageLogo from '../images/logo.png';
 
 import { useFreddieContext } from './GarageFreddieContext';
 
@@ -226,15 +223,7 @@ const GarageFreddieWidget = () => {
 
       >
 
-        <img
-
-          src={garageLogo}
-
-          alt="Garage Puddy"
-
-          className="w-12 h-12 rounded-full object-cover border-2 border-seafoam bg-white"
-
-        />
+        <span className="text-3xl">🚗</span>
 
       </button>
 
