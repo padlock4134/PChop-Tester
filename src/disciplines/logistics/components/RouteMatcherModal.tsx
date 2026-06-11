@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRouteContext } from './RouteContext';
 import { useNavigate } from 'react-router-dom';
-// @ts-ignore
-import dispatcherFreddiePng from '../images/logo.png';
 
 export type RouteCard = {
   id: string;
@@ -52,9 +50,9 @@ const RouteMatcherModal: React.FC<Props> = ({ open, onClose, inventoryItems, onL
   const navigate = useNavigate();
 
   const loadingMessages = [
-    'Dispatcher Freddie checking your inventory...',
-    'Building your shipping procedures...',
-    'Almost ready...'
+    'Gear Jamming Daniel Taking A Look...',
+    'Matching Shipping Procedures...',
+    'Almost Ready...'
   ];
 
   // Timer effect for loading steps
@@ -130,7 +128,7 @@ const RouteMatcherModal: React.FC<Props> = ({ open, onClose, inventoryItems, onL
         <h2 className="font-retro text-xl lg:text-2xl mb-2 text-center flex items-center justify-center">
           {loading ? (
             <div className="flex items-center gap-3">
-              <img src={dispatcherFreddiePng} alt="Dispatcher Freddie" className="w-12 h-12 rounded-full border-2 border-black" />
+              <span className="text-3xl" role="img" aria-label="Gear Jamming Daniel">📦</span>
               <span>{loadingMessages[loadingStep]}</span>
             </div>
           ) : 

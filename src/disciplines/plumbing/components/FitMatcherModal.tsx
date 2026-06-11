@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRecipeContext } from './FitContext';
 import { useNavigate } from 'react-router-dom';
-// @ts-ignore
-import mentorFreddiePng from '../images/logo.png';
 
 export type RecipeCard = {
   id: string;
@@ -142,7 +140,7 @@ function generateTutorials(fit: RecipeCard) {
         <h2 className="font-retro text-xl lg:text-2xl mb-2 text-center flex items-center justify-center">
           {loading ? (
             <div className="flex items-center gap-3">
-              <img src={mentorFreddiePng} alt="Pete the Plumber" className="w-12 h-12 rounded-full border-2 border-black" />
+              <span className="text-3xl" role="img" aria-label="Pete the Plumber">🪠</span>
               <span>{loadingMessages[loadingStep]}</span>
             </div>
           ) : 

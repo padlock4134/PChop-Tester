@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRecipeContext } from './SystemContext';
 import { useNavigate } from 'react-router-dom';
-// @ts-ignore
-import chefFreddiePng from '../images/logo.png';
 
 export type RecipeCard = {
   id: string;
@@ -58,9 +56,9 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
   const navigate = useNavigate();
 
   const loadingMessages = [
-    'Scanning your shop inventory…',
-    'Matching HVAC procedures…',
-    'Building spec sheet recommendations…'
+    'Freon Frankie Taking A Look...',
+    'Matching HVAC Procedures...',
+    'Almost Ready...'
   ];
 
   // Timer effect for loading steps
@@ -135,7 +133,7 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
         <h2 className="font-retro text-xl lg:text-2xl mb-2 text-center flex items-center justify-center">
           {loading ? (
             <div className="flex items-center gap-3">
-              <img src={chefFreddiePng} alt="HVAC Assistant" className="w-12 h-12 rounded-full border-2 border-black" />
+              <span className="text-3xl" role="img" aria-label="Freon Frankie">❄️</span>
               <span>{loadingMessages[loadingStep]}</span>
             </div>
           ) : 

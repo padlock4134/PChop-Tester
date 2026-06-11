@@ -56,9 +56,9 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
   const navigate = useNavigate();
 
   const loadingMessages = [
-    'Foreman Frank is reviewing site materials…',
-    'Foreman Frank is matching construction build plans…',
-    'Foreman Frank is finalizing best-fit plan options…'
+    'Foreman Frank Taking A Look...',
+    'Matching Construction Plans...',
+    'Almost Ready...'
   ];
 
   // Timer effect for loading steps
@@ -133,7 +133,7 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
         <h2 className="font-retro text-xl lg:text-2xl mb-2 text-center flex items-center justify-center">
           {loading ? (
             <div className="flex items-center gap-3">
-              <span className="text-3xl" role="img" aria-label="Foreman Frank">👷</span>
+              <span className="text-3xl" role="img" aria-label="Foreman Frank">🏗️</span>
               <span>{loadingMessages[loadingStep]}</span>
             </div>
           ) : 

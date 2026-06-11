@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useProjectContext } from './PartContext';
 import { useNavigate } from 'react-router-dom';
-// @ts-ignore
-import jakeWelderPng from '../images/logo.png';
 
 export type ProjectCard = {
   id: string;
@@ -46,9 +44,9 @@ const ProjectMatcherModal: React.FC<Props> = ({ open, onClose, benchMaterials, o
   const navigate = useNavigate();
 
   const loadingMessages = [
-    'Ironworker Jake checking your materials...',
-    'Building your welding projects...',
-    'Almost ready...'
+    'Ironworker Jake Taking A Look...',
+    'Matching Welding Projects...',
+    'Almost Ready...'
   ];
 
   // Timer effect for loading steps
@@ -123,7 +121,7 @@ const ProjectMatcherModal: React.FC<Props> = ({ open, onClose, benchMaterials, o
         <h2 className="font-retro text-xl lg:text-2xl mb-2 text-center flex items-center justify-center">
           {loading ? (
             <div className="flex items-center gap-3">
-              <img src={jakeWelderPng} alt="Ironworker Jake" className="w-12 h-12 rounded-full border-2 border-black" />
+              <span className="text-3xl" role="img" aria-label="Ironworker Jake">👨‍🏭</span>
               <span>{loadingMessages[loadingStep]}</span>
             </div>
           ) : 
