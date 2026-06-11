@@ -1026,6 +1026,13 @@ const MyManual = () => {
       {showGradebookModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4" onClick={handleCloseGradebook}>
           <div className="relative w-full max-w-5xl mx-auto flex flex-col max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+            {(students.length === 0 || assignments.length === 0) ? (
+              <div className="bg-white rounded-lg p-12 text-center shadow-2xl border-4 border-black">
+                <div className="text-5xl mb-4">📊</div>
+                <p className="text-gray-500 text-lg font-serif mb-4">No gradebook data yet.</p>
+                <button onClick={handleCloseGradebook} className="px-6 py-2 bg-amber-800 text-amber-100 hover:bg-amber-900 rounded-full font-bold">Close</button>
+              </div>
+            ) : (<>
             {/* Book Container */}
             <div className="relative w-full">
               {/* Book - Responsive: Stack on mobile, side-by-side on desktop */}
@@ -1303,6 +1310,7 @@ const MyManual = () => {
                 <div className="hidden lg:block absolute left-1/2 bottom-4 transform -translate-x-1/2 w-8 h-8 bg-amber-900 rounded-full shadow-inner z-20"></div>
               </div>
             </div>
+            </>)}
           </div>
         </div>
       )}

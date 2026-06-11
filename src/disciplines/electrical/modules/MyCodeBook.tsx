@@ -76,102 +76,13 @@ const MyCodeBook = () => {
   const [activeMobileTab, setActiveMobileTab] = useState<'cookbook' | 'collections'>('cookbook');
   
   // Assignment data
-  const assignments = [
-    {
-      id: 1,
-      week: "Week 3",
-      title: "Residential Circuit Mapping & Safety",
-      emoji: "⚡",
-      dueDate: "Oct 15, 2024",
-      points: 100,
-      weight: "15%",
-      techniques: ["Panel labeling workflow", "Branch circuit tracing", "Receptacle polarity testing", "Meter lead safety handling"],
-      submission: ["Circuit mapping demo (3-5 min)", "Panel photos", "Safety reflection", "Upload to codebook"],
-      objectives: ["NFPA 70E protocols", "Consistent test process", "Efficient troubleshooting pace", "Tool readiness"],
-      studentName: "Sarah Chen",
-      videoTitle: "Circuit Mapping Demo"
-    },
-    {
-      id: 2,
-      week: "Week 5",
-      title: "Load Calculation & Breaker Sizing",
-      emoji: "🔌",
-      dueDate: "Oct 29, 2024",
-      points: 100,
-      weight: "15%",
-      techniques: ["Demand factor calculation", "Conductor ampacity review", "Breaker derating checks", "Voltage drop validation"],
-      submission: ["Video demonstration", "Calculation worksheet", "Load logs", "Code reference notes"],
-      objectives: ["Load management", "System reliability", "Balanced phases", "Permit-ready documentation"],
-      studentName: "Sarah Chen",
-      videoTitle: "Breaker Sizing Demo"
-    },
-    {
-      id: 3,
-      week: "Week 7",
-      title: "Motor Control Troubleshooting",
-      emoji: "🛠️",
-      dueDate: "Nov 12, 2024",
-      points: 100,
-      weight: "15%",
-      techniques: ["Control circuit diagnostics", "Voltage/current measurement standards", "LOTO verification", "Repair verification"],
-      submission: ["Troubleshooting video", "Temperature readings", "Final test report", "Corrective action summary"],
-      objectives: ["Electrical safety", "NEC compliance", "Voltage tolerance control", "Troubleshooting refinement"],
-      studentName: "Sarah Chen",
-      videoTitle: "Motor Control Demo"
-    }
-  ];
+  const assignments: any[] = [];
 
   // Student data
-  const students = [
-    {
-      id: 1,
-      name: "Sarah Chen",
-      email: "sarah.chen@electricalinstitute.edu",
-      submittedVideos: {1: "circuit-mapping-demo", 2: "breaker-sizing-demo"}
-    },
-    {
-      id: 2,
-      name: "Marcus Rodriguez",
-      email: "marcus.rodriguez@electricalinstitute.edu", 
-      submittedVideos: {1: "circuit-mapping-demo", 3: "motor-control-demo"}
-    },
-    {
-      id: 3,
-      name: "Emma Thompson",
-      email: "emma.thompson@electricalinstitute.edu",
-      submittedVideos: {2: "breaker-sizing-demo"}
-    },
-    {
-      id: 4,
-      name: "David Kim",
-      email: "david.kim@electricalinstitute.edu",
-      submittedVideos: {1: "circuit-mapping-demo", 2: "breaker-sizing-demo", 3: "motor-control-demo"}
-    }
-  ];
+  const students: any[] = [];
 
   // Mock grades for each student and assignment
-  const mockGrades = {
-    1: { // Sarah Chen
-      1: { total: 89, grade: "A-" }, // Assignment 1
-      2: { total: 92, grade: "A-" }, // Assignment 2
-      3: { total: 85, grade: "B+" }  // Assignment 3
-    },
-    2: { // Marcus Rodriguez
-      1: { total: 78, grade: "C+" },
-      2: { total: 88, grade: "B+" },
-      3: { total: 94, grade: "A" }
-    },
-    3: { // Emma Thompson
-      1: { total: 91, grade: "A-" },
-      2: { total: 87, grade: "B+" },
-      3: { total: 82, grade: "B-" }
-    },
-    4: { // David Kim
-      1: { total: 96, grade: "A" },
-      2: { total: 93, grade: "A" },
-      3: { total: 98, grade: "A+" }
-    }
-  };
+  const mockGrades: any = {};
 
   const [selectedCollection, setSelectedCollection] = useState<{id: string, name: string, emoji: string, recipes: string[]} | null>(null);
   const [selectedRecipes, setSelectedRecipes] = useState<string[]>([]);
@@ -1073,6 +984,13 @@ const MyCodeBook = () => {
       {showGradebookModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4" onClick={handleCloseGradebook}>
           <div className="relative w-full max-w-5xl mx-auto flex flex-col max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+            {(students.length === 0 || assignments.length === 0) ? (
+              <div className="bg-white rounded-lg p-12 text-center shadow-2xl border-4 border-black">
+                <div className="text-5xl mb-4">📊</div>
+                <p className="text-gray-500 text-lg font-serif mb-4">No gradebook data yet.</p>
+                <button onClick={handleCloseGradebook} className="px-6 py-2 bg-amber-800 text-amber-100 hover:bg-amber-900 rounded-full font-bold">Close</button>
+              </div>
+            ) : (<>
             {/* Book Container */}
             <div className="relative w-full">
               {/* Book - Responsive: Stack on mobile, side-by-side on desktop */}
@@ -1350,6 +1268,7 @@ const MyCodeBook = () => {
                 <div className="hidden lg:block absolute left-1/2 bottom-4 transform -translate-x-1/2 w-8 h-8 bg-amber-900 rounded-full shadow-inner z-20"></div>
               </div>
             </div>
+            </>)}
           </div>
         </div>
       )}

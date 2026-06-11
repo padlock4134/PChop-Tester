@@ -76,102 +76,13 @@ const MySpecSheets = () => {
   const [activeMobileTab, setActiveMobileTab] = useState<'cookbook' | 'collections'>('cookbook');
   
   // Assignment data
-  const assignments = [
-    {
-      id: 1,
-      week: "Week 3",
-      title: "HVAC Airflow Balancing & Psychrometrics",
-      emoji: "❄️",
-      dueDate: "Oct 15, 2024",
-      points: 100,
-      weight: "15%",
-      techniques: ["Static pressure measurement", "Airflow balancing at diffusers", "Superheat and subcooling check", "Safe manifold gauge setup"],
-      submission: ["Service call demo (3-5 min)", "Before/after readings", "Diagnostic reflection", "Upload to spec sheets"],
-      objectives: ["Lockout/tagout compliance", "Consistent airflow targets", "Accurate instrument usage", "Clean service workflow"],
-      studentName: "Sarah Chen",
-      videoTitle: "Airflow Balancing Demo"
-    },
-    {
-      id: 2,
-      week: "Week 5",
-      title: "Refrigerant Charging & Leak Verification",
-      emoji: "🧊",
-      dueDate: "Oct 29, 2024",
-      points: 100,
-      weight: "15%",
-      techniques: ["Evacuation to target microns", "Weigh-in charging method", "Electronic leak detection", "Soap bubble confirmation"],
-      submission: ["Video demonstration", "Leak-check screenshots", "Pressure/temperature logs", "Service notes"],
-      objectives: ["Charge accuracy", "System stability", "Efficiency tuning", "Customer-ready documentation"],
-      studentName: "Sarah Chen",
-      videoTitle: "Refrigerant Charging Demo"
-    },
-    {
-      id: 3,
-      week: "Week 7",
-      title: "Heat Pump Defrost & Control Verification",
-      emoji: "🌡️",
-      dueDate: "Nov 12, 2024",
-      points: 100,
-      weight: "15%",
-      techniques: ["Defrost board diagnostics", "Sensor calibration checks", "Electrical safety verification", "System performance validation"],
-      submission: ["Control test video", "Temperature readings", "Final commissioning report", "Troubleshooting summary"],
-      objectives: ["Electrical safety", "Code compliance", "Temperature differential control", "System optimization"],
-      studentName: "Sarah Chen",
-      videoTitle: "Heat Pump Defrost Demo"
-    }
-  ];
+  const assignments: any[] = [];
 
   // Student data
-  const students = [
-    {
-      id: 1,
-      name: "Sarah Chen",
-      email: "sarah.chen@hvactech.edu",
-      submittedVideos: {1: "airflow-balance-demo", 2: "charging-technique"}
-    },
-    {
-      id: 2,
-      name: "Marcus Rodriguez",
-      email: "marcus.rodriguez@hvactech.edu", 
-      submittedVideos: {1: "airflow-balance-demo", 3: "defrost-control-demo"}
-    },
-    {
-      id: 3,
-      name: "Emma Thompson",
-      email: "emma.thompson@hvactech.edu",
-      submittedVideos: {2: "charging-technique"}
-    },
-    {
-      id: 4,
-      name: "David Kim",
-      email: "david.kim@hvactech.edu",
-      submittedVideos: {1: "airflow-balance-demo", 2: "charging-technique", 3: "defrost-control-demo"}
-    }
-  ];
+  const students: any[] = [];
 
   // Mock grades for each student and assignment
-  const mockGrades = {
-    1: { // Sarah Chen
-      1: { total: 89, grade: "A-" }, // Assignment 1
-      2: { total: 92, grade: "A-" }, // Assignment 2
-      3: { total: 85, grade: "B+" }  // Assignment 3
-    },
-    2: { // Marcus Rodriguez
-      1: { total: 78, grade: "C+" },
-      2: { total: 88, grade: "B+" },
-      3: { total: 94, grade: "A" }
-    },
-    3: { // Emma Thompson
-      1: { total: 91, grade: "A-" },
-      2: { total: 87, grade: "B+" },
-      3: { total: 82, grade: "B-" }
-    },
-    4: { // David Kim
-      1: { total: 96, grade: "A" },
-      2: { total: 93, grade: "A" },
-      3: { total: 98, grade: "A+" }
-    }
-  };
+  const mockGrades: any = {};
 
   const [selectedCollection, setSelectedCollection] = useState<{id: string, name: string, emoji: string, recipes: string[]} | null>(null);
   const [selectedRecipes, setSelectedRecipes] = useState<string[]>([]);
@@ -1071,6 +982,13 @@ const MySpecSheets = () => {
       {showGradebookModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4" onClick={handleCloseGradebook}>
           <div className="relative w-full max-w-5xl mx-auto flex flex-col max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+            {(students.length === 0 || assignments.length === 0) ? (
+              <div className="bg-white rounded-lg p-12 text-center shadow-2xl border-4 border-black">
+                <div className="text-5xl mb-4">📊</div>
+                <p className="text-gray-500 text-lg font-serif mb-4">No gradebook data yet.</p>
+                <button onClick={handleCloseGradebook} className="px-6 py-2 bg-amber-800 text-amber-100 hover:bg-amber-900 rounded-full font-bold">Close</button>
+              </div>
+            ) : (<>
             {/* Book Container */}
             <div className="relative w-full">
               {/* Book - Responsive: Stack on mobile, side-by-side on desktop */}
@@ -1348,6 +1266,7 @@ const MySpecSheets = () => {
                 <div className="hidden lg:block absolute left-1/2 bottom-4 transform -translate-x-1/2 w-8 h-8 bg-amber-900 rounded-full shadow-inner z-20"></div>
               </div>
             </div>
+            </>)}
           </div>
         </div>
       )}
