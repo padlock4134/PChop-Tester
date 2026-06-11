@@ -6268,13 +6268,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     onClick={() => {
                       try {
                         // Generate donor list data
-                        const donorData = [
-                          { name: 'John Smith', email: 'john.s@email.com', amount: 500, date: '2024-11-15', campaign: 'Scholarship Fund 2025' },
-                          { name: 'Mary Johnson', email: 'mary.j@email.com', amount: 250, date: '2024-11-18', campaign: 'Scholarship Fund 2025' },
-                          { name: 'Robert Davis', email: 'robert.d@email.com', amount: 1000, date: '2024-11-20', campaign: 'New Lab Equipment' },
-                          { name: 'Sarah Wilson', email: 'sarah.w@email.com', amount: 150, date: '2024-11-22', campaign: 'Scholarship Fund 2025' },
-                          { name: 'Michael Brown', email: 'michael.b@email.com', amount: 750, date: '2024-11-23', campaign: 'New Lab Equipment' }
-                        ];
+                        const donorData: {name: string; email: string; amount: number; date: string; campaign: string}[] = [];
                         
                         const csv = convertToCSV(donorData);
                         const timestamp = new Date().toISOString().split('T')[0];
