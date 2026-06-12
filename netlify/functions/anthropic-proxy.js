@@ -20,11 +20,6 @@ const BLOCKED_DISCIPLINE_TERMS = [
   'adult content'
 ];
 
-// Log which API keys are configured (safely)
-console.log('API Keys configured:', Object.keys(API_KEYS).reduce((acc, key) => {
-  acc[key] = !!API_KEYS[key];
-  return acc;
-}, {}));
 
 exports.handler = async function(event) {
   // Only allow POST requests
@@ -43,7 +38,6 @@ exports.handler = async function(event) {
     }
 
     const apiKeyIdentifier = requestBody.apiKeyIdentifier;
-    console.log(`Request from ${apiKeyIdentifier} endpoint`);
 
     if (apiKeyIdentifier === 'add_discipline') {
       const safetyInput = requestBody.safetyInput || {};
@@ -80,8 +74,6 @@ exports.handler = async function(event) {
       };
     }
 
-    console.log(`Making ${apiKeyIdentifier} request to Anthropic...`);
-    
     // Add timeout handling (25 seconds to stay under Netlify's 30s limit)
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 25000);
@@ -110,7 +102,6 @@ exports.handler = async function(event) {
       }
 
       const data = await response.json();
-      console.log('Successful response from Anthropic');
       return {
         statusCode: 200,
         body: JSON.stringify(data)

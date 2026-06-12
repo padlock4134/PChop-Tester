@@ -1,10 +1,6 @@
 const fetch = require('node-fetch');
 
 exports.handler = async (event) => {
-  // Debug: Log all environment variables (safely)
-  console.log('Environment variables:', Object.keys(process.env).sort());
-  console.log('GOOGLE_APPLICATION_CREDENTIALS exists:', 'GOOGLE_APPLICATION_CREDENTIALS' in process.env);
-  
   if (event.httpMethod !== 'POST') {
     return {
       statusCode: 405,
@@ -36,8 +32,6 @@ exports.handler = async (event) => {
     }
 
     const apiKey = process.env.GOOGLE_VISION_API_KEY;
-    console.log('API key found:', !!apiKey);
-    
     if (!apiKey) {
       return {
         statusCode: 500,

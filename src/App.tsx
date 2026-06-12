@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Routes, Route, useLocation, useNavigate, Navigate, useParams } from 'react-router-dom';
 import {
   AuthStatus,
-  redirectToLogout,
   SessionResponse,
   useWristbandAuth,
   WristbandAuthProvider

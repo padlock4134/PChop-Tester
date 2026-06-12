@@ -1,13 +1,6 @@
 const fetch = require('node-fetch');
 
-exports.handler = async function(event, context) {
-  console.log('Function triggered with event:', {
-    httpMethod: event.httpMethod,
-    path: event.path,
-    queryParams: event.queryStringParameters,
-    headers: event.headers
-  });
-
+exports.handler = async function(event) {
   if (!event.queryStringParameters?.lat || !event.queryStringParameters?.lng) {
     return {
       statusCode: 400,
@@ -26,8 +19,6 @@ exports.handler = async function(event, context) {
     };
   }
 
-  console.log('Using API key:', apiKey.substring(0, 5) + '...');
-
   const url = 'https://places.googleapis.com/v1/places:searchNearby';
   const searchBody = {
     includedTypes: type.split(','),
@@ -42,12 +33,6 @@ exports.handler = async function(event, context) {
     }
   };
 
-  console.log('Request to Google Places:', {
-    url,
-    method: 'POST',
-    body: searchBody
-  });
-
   try {
     const response = await fetch(url, {
       method: 'POST',
@@ -60,8 +45,6 @@ exports.handler = async function(event, context) {
     });
 
     const rawResponse = await response.text();
-    console.log('Raw Google API response:', rawResponse);
-
     let data;
     try {
       data = JSON.parse(rawResponse);
@@ -75,14 +58,6 @@ exports.handler = async function(event, context) {
         })
       };
     }
-
-    console.log('Parsed Google API response:', {
-      status: response.status,
-      statusText: response.statusText,
-      hasResults: !!data.places,
-      resultCount: data.places ? data.places.length : 0,
-      error: data.error
-    });
 
     if (!response.ok) {
       console.error('Places API error:', data);

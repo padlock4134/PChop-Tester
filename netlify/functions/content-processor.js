@@ -223,7 +223,6 @@ ${extractedText.substring(0, 50000)}`;
       // Extract JSON from response (Claude sometimes wraps it in markdown)
       const jsonMatch = aiResponseText.match(/\{[\s\S]*\}/);
       aiSuggestion = JSON.parse(jsonMatch ? jsonMatch[0] : aiResponseText);
-      console.log('Parsed AI suggestion:', JSON.stringify(aiSuggestion, null, 2));
     } catch (parseError) {
       console.error('Failed to parse AI response:', aiResponseText);
       console.error('Parse error:', parseError);

@@ -178,14 +178,6 @@ export async function loadCustomDisciplines(): Promise<Record<string, CustomDisc
 }
 
 /**
- * Get combined discipline config (base + custom)
- */
-export async function getDisciplineConfig(): Promise<Record<string, CustomDiscipline | typeof BASE_DISCIPLINE_CONFIG[BaseDisciplineKey]>> {
-  const customDisciplines = await loadCustomDisciplines();
-  return { ...BASE_DISCIPLINE_CONFIG, ...customDisciplines };
-}
-
-/**
  * Synchronous access to discipline config (uses cache)
  */
 export const DISCIPLINE_CONFIG = BASE_DISCIPLINE_CONFIG;

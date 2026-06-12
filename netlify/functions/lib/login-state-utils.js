@@ -1,4 +1,4 @@
-// netlify/functions/lib/session-utils.js
+// netlify/functions/lib/login-state-utils.js
 // Login state management utilities for Wristband authentication
 const { encryptValue, decryptValue, generateRandomString } = require('./wristband-utils.js');
 const { WRISTBAND_CONFIG } = require('./wristband-config.js');
