@@ -52,7 +52,7 @@ function getTwoTutorials(recipe: any) {
 const AutoSchool = () => {
   const { t } = useTranslation();
   const { updateContext } = useFreddieContext();
-  const { selectedRecipe } = useRecipeContext();
+  const { selectedRecipe, setSelectedRecipe } = useRecipeContext();
   const [modalIdx, setModalIdx] = useState<null | number>(null);
   const [recipeNutrition, setRecipeNutrition] = useState<KeyNutrients | null>(null);
   const [teamSize, setTeamSize] = useState(2);
@@ -272,7 +272,7 @@ const AutoSchool = () => {
             {/* Repair Card Display at Bottom (matching MyManual RepairCard layout) */}
             <div className="flex flex-col md:flex-row bg-white rounded-2xl shadow-lg border border-black overflow-hidden w-full min-h-[350px] mt-8 mx-auto relative">
               <button
-                onClick={() => window.location.reload()}
+                onClick={() => setSelectedRecipe(null)}
                 className="absolute top-2 right-2 p-1 hover:bg-red-100 rounded-full transition-colors z-10"
                 title={t('autoSchool.closeRecipe')}
               >

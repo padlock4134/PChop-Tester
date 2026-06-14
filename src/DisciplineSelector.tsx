@@ -541,7 +541,7 @@ const DisciplineSelector: React.FC = () => {
                       </div>
                       <div className="flex-1 text-center">
                         <span className="text-sm text-red-800">
-                          <strong>{s.people.mockFaculty[0]?.name || 'Instructor'}</strong> is presenting live &bull; 23 watching
+                          <strong>{s.people.mockFaculty[0]?.name || 'Instructor'}</strong> is presenting live
                         </span>
                       </div>
                       <div className="bg-red-500 text-white text-xs px-4 py-2 rounded-full font-medium">
@@ -791,11 +791,7 @@ const DisciplineSelector: React.FC = () => {
                         </div>
                         {/* Live Sessions */}
                         <div className="space-y-3">
-                          {[
-                            { name: `${s.people.mockFaculty[0]?.name || 'Instructor A'}`, title: `Advanced ${s.name} Demo`, viewers: 47, isLive: true, emoji: '📺', desc: `Live demonstration of advanced ${s.name.toLowerCase()} techniques` },
-                            { name: 'Guest Speaker', title: `${s.name} Industry Insights`, viewers: 23, isLive: true, emoji: '🎤', desc: `Real-world ${s.name.toLowerCase()} career perspectives` },
-                            { name: 'Student Showcase', title: `Peer ${s.content.metricLabel.replace(/s$/, '')} Review`, viewers: 35, isLive: false, emoji: '🏆', desc: `Student-led ${s.content.metricLabel.toLowerCase()} showcase and feedback` },
-                          ].map((session, idx) => (
+                          {([] as { name: string; title: string; viewers: number; isLive: boolean; emoji: string; desc: string }[]).map((session, idx) => (
                             <div key={idx} className="border border-gray-200 rounded-lg p-3 hover:shadow-md transition-shadow cursor-pointer">
                               <div className="flex items-start justify-between mb-2">
                                 <div className="flex items-center">
@@ -984,27 +980,10 @@ const DisciplineSelector: React.FC = () => {
                       </div>
                     </div>
                     </div>
-                    <div className="bg-orange-50 border-4 border-orange-400 rounded-lg p-3 mb-4">
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center mr-3">
-                          <div className="w-3 h-3 bg-orange-500 rounded-full mr-2 animate-pulse"></div>
-                          <span className="font-bold text-orange-700 text-sm">🛡️ Integrity Alerts (3)</span>
-                        </div>
-                        <div className="flex-1 text-center">
-                          <span className="text-sm text-orange-800">Fast completion detected &bull; Flagged for review</span>
-                        </div>
-                        <div className="bg-orange-500 text-white text-xs px-3 py-1.5 rounded-full font-medium">Review</div>
-                      </div>
-                    </div>
                     <div className="bg-white rounded-lg shadow-md p-6 border-4 border-maineBlue mb-4">
                       <h3 className="font-retro text-base text-maineBlue mb-3">Program Health</h3>
                       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                        {[
-                          { label: 'Total Users', value: '156', icon: '👥' },
-                          { label: 'Active Users', value: '89', icon: '✅' },
-                          { label: s.content.metricLabel, value: '342', icon: '📄' },
-                          { label: 'Total XP', value: '24,500', icon: '⭐' },
-                        ].map((stat, idx) => (
+                        {([] as { label: string; value: string; icon: string }[]).map((stat, idx) => (
                           <div key={idx} className="bg-blue-50 border-4 border-blue-400 rounded-lg p-3 text-center">
                             <div className="text-2xl mb-1">{stat.icon}</div>
                             <div className="text-xl font-bold text-maineBlue">{stat.value}</div>

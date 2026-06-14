@@ -87,7 +87,7 @@ const WeldingSchool = () => {
 
   const { updateContext } = useFreddieContext();
 
-  const { selectedProject } = useProjectContext();
+  const { selectedProject, setSelectedProject } = useProjectContext();
 
 
   const [modalIdx, setModalIdx] = useState<null | number>(null);
@@ -509,7 +509,7 @@ const WeldingSchool = () => {
 
               <button
 
-                onClick={() => window.location.reload()}
+                onClick={() => setSelectedProject(null)}
 
                 className="absolute top-2 right-2 p-1 hover:bg-red-100 rounded-full transition-colors z-10"
 

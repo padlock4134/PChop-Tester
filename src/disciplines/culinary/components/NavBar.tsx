@@ -8,7 +8,6 @@ import { supabase } from '../api/supabaseClient';
 import ChallengeOfTheWeek from './ChallengeOfTheWeek';
 import GroupFinder from './GroupFinder';
 import { getUserBadges, BADGES } from '../utils/badges';
-// @ts-ignore
 import logo from '../images/logo.png';
 import { useSupabase } from './SupabaseProvider';
 import { isSessionValid } from '../api/userSession';

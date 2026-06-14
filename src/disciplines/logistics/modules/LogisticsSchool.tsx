@@ -52,7 +52,7 @@ function getTwoTutorials(route: any) {
 const LogisticsSchool = () => {
   const { t } = useTranslation();
   const { updateContext } = useFreddieContext();
-  const { selectedRoute } = useRouteContext();
+  const { selectedRoute, setSelectedRoute } = useRouteContext();
   const [modalIdx, setModalIdx] = useState<null | number>(null);
   const [routeNutrition, setRouteNutrition] = useState<KeyNutrients | null>(null);
   const [servingSize, setServingSize] = useState(2);
@@ -272,7 +272,7 @@ const LogisticsSchool = () => {
             {/* Route Card Display at Bottom (matching MyRunbook RouteCard layout) */}
             <div className="flex flex-col md:flex-row bg-white rounded-2xl shadow-lg border border-black overflow-hidden w-full min-h-[350px] mt-8 mx-auto relative">
               <button
-                onClick={() => window.location.reload()}
+                onClick={() => setSelectedRoute(null)}
                 className="absolute top-2 right-2 p-1 hover:bg-red-100 rounded-full transition-colors z-10"
                 title={t('logisticsSchool.closeRecipe')}
               >
