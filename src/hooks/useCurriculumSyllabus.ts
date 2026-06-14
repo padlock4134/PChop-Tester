@@ -26,7 +26,7 @@ type SupabaseQuery = {
 };
 
 type SupabaseClientLike = {
-  from: (table: string) => SupabaseQuery;
+  from: (table: string) => any;
 };
 
 const EMPTY_SYLLABUS: CurriculumSyllabusData = {
