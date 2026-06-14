@@ -62,9 +62,6 @@ exports.handler = async (event) => {
       text: emailText
     });
 
-    // Log the download (could also store in database if needed)
-    console.log(`Pitch deck downloaded at ${formattedDate}`, visitorInfo);
-
     return createOkResponseWithBody(JSON.stringify({ 
       success: true,
       message: 'Download tracked successfully'

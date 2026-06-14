@@ -46,7 +46,6 @@ exports.handler = async (event) => {
 
     const tokenData = await refreshTokenIfExpired(refreshToken, expiresAt);
     if (tokenData) {
-      console.log('Token refreshed successfully.');
       currentSessionData = {
         ...currentSessionData,
         accessToken: tokenData.accessToken,

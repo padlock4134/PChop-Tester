@@ -12,8 +12,6 @@ import { useProjectContext } from '../components/PartContext';
 
 import { getTutorialVideo, TutorialVideoResult } from '../utils/videoSearch';
 
-// mainSelectors not used - welding helpers defined locally
-
 import SyllabusCard from '../components/SyllabusCard';
 
 import CycleTimer from '../components/CycleTimer';

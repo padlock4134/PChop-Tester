@@ -45,12 +45,6 @@ export default defineConfig(({ mode }) => ({
         target: 'http://localhost:8888',
         changeOrigin: true,
         secure: false,
-        // Optional: Add logging to see what's being proxied
-        configure: (proxy, options) => {
-          proxy.on('proxyReq', (proxyReq, req, res) => {
-            console.log(`[Proxy] ${req.method} ${req.url} -> ${options.target}${req.url}`);
-          });
-        }
       }
     }
   },
