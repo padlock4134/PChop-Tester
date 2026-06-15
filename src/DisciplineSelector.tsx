@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { redirectToLogout } from '@wristband/react-client-auth';
-import logo from './disciplines/culinary/images/logo.png';
 import { useSupabase } from './components/DisciplineSupabaseProvider';
 import { supabase } from './disciplines/culinary/api/supabaseClient';
 import { AIGeneratedSkin, generateDisciplineSkin, generateSlug, convertToFullSkin, findCulinaryLeakage } from './services/aiDisciplineGenerator';
@@ -169,9 +168,7 @@ const DisciplineSelector: React.FC = () => {
       <div className="w-full max-w-md">
         {/* Discipline Selection Form - Everything in the box */}
         <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-8 overflow-visible">
-          {/* Logo */}
           <div className="text-center mb-8">
-            <img src={logo} alt="PorkChop Logo" className="w-32 h-32 mx-auto mb-6" />
             <h1 className="font-retro text-4xl text-maineBlue mb-3">Welcome to PorkChop</h1>
             <p className="text-gray-600 text-lg">What skills are you mastering?</p>
           </div>
