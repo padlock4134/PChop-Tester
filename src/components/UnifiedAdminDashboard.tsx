@@ -7876,6 +7876,15 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
         </div>
       )}
 
+      {/* Floating Chef Freddie Widget */}
+      <button
+        onClick={() => setShowChefFreddieModal(true)}
+        className="fixed bottom-6 right-6 bg-maineBlue rounded-full w-16 h-16 flex items-center justify-center shadow-lg z-50 hover:scale-110 transition-transform border-4 border-seafoam"
+        aria-label="Open Chef Freddie"
+      >
+        <img src="logo.png" className="w-10 h-10 rounded-full" alt="Chef Freddie" />
+      </button>
+
     </div>
   );
 };
