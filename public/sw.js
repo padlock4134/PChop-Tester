@@ -48,7 +48,10 @@ self.addEventListener('fetch', event => {
   // Navigation requests (HTML pages) — network-first, offline fallback
   if (request.mode === 'navigate') {
     event.respondWith(
-      fetch(request).catch(() => caches.match('/offline.html'))
+      fetch(request).then(response => {
+        if (!response.ok) throw new Error('Not OK');
+        return response;
+      }).catch(() => caches.match('/offline.html'))
     );
     return;
   }
