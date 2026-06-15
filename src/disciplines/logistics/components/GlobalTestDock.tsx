@@ -366,7 +366,7 @@ const GlobalTestDock: React.FC<GlobalTestDockProps> = ({ showcaseRoute }) => {
 
   const handleSaveSession = async () => {
     if (!recordedBlob) {
-      a(' tording found to save.');
+      console.error('No recording found to save.');
       setSaveConfirmModalOpen(false);
       endRecordingSession();
       return;
@@ -427,7 +427,7 @@ const GlobalTestDock: React.FC<GlobalTestDockProps> = ({ showcaseRoute }) => {
       
     } catch (error) {
       console.error('Error saving video:', error);
-      a(tdtatchLounge.globalTestKitchen.failedToSaveVideoGeneric'));
+      console.error(t('dispatchLounge.globalTestKitchen.failedToSaveVideoGeneric'));
     } finally {
       setIsSaving(false);
       setSaveConfirmModalOpen(false);
@@ -472,7 +472,7 @@ const GlobalTestDock: React.FC<GlobalTestDockProps> = ({ showcaseRoute }) => {
 
   const saveVideoToSupabase = async () => {
     if (!recordedBlob) {
-      a(' tording found to save.');
+      console.error('No recording found to save.');
       return;
     }
 
@@ -504,7 +504,7 @@ const GlobalTestDock: React.FC<GlobalTestDockProps> = ({ showcaseRoute }) => {
       
     } catch (error) {
       console.error('Error saving video:', error);
-      a('ptatchLounge.globalTestKitchen.failedToSaveVideoGeneric'));
+      console.error(t('dispatchLounge.globalTestKitchen.failedToSaveVideoGeneric'));
     } finally {
       setIsSaving(false);
     }
