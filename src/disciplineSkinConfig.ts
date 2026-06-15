@@ -93,7 +93,7 @@ export const BASE_DISCIPLINE_SKIN: Record<BaseDisciplineKey, DisciplineSkin> = {
     },
     content: {
       metricLabel: 'Projects',
-      table: 'user_pipebook',
+      table: 'user_cookbook',
       approvalLabel: 'Project Approval',
     },
     people: {
@@ -129,7 +129,7 @@ export const BASE_DISCIPLINE_SKIN: Record<BaseDisciplineKey, DisciplineSkin> = {
     },
     content: {
       metricLabel: 'Repair Orders',
-      table: 'user_manual',
+      table: 'user_cookbook',
       approvalLabel: 'Repair Order Approval',
     },
     people: {
@@ -165,7 +165,7 @@ export const BASE_DISCIPLINE_SKIN: Record<BaseDisciplineKey, DisciplineSkin> = {
     },
     content: {
       metricLabel: 'Build Plans',
-      table: 'user_blueprints',
+      table: 'user_cookbook',
       approvalLabel: 'Build Plan Approval',
     },
     people: {
@@ -201,7 +201,7 @@ export const BASE_DISCIPLINE_SKIN: Record<BaseDisciplineKey, DisciplineSkin> = {
     },
     content: {
       metricLabel: 'Wiring Diagrams',
-      table: 'user_codebook',
+      table: 'user_cookbook',
       approvalLabel: 'Diagram Approval',
     },
     people: {
@@ -273,7 +273,7 @@ export const BASE_DISCIPLINE_SKIN: Record<BaseDisciplineKey, DisciplineSkin> = {
     },
     content: {
       metricLabel: 'Work Orders',
-      table: 'user_playbook',
+      table: 'user_cookbook',
       approvalLabel: 'Work Order Approval',
     },
     people: {
@@ -309,7 +309,7 @@ export const BASE_DISCIPLINE_SKIN: Record<BaseDisciplineKey, DisciplineSkin> = {
     },
     content: {
       metricLabel: 'Shipments',
-      table: 'user_runbook',
+      table: 'user_cookbook',
       approvalLabel: 'Shipment Approval',
     },
     people: {
@@ -345,7 +345,7 @@ export const BASE_DISCIPLINE_SKIN: Record<BaseDisciplineKey, DisciplineSkin> = {
     },
     content: {
       metricLabel: 'Job Tickets',
-      table: 'user_specbook',
+      table: 'user_cookbook',
       approvalLabel: 'Job Ticket Approval',
     },
     people: {
