@@ -259,7 +259,8 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
           .select('*')
           .eq('user_id', user.id)
           .eq('discipline_slug', 'culinary')
-          .order('scheduled_date', { ascending: true });
+          .order('scheduled_date', { ascending: true })
+          .order('scheduled_time', { ascending: true });
 
         if (error) {
           console.error('Error loading scheduled sessions:', error);

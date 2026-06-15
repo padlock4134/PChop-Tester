@@ -261,7 +261,8 @@ const GlobalTestVan: React.FC<GlobalTestVanProps> = ({ showcaseRecipe }) => {
           .select('*')
           .eq('user_id', user.id)
           .eq('discipline_slug', 'plumbing')
-          .order('scheduled_date', { ascending: true });
+          .order('scheduled_date', { ascending: true })
+          .order('scheduled_time', { ascending: true });
 
         if (error) {
           console.error('Error loading scheduled sessions:', error);

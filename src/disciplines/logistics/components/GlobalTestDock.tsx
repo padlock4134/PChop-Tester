@@ -259,7 +259,8 @@ const GlobalTestDock: React.FC<GlobalTestDockProps> = ({ showcaseRoute }) => {
           .select('*')
           .eq('user_id', user.id)
           .eq('discipline_slug', 'logistics')
-          .order('scheduled_date', { ascending: true });
+          .order('scheduled_date', { ascending: true })
+          .order('scheduled_time', { ascending: true });
 
         if (error) {
           console.error('Error loading scheduled sessions:', error);

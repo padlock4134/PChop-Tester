@@ -265,7 +265,8 @@ const GlobalTestBench: React.FC<GlobalTestBenchProps> = ({ showcaseProject }) =>
           .select('*')
           .eq('user_id', user.id)
           .eq('discipline_slug', 'welding')
-          .order('scheduled_date', { ascending: true });
+          .order('scheduled_date', { ascending: true })
+          .order('scheduled_time', { ascending: true });
 
         if (error) {
           console.error('Error loading scheduled sessions:', error);
