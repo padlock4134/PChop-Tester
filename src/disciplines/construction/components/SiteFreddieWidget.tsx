@@ -115,32 +115,39 @@ const SiteFreddieWidget = () => {
 
       {open && (
         <React.Fragment>
-          <div className="fixed bottom-24 right-6 bg-white border-4 border-maineBlue rounded shadow-lg p-4 w-80 z-50 flex flex-col max-h-[60vh]">
-            <div className="flex justify-between items-center mb-2">
-              <span className="font-bold text-maineBlue">Foreman Frank</span>
+          <div className="fixed bottom-24 right-6 bg-white border-4 border-maineBlue rounded-xl shadow-xl w-80 z-50 flex flex-col max-h-[60vh]">
+            <div className="flex justify-between items-center px-4 py-3 bg-blue-50 rounded-t-xl border-b-2 border-maineBlue">
+              <span className="font-retro font-bold text-maineBlue">Foreman Frank</span>
               <button onClick={() => {
                 setOpen(false);
                 setMessages([]);
-              }} className="text-gray-500">✕</button>
+              }} className="text-gray-400 hover:text-gray-600 text-lg font-bold">✕</button>
             </div>
-            <div className="flex-1 overflow-y-auto mb-2">
+            <div className="flex-1 overflow-y-auto p-3 space-y-2">
               {messages.map((msg, i) => (
-                <div key={i} className={`mb-2 ${msg.sender === 'freddie' ? 'text-maineBlue' : 'text-right text-gray-700'}`}>
-                  <span className="block bg-sand rounded p-2 inline-block max-w-[90%]">{msg.text}</span>
+                <div key={i} className={`flex ${msg.sender === 'freddie' ? 'justify-start' : 'justify-end'}`}>
+                  <span className={`px-3 py-2 rounded-2xl text-sm max-w-[85%] ${msg.sender === 'freddie' ? 'bg-sand text-gray-800 rounded-tl-sm' : 'bg-maineBlue text-white rounded-tr-sm'}`}>{msg.text}</span>
                 </div>
               ))}
             </div>
-            <input
-              className="w-full border rounded p-2"
-              placeholder="Type your question..."
-              value={input}
-              onChange={e => setInput(e.target.value)}
-              onKeyDown={e => {
-                if (e.key === 'Enter' && input.trim()) {
-                  sendUserMessage(input.trim());
-                }
-              }}
-            />
+            <div className="p-3 border-t-2 border-gray-100 flex gap-2">
+              <input
+                className="flex-1 border-2 border-gray-200 rounded-xl px-3 py-2 text-sm focus:border-maineBlue focus:outline-none"
+                placeholder="Type your question..."
+                value={input}
+                onChange={e => setInput(e.target.value)}
+                onKeyDown={e => {
+                  if (e.key === 'Enter' && input.trim()) {
+                    sendUserMessage(input.trim());
+                  }
+                }}
+              />
+              <button
+                onClick={() => { if (input.trim()) sendUserMessage(input.trim()); }}
+                disabled={!input.trim()}
+                className="bg-maineBlue text-white px-3 py-2 rounded-xl text-sm hover:bg-blue-700 disabled:opacity-40"
+              >➤</button>
+            </div>
           </div>
         </React.Fragment>
       )}

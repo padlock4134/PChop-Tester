@@ -89,30 +89,30 @@ const AdminFreddieWidget: React.FC<{ currentUserId?: string }> = ({ currentUserI
       </button>
 
       {open && (
-        <div className="fixed bottom-24 right-6 bg-white border-4 border-maineBlue rounded-lg shadow-lg w-80 z-50 flex flex-col max-h-[60vh]">
-          <div className="flex justify-between items-center px-4 py-3 border-b-2 border-maineBlue bg-maineBlue rounded-t-lg">
-            <span className="font-retro text-seafoam font-bold text-sm">Admin Assistant</span>
-            <button onClick={() => { setOpen(false); setMessages([]); }} className="text-seafoam hover:text-white text-xl font-bold">✕</button>
+        <div className="fixed bottom-24 right-6 bg-white border-4 border-maineBlue rounded-xl shadow-xl w-80 z-50 flex flex-col max-h-[60vh]">
+          <div className="flex justify-between items-center px-4 py-3 bg-blue-50 rounded-t-xl border-b-2 border-maineBlue">
+            <span className="font-retro font-bold text-maineBlue">Admin Assistant</span>
+            <button onClick={() => { setOpen(false); setMessages([]); }} className="text-gray-400 hover:text-gray-600 text-lg font-bold">✕</button>
           </div>
           <div className="flex-1 overflow-y-auto p-3 space-y-2">
             {messages.map((msg, i) => (
-              <div key={i} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
-                <span className={`block rounded-lg px-3 py-2 text-sm max-w-[85%] ${msg.sender === 'freddie' ? 'bg-blue-50 text-maineBlue border border-maineBlue' : 'bg-maineBlue text-white'}`}>
+              <div key={i} className={`flex ${msg.sender === 'freddie' ? 'justify-start' : 'justify-end'}`}>
+                <span className={`px-3 py-2 rounded-2xl text-sm max-w-[85%] ${msg.sender === 'freddie' ? 'bg-sand text-gray-800 rounded-tl-sm' : 'bg-maineBlue text-white rounded-tr-sm'}`}>
                   {msg.text}
                 </span>
               </div>
             ))}
             {loading && (
               <div className="flex justify-start">
-                <span className="block bg-blue-50 text-maineBlue border border-maineBlue rounded-lg px-3 py-2 text-sm">...</span>
+                <span className="px-3 py-2 rounded-2xl rounded-tl-sm bg-sand text-gray-800 text-sm">...</span>
               </div>
             )}
           </div>
-          <div className="p-3 border-t-2 border-gray-200 flex gap-2">
+          <div className="p-3 border-t-2 border-gray-100 flex gap-2">
             <input
               ref={inputRef}
-              className="flex-1 border-2 border-maineBlue rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-seafoam"
-              placeholder="Ask anything..."
+              className="flex-1 border-2 border-gray-200 rounded-xl px-3 py-2 text-sm focus:border-maineBlue focus:outline-none"
+              placeholder="Type your question..."
               value={input}
               onChange={e => setInput(e.target.value)}
               onKeyDown={e => { if (e.key === 'Enter' && input.trim()) send(input.trim()); }}
@@ -120,10 +120,8 @@ const AdminFreddieWidget: React.FC<{ currentUserId?: string }> = ({ currentUserI
             <button
               onClick={() => send(input.trim())}
               disabled={!input.trim() || loading}
-              className="bg-maineBlue text-white px-3 py-2 rounded-lg text-sm font-retro hover:bg-blue-700 disabled:opacity-50"
-            >
-              ➤
-            </button>
+              className="bg-maineBlue text-white px-3 py-2 rounded-xl text-sm hover:bg-blue-700 disabled:opacity-40"
+            >➤</button>
           </div>
         </div>
       )}
