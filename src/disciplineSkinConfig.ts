@@ -237,7 +237,7 @@ export const BASE_DISCIPLINE_SKIN: Record<BaseDisciplineKey, DisciplineSkin> = {
     },
     content: {
       metricLabel: 'Service Reports',
-      table: 'user_specsheets',
+      table: 'user_cookbook',
       approvalLabel: 'Service Report Approval',
     },
     people: {

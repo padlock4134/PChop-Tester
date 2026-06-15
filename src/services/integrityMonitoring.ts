@@ -42,6 +42,28 @@ export interface UserActivity {
   user_agent?: string;
 }
 
+const VALID_ALERT_TYPES = new Set<IntegrityAlert['alert_type']>([
+  'fast_completion',
+  'plagiarism',
+  'activity_anomaly'
+]);
+
+const VALID_ALERT_SEVERITIES = new Set<IntegrityAlert['severity']>([
+  'low',
+  'medium',
+  'high'
+]);
+
+function sanitizeJson(value: any): any {
+  if (value === undefined) return null;
+
+  try {
+    return JSON.parse(JSON.stringify(value));
+  } catch {
+    return null;
+  }
+}
+
 // Track module completion
 export async function trackCompletion(data: CompletionTracking): Promise<void> {
   try {
@@ -321,30 +343,32 @@ async function checkActivityAnomalies(userId: string): Promise<void> {
 // Create an integrity alert
 async function createIntegrityAlert(data: Omit<IntegrityAlert, 'id' | 'reviewed' | 'created_at'>): Promise<void> {
   try {
-    // Check if similar alert already exists in the last 24 hours
-    const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
-    
-    const { data: existingAlerts, error: checkError } = await supabase
-      .from('integrity_alerts')
-      .select('*')
-      .eq('user_id', data.user_id)
-      .eq('alert_type', data.alert_type)
-      .eq('discipline', data.discipline)
-      .gte('created_at', oneDayAgo);
+    // Do not pre-query integrity_alerts here. On older Supabase schemas that
+    // duplicate-check SELECT was the failing 400 shown in the browser console.
+    // Alerts are monitoring-only, so one direct sanitized insert is safer than
+    // an extra read that can fail before the write is attempted.
 
-    if (checkError) throw checkError;
-
-    // Don't create duplicate alerts
-    if (existingAlerts && existingAlerts.length > 0) {
+    if (!VALID_ALERT_TYPES.has(data.alert_type) || !VALID_ALERT_SEVERITIES.has(data.severity)) {
+      console.warn('Skipping invalid integrity alert payload:', {
+        alert_type: data.alert_type,
+        severity: data.severity
+      });
       return;
     }
 
+    const alertPayload = {
+      user_id: data.user_id,
+      discipline: data.discipline || null,
+      alert_type: data.alert_type,
+      severity: data.severity,
+      description: data.description,
+      metadata: sanitizeJson(data.metadata),
+      reviewed: false
+    };
+
     const { error } = await supabase
       .from('integrity_alerts')
-      .insert({
-        ...data,
-        reviewed: false
-      });
+      .insert(alertPayload);
 
     if (error) throw error;
   } catch (error) {
