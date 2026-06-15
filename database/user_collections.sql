@@ -15,16 +15,41 @@ CREATE TABLE IF NOT EXISTS user_collections (
 CREATE INDEX IF NOT EXISTS idx_user_collections_user_id ON user_collections(user_id);
 CREATE INDEX IF NOT EXISTS idx_user_collections_discipline ON user_collections(discipline);
 
-ALTER TABLE user_collections ENABLE ROW LEVEL SECURITY;
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_tables WHERE schemaname = 'public' AND tablename = 'user_collections' AND rowsecurity = true) THEN
+    ALTER TABLE user_collections ENABLE ROW LEVEL SECURITY;
+  END IF;
+END $$;
 
-CREATE POLICY "Users can view own collections" ON user_collections
-  FOR SELECT USING (auth.uid() = user_id);
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE tablename = 'user_collections' AND policyname = 'Users can view own collections') THEN
+    CREATE POLICY "Users can view own collections" ON user_collections
+      FOR SELECT USING (auth.uid() = user_id);
+  END IF;
+END $$;
 
-CREATE POLICY "Users can insert own collections" ON user_collections
-  FOR INSERT WITH CHECK (auth.uid() = user_id);
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE tablename = 'user_collections' AND policyname = 'Users can insert own collections') THEN
+    CREATE POLICY "Users can insert own collections" ON user_collections
+      FOR INSERT WITH CHECK (auth.uid() = user_id);
+  END IF;
+END $$;
 
-CREATE POLICY "Users can delete own collections" ON user_collections
-  FOR DELETE USING (auth.uid() = user_id);
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE tablename = 'user_collections' AND policyname = 'Users can delete own collections') THEN
+    CREATE POLICY "Users can delete own collections" ON user_collections
+      FOR DELETE USING (auth.uid() = user_id);
+  END IF;
+END $$;
 
-CREATE POLICY "Users can update own collections" ON user_collections
-  FOR UPDATE USING (auth.uid() = user_id);
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE tablename = 'user_collections' AND policyname = 'Users can update own collections') THEN
+    CREATE POLICY "Users can update own collections" ON user_collections
+      FOR UPDATE USING (auth.uid() = user_id);
+  END IF;
+END $$;
