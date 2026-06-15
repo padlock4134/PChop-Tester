@@ -5253,10 +5253,6 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue"
                 >
                   <option value={skin.people.defaultProgram}>{skin.people.defaultProgram}</option>
-                  <option value="Advanced Program">Advanced Program</option>
-                  <option value="Specialized Track">Specialized Track</option>
-                  <option value="Management Program">Management Program</option>
-                  <option value="Industry Leadership">Industry Leadership</option>
                 </select>
               </div>
             </div>
@@ -5396,10 +5392,6 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue text-sm min-h-[44px]"
                 >
                   <option value={skin.people.defaultProgram}>{skin.people.defaultProgram}</option>
-                  <option value="Advanced Program">Advanced Program</option>
-                  <option value="Specialized Track">Specialized Track</option>
-                  <option value="Management Program">Management Program</option>
-                  <option value="Industry Leadership">Industry Leadership</option>
                 </select>
               </div>
               
@@ -6811,7 +6803,6 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       <option value="class_2025">Class of 2025</option>
                       <option value="class_2026">Class of 2026</option>
                       <option value="program_1">{skin.people.defaultProgram}</option>
-                      <option value="program_2">Advanced Program</option>
                       <option value="alumni">Alumni</option>
                     </select>
                     <input

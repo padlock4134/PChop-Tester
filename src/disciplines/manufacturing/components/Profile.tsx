@@ -86,7 +86,6 @@ const EditProfileModal = ({
           dietary: [formData.dietPreference],
           workshop_setup: formData.workshopSetup,
           manufacturing_experience: [EXPERIENCE_LEVEL_MAPPING[formData.experienceLevel as keyof typeof EXPERIENCE_LEVEL_MAPPING]],
-          program: formData.program
         })
         .eq('id', user.id);
 
@@ -147,21 +146,9 @@ const EditProfileModal = ({
           {/* Academic Program */}
           <div>
             <label className="block text-sm font-bold text-gray-700 mb-2 text-center">{t('profile.academicProgram')}</label>
-            <select
-              value={formData.program}
-              onChange={(e) => setFormData({...formData, program: e.target.value})}
-              disabled={(user as any)?.program && (user as any).program !== ''}
-              className={`w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-maineBlue focus:outline-none text-center ${
-                (user as any)?.program && (user as any).program !== '' ? 'bg-gray-100 cursor-not-allowed' : ''
-              }`}
-            >
-              <option value="">{t('profile.selectYourProgram')}</option>
-              <option value="Bachelors in Advanced Manufacturing">🎓 Bachelors in Advanced Manufacturing</option>
-              <option value="Associates in Aquaculture">🎓 {t('profile.associatesAquaculture')}</option>
-            </select>
-            {(user as any)?.program && (user as any).program !== '' && (
-              <p className="text-xs text-gray-500 text-center mt-1">{t('profile.lockedContactAdmin')}</p>
-            )}
+            <div className={`w-full border-2 border-gray-200 rounded-lg px-4 py-2 bg-gray-100 text-center ${(user as any)?.program ? 'text-gray-700' : 'text-gray-400 text-sm italic'}`}>
+              {(user as any)?.program ? `🎓 ${(user as any).program}` : t('profile.noProgram', { defaultValue: 'Assigned by your administrator' })}
+            </div>
           </div>
 
           {/* Divider */}
