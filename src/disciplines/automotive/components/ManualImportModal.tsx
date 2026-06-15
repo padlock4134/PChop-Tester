@@ -64,7 +64,7 @@ const ManualImportModal: React.FC<ManualImportModalProps> = ({
       
     } catch (error) {
       console.error('Error during import:', error);
-      alert('Failed to import service. Please try again.');
+      console.error('Failed to import service. Please try again.');
     } finally {
       setIsLoading(false);
     }

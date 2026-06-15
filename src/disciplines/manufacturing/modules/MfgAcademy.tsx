@@ -6,8 +6,6 @@ import VideoModal from '../components/VideoModal';
 import { useLevelProgressContext } from '../components/NavBar';
 import { useRecipeContext } from '../components/ProcessContext';
 import { getTutorialVideo, TutorialVideoResult } from '../utils/videoSearch';
-import { calculateRecipeNutrition } from '../api/nutritionService';
-import { KeyNutrients } from '../types/nutrition';
 import SyllabusCard from '../components/SyllabusCard';
 import ProductionTimer from '../components/ProductionTimer';
 import LinePracticeModal from '../components/LinePracticeModal';
@@ -55,33 +53,19 @@ const MfgAcademy = () => {
   const { updateContext } = useFreddieContext();
   const { selectedRecipe, setSelectedRecipe } = useRecipeContext();
   const [modalIdx, setModalIdx] = useState<null | number>(null);
-  const [recipeNutrition, setRecipeNutrition] = useState<KeyNutrients | null>(null);
   const [orderSize, setOrderSize] = useState(100);
   const [benchPracticeOpen, setBenchPracticeOpen] = useState(false);
   const [activeMobileTab, setActiveMobileTab] = useState<'school' | 'syllabus'>('school');
   const syllabusData = useCurriculumSyllabus(supabase, 'manufacturing');
 
   const handleLessonClick = (lessonId: string) => {
+    setBenchPracticeOpen(true);
   };
 
   useEffect(() => {
-    updateContext({ page: 'CulinarySchool' });
+    updateContext({ page: 'MfgAcademy' });
   }, [updateContext]);
 
-  useEffect(() => {
-    if (selectedRecipe && !selectedRecipe.nutrition) {
-      // Calculate nutrition if missing
-      calculateRecipeNutrition(selectedRecipe.ingredients)
-        .then(nutrition => {
-          setRecipeNutrition(nutrition);
-        })
-        .catch(error => {
-          console.error('Error calculating nutrition:', error);
-        });
-    } else {
-      setRecipeNutrition(selectedRecipe?.nutrition || null);
-    }
-  }, [selectedRecipe]);
 
   const isRecipeSelected = !!selectedRecipe;
   const tutorials = isRecipeSelected ? getTwoTutorials(selectedRecipe) : getDefaultTutorials();
@@ -300,17 +284,6 @@ const MfgAcademy = () => {
                     <li className="italic text-gray-400">{t('mfgAcademy.noIngredientsListed')}</li>
                   )}
                 </ul>
-                {recipeNutrition && (
-                  <div className="mt-2">
-                    <div className="font-semibold mb-1">{t('mfgAcademy.nutritionTotal').replace('{servings}', orderSize.toString())}:</div>
-                    <div className="text-sm">
-                      <div>{t('mfgAcademy.carbs')}: {(recipeNutrition.carbs * orderSize / 100).toFixed(1)}g</div>
-                      <div>{t('mfgAcademy.sugars')}: {(recipeNutrition.sugars * orderSize / 100).toFixed(1)}g</div>
-                      <div>{t('mfgAcademy.fiber')}: {(recipeNutrition.fiber * orderSize / 100).toFixed(1)}g</div>
-                      <div>{t('mfgAcademy.protein')}: {(recipeNutrition.protein * orderSize / 100).toFixed(1)}g</div>
-                    </div>
-                  </div>
-                )}
               </div>
               {/* Right Page */}
               <div className="flex-1 p-6 bg-white flex flex-col">

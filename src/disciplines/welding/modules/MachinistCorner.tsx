@@ -147,7 +147,7 @@ const WeldersHub = () => {
   // Open modal for My Spec Book import
   const importFromSpecBook = () => {
     if (!user) {
-      alert(t('machinistCorner.pleaseSignIn'));
+      console.error(t('machinistCorner.pleaseSignIn'));
       return;
     }
     setSpecbookModalOpen(true);
@@ -158,7 +158,7 @@ const WeldersHub = () => {
     
     if (!selectedProject) {
       console.error('No project selected');
-      alert(t('machinistCorner.errorNoProject'));
+      console.error(t('machinistCorner.errorNoProject'));
       return;
     }
 
@@ -166,11 +166,11 @@ const WeldersHub = () => {
       // Set the selected project as the showcase project
       setShowcaseProject(selectedProject);
       
-      alert(t('machinistCorner.projectSetToShowcase').replace('{title}', selectedProject.title));
+      console.log(t('machinistCorner.projectSetToShowcase').replace('{title}', selectedProject.title));
       
     } catch (error) {
       console.error('Error importing project:', error);
-      alert(t('machinistCorner.failedToImport'));
+      console.error(t('machinistCorner.failedToImport'));
     } finally {
       setSpecbookModalOpen(false);
     }

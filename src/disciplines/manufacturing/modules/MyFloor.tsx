@@ -266,21 +266,21 @@ const MyFloor = () => {
                   
                   if (newIngredients.length === 0) {
                     setScanStatus(t('myFloor.noNewIngredients'));
-                    alert(t('myFloor.noNewIngredients'));
+                    console.log(t('myFloor.noNewIngredients'));
                   } else {
                     // Check user before saving
                     try {
                       const sessionValid = await isSessionValid();
                       if (!sessionValid || !user) {
                         setScanStatus(t('myFloor.notSignedIn'));
-                        alert(t('myFloor.notSignedIn'));
+                        console.error(t('myFloor.notSignedIn'));
                         setScanLoading(false);
                         return;
                       }
                     } catch (userErr) {
                       console.error('Error fetching user:', userErr);
                       setScanStatus(t('myFloor.couldNotVerify'));
-                      alert(t('myFloor.couldNotVerify'));
+                      console.error(t('myFloor.couldNotVerify'));
                       setScanLoading(false);
                       return;
                     }
@@ -293,17 +293,17 @@ const MyFloor = () => {
                       await saveKitchen(user?.id!, updatedIngredients);
                       setKitchenError(null);
                       setScanStatus(t('myFloor.ingredientsSaved'));
-                      alert(t('myFloor.ingredientsSaved'));
+                      console.log(t('myFloor.ingredientsSaved'));
                     } catch (err: any) {
                       setKitchenError(t('myFloor.failedToSave') + ' ' + (err.message || err.toString()));
                       setScanStatus(t('myFloor.failedToSave') + ' ' + (err.message || err.toString()));
-                      alert(t('myFloor.failedToSave') + ' ' + (err.message || err.toString()));
+                      console.error(t('myFloor.failedToSave') + ' ' + (err.message || err.toString()))
                     }
                   }
                   setDetectedIngredients([]);
                 } catch (err: any) {
                   setScanError(err.message || t('myFloor.failedToScan'));
-                  alert(t('myFloor.failedToScan') + ': ' + (err.message || err.toString()));
+                  console.error(t('myFloor.failedToScan') + ': ' + (err.message || err.toString()))
                 }
                 setScanLoading(false);
               };

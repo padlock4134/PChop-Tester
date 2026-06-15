@@ -63,7 +63,7 @@ const SpecSheetImportModal: React.FC<SpecSheetImportModalProps> = ({
       
     } catch (error) {
       console.error('Error during import:', error);
-      alert('Failed to import spec sheet. Please try again.');
+      console.error('Failed to import spec sheet. Please try again.');
     } finally {
       setIsLoading(false);
     }

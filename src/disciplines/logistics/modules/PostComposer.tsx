@@ -28,10 +28,7 @@ const PostComposer = () => {
       }
       
       // Check if this is a route share (simplified check for route keywords)
-      const isRouteShare = /route|items?|instructions?|method|steps|serves|prep time|cook time/i.test(input);
-      
-      // In a real app, you would upload the image and create the post here
-      // For now, we'll just simulate a successful post
+      const isRouteShare = /route|shipment|instructions?|method|steps|manifest|transit time|delivery/i.test(input);
       
       if (isRouteShare) {
         // Award XP for sharing a route
@@ -59,11 +56,11 @@ const PostComposer = () => {
       setImage(null);
       
       // Show success message or update UI
-      alert('Post shared successfully!' + (isRouteShare ? ' +' + XP_REWARDS.ROUTE_SHARE + ' XP for sharing a route!' : ''));
+      console.log('Post shared successfully!' + (isRouteShare ? ' +' + XP_REWARDS.ROUTE_SHARE + ' XP for sharing a route!' : ''));
       
     } catch (error) {
       console.error('Error sharing post:', error);
-      alert('Failed to share post. Please try again.');
+      console.error('Failed to share post. Please try again.');
     } finally {
       setIsSubmitting(false);
     }

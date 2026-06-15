@@ -6,9 +6,9 @@ import { XP_REWARDS } from '../services/xpService';
 
 import { useLevelProgressContext } from './NavBar';
 
-import { supabase } from '../../culinary/api/supabaseClient';
+import { supabase } from '../api/supabaseClient';
 
-import { useSupabase } from '../../culinary/components/SupabaseProvider';
+import { useSupabase } from '../components/SupabaseProvider';
 
 import { isSessionValid } from '../api/userSession';
 

@@ -30,7 +30,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose, 
     setModeNotice(null);
     const lessonTitle = getPracticeLessonTitle(courses, selectedLesson);
     if (!lessonTitle) {
-      alert('Please select a lesson first.');
+      console.error('Please select a lesson first.');
       return;
     }
 
@@ -75,7 +75,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose, 
       }
     } catch (error) {
       console.error('Error generating AR practice:', error);
-      alert(t('culinarySchool.charcuterieBoard.couldNotGenerateAR'));
+      console.error(t('culinarySchool.charcuterieBoard.couldNotGenerateAR'));
       setIsPracticing(false);
     } finally {
       setIsGeneratingAR(false);
@@ -155,7 +155,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose, 
               <ARSiteScene 
                 scene={arScene}
                 onComplete={() => {
-                  alert(t('culinarySchool.charcuterieBoard.practiceComplete'));
+                  console.log(t('culinarySchool.charcuterieBoard.practiceComplete'));
                   cleanupPractice();
                 }}
                 guideOpen={guideOpen}

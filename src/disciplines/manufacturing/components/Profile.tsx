@@ -92,7 +92,7 @@ const EditProfileModal = ({
 
       if (error) {
         console.error('Error updating profile:', error);
-        alert(t('profile.failedToSaveProfile'));
+        console.error(t('profile.failedToSaveProfile'));
         return;
       }
 
@@ -110,7 +110,7 @@ const EditProfileModal = ({
       onClose();
     } catch (error) {
       console.error('Error saving profile:', error);
-      alert('Failed to save profile changes. Please try again.');
+      console.error('Failed to save profile changes. Please try again.');
     }
   };
 
@@ -424,7 +424,7 @@ const RequestsModal = ({ open, onClose }: { open: boolean; onClose: () => void }
   
   const handleSubmit = () => {
     if (!selectedType || !requestDetails.trim()) {
-      alert(t('profile.pleaseSelectRequestType'));
+      console.error(t('profile.pleaseSelectRequestType'));
       return;
     }
     setShowSuccess(true);
@@ -1023,9 +1023,9 @@ const Profile = () => {
       
       doc.text(cleanText('Average Skill Proficiency:'), 35, 153);
       doc.text(cleanText(avgProficiency), 130, 153);
-      doc.text(cleanText('Food Safety Certification Rate:'), 35, 163);
+      doc.text(cleanText('Safety Certification Rate:'), 35, 163);
       doc.text(cleanText(safetyRate), 130, 163);
-      doc.text(cleanText('Recipe Completion Success:'), 35, 173);
+      doc.text(cleanText('Process Completion Success:'), 35, 173);
       doc.text(cleanText(completionRate), 130, 173);
       doc.text(cleanText('Students Requiring Additional Support:'), 35, 183);
       doc.text(cleanText(supportNeeded), 130, 183);
@@ -1035,9 +1035,9 @@ const Profile = () => {
       doc.text(cleanText('Course Completion Rate:'), 35, 163);
       doc.text(cleanText('84.9%'), 130, 163);
       doc.text(cleanText('Highest Performing Course:'), 35, 173);
-      doc.text(cleanText('Food Safety and Sanitation (94%)'), 130, 173);
+      doc.text(cleanText('Workplace Safety (94%)'), 130, 173);
       doc.text(cleanText('Course Requiring Attention:'), 35, 183);
-      doc.text(cleanText('Menu Planning and Costing (79%)'), 130, 183);
+      doc.text(cleanText('Production Planning & Costing (79%)'), 130, 183);
     } else {
       doc.text(cleanText('Overall Performance Score:'), 35, 153);
       doc.text(cleanText('85.4%'), 130, 153);
@@ -1078,12 +1078,12 @@ const Profile = () => {
       const line5Width = doc.getTextWidth(cleanText('- Consider advanced modules for students achieving 90% proficiency'));
       doc.text(cleanText('- Consider advanced modules for students achieving 90% proficiency'), 105 - line5Width/2, 258);
     } else if (fileName === 'class-performance') {
-      const line1Width = doc.getTextWidth(cleanText('- Food Safety and Sanitation demonstrates exemplary performance (94%)'));
-      doc.text(cleanText('- Food Safety and Sanitation demonstrates exemplary performance (94%)'), 105 - line1Width/2, 218);
-      const line2Width = doc.getTextWidth(cleanText('- Baking and Pastry Arts shows strong student engagement (91%)'));
-      doc.text(cleanText('- Baking and Pastry Arts shows strong student engagement (91%)'), 105 - line2Width/2, 228);
-      const line3Width = doc.getTextWidth(cleanText('- Menu Planning and Costing requires curriculum review and support'));
-      doc.text(cleanText('- Menu Planning and Costing requires curriculum review and support'), 105 - line3Width/2, 238);
+      const line1Width = doc.getTextWidth(cleanText('- Workplace Safety demonstrates exemplary performance (94%)'));
+      doc.text(cleanText('- Workplace Safety demonstrates exemplary performance (94%)'), 105 - line1Width/2, 218);
+      const line2Width = doc.getTextWidth(cleanText('- Advanced Manufacturing Processes shows strong student engagement (91%)'));
+      doc.text(cleanText('- Advanced Manufacturing Processes shows strong student engagement (91%)'), 105 - line2Width/2, 228);
+      const line3Width = doc.getTextWidth(cleanText('- Production Planning & Costing requires curriculum review and support'));
+      doc.text(cleanText('- Production Planning & Costing requires curriculum review and support'), 105 - line3Width/2, 238);
       const line4Width = doc.getTextWidth(cleanText('- Recommend instructor development for underperforming courses'));
       doc.text(cleanText('- Recommend instructor development for underperforming courses'), 105 - line4Width/2, 248);
       const line5Width = doc.getTextWidth(cleanText('- Implement peer mentoring programs to improve completion rates'));
@@ -1117,7 +1117,7 @@ const Profile = () => {
     if (format === 'csv') {
       // Generate CSV content
       if (fileName === 'skill-mastery-tracking') {
-        return `Student ID,Student Name,Blueprint Interpretation Score,Cooking Techniques Score,Food Safety Certification,Recipe Completion Rate,Overall Progress
+        return `Student ID,Student Name,Blueprint Interpretation Score,Machining Techniques Score,Shop Safety Certification,Process Completion Rate,Overall Progress
 `;
       } else if (fileName === 'class-performance') {
         return `Class ID,Class Name,Average Score,Completion Rate,Knowledge Gaps,Assignment Timeliness,Instructor
@@ -1248,7 +1248,7 @@ Generated: ${currentDate}`;
       // Left-click: Add talent (with validation)
       const maxTalents = Math.floor(userProfile.xp / 100); // 1 talent per 100 XP
       if (selectedTalents.length >= maxTalents) {
-        alert(t('profile.talents.maxSelectionAlert', { defaultValue: 'You can only select {{count}} talents at your current level.', count: maxTalents }));
+        console.error(t('profile.talents.maxSelectionAlert', { defaultValue: 'You can only select {{count}} talents at your current level.', count: maxTalents }));
         return;
       }
       newSelectedTalents = [...selectedTalents, talentName];
@@ -1270,13 +1270,13 @@ Generated: ${currentDate}`;
         console.error('Error saving talents:', error);
         // Revert local state if save failed
         setSelectedTalents(selectedTalents);
-        alert(t('profile.talents.saveFailed', { defaultValue: 'Failed to save talent selection. Please try again.' }));
+        console.error(t('profile.talents.saveFailed', { defaultValue: 'Failed to save talent selection. Please try again.' }));
       }
     } catch (error) {
       console.error('Error saving talents:', error);
       // Revert local state if save failed
       setSelectedTalents(selectedTalents);
-      alert(t('profile.talents.saveFailed', { defaultValue: 'Failed to save talent selection. Please try again.' }));
+      console.error(t('profile.talents.saveFailed', { defaultValue: 'Failed to save talent selection. Please try again.' }));
     }
   };
 
@@ -1459,7 +1459,7 @@ Generated: ${currentDate}`;
         
       } catch (error) {
         console.error('Error uploading avatar:', error);
-        alert('Failed to upload avatar. Please try again.');
+        console.error('Failed to upload avatar. Please try again.');
       } finally {
         setAvatarUploading(false);
       }
@@ -1615,14 +1615,7 @@ Generated: ${currentDate}`;
           {(userProfile as any)?.program && (
             <div className="mt-2">
               <span className="inline-block px-3 py-1 bg-seafoam text-maineBlue rounded-full text-xs font-bold border-2 border-maineBlue">
-                🎓 {(() => {
-                  const program = (userProfile as any).program;
-                  // Map old culinary programs to manufacturing equivalents
-                  if (program === 'Bachelors of Arts In Culinary') {
-                    return 'Bachelors in Advanced Manufacturing';
-                  }
-                  return program;
-                })()}
+                🎓 {(userProfile as any).program}
               </span>
             </div>
           )}

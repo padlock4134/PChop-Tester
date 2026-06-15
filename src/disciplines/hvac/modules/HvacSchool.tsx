@@ -5,8 +5,6 @@ import { useFreddieContext } from '../components/ShopFreddieContext';
 import VideoModal from '../components/VideoModal';
 import { useRecipeContext } from '../components/SystemContext';
 import { getTutorialVideo, TutorialVideoResult } from '../utils/videoSearch';
-import { calculateRecipeNutrition } from '../api/nutritionService';
-import { KeyNutrients } from '../types/nutrition';
 import SyllabusCard from '../components/SyllabusCard';
 import ServiceTimer from '../components/ServiceTimer';
 import UnitPracticeModal from '../components/UnitPracticeModal';
@@ -54,13 +52,13 @@ const HvacSchool = () => {
   const { updateContext } = useFreddieContext();
   const { selectedRecipe, setSelectedRecipe } = useRecipeContext();
   const [modalIdx, setModalIdx] = useState<null | number>(null);
-  const [recipeNutrition, setRecipeNutrition] = useState<KeyNutrients | null>(null);
   const [servingSize, setServingSize] = useState(2);
   const [benchPracticeOpen, setBenchPracticeOpen] = useState(false);
   const [activeMobileTab, setActiveMobileTab] = useState<'school' | 'syllabus'>('school');
   const syllabusData = useCurriculumSyllabus(supabase, 'hvac');
 
   const handleLessonClick = (lessonId: string) => {
+    setBenchPracticeOpen(true);
   };
 
   useEffect(() => {
@@ -68,20 +66,6 @@ const HvacSchool = () => {
   }, [updateContext]);
 
 
-  useEffect(() => {
-    if (selectedRecipe && !selectedRecipe.nutrition) {
-      // Calculate nutrition if missing
-      calculateRecipeNutrition(selectedRecipe.ingredients)
-        .then(nutrition => {
-          setRecipeNutrition(nutrition);
-        })
-        .catch(error => {
-          console.error('Error calculating nutrition:', error);
-        });
-    } else {
-      setRecipeNutrition(selectedRecipe?.nutrition || null);
-    }
-  }, [selectedRecipe]);
 
   const isRecipeSelected = !!selectedRecipe;
   const tutorials = isRecipeSelected ? getTwoTutorials(selectedRecipe) : getDefaultTutorials();
@@ -303,17 +287,6 @@ const HvacSchool = () => {
                     <li className="italic text-gray-400">{t('hvacSchool.noIngredientsListed')}</li>
                   )}
                 </ul>
-                {recipeNutrition && (
-                  <div className="mt-2">
-                    <div className="font-semibold mb-1">{t('hvacSchool.nutritionTotal').replace('{servings}', servingSize.toString())}:</div>
-                    <div className="text-sm">
-                      <div>{t('hvacSchool.carbs')}: {(recipeNutrition.carbs * servingSize).toFixed(1)}g</div>
-                      <div>{t('hvacSchool.sugars')}: {(recipeNutrition.sugars * servingSize).toFixed(1)}g</div>
-                      <div>{t('hvacSchool.fiber')}: {(recipeNutrition.fiber * servingSize).toFixed(1)}g</div>
-                      <div>{t('hvacSchool.protein')}: {(recipeNutrition.protein * servingSize).toFixed(1)}g</div>
-                    </div>
-                  </div>
-                )}
               </div>
               {/* Right Page */}
               <div className="flex-1 p-6 bg-white flex flex-col">

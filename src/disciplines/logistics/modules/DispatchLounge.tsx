@@ -9,8 +9,6 @@ import { useRouteContext } from '../components/RouteContext';
 import { RouteCard } from '../components/RouteMatcherModal';
 import { useSupabase } from '../components/SupabaseProvider';
 import GlobalTestDock from '../components/GlobalTestDock';
-import { fetchNutritionData, calculateRouteNutrition } from '../api/nutritionService';
-import { KeyNutrients } from '../types/nutrition';
 
 const DispatchLounge = () => {
   const { t } = useTranslation();
@@ -20,7 +18,6 @@ const DispatchLounge = () => {
   
   // Showcase route state
   const [showcaseRoute, setShowcaseRoute] = useState<any>(null);
-  const [routeNutrition, setRouteNutrition] = useState<KeyNutrients | null>(null);
   const [servingSize, setServingSize] = useState(2);
   const [runbookModalOpen, setRunbookModalOpen] = useState(false);
   
@@ -101,7 +98,7 @@ const DispatchLounge = () => {
   // Open modal for My Runbook import
   const importFromRunbook = () => {
     if (!user) {
-      alert(t('dispatchLounge.pleaseSignIn'));
+      console.error(t('dispatchLounge.pleaseSignIn'));
       return;
     }
     setRunbookModalOpen(true);
@@ -112,7 +109,7 @@ const DispatchLounge = () => {
     
     if (!selectedRoute) {
       console.error('No route selected');
-      alert(t('dispatchLounge.errorNoRecipe'));
+      console.error(t('dispatchLounge.errorNoRecipe'));
       return;
     }
 
@@ -120,24 +117,12 @@ const DispatchLounge = () => {
       // Set the selected route as the showcase route
       setShowcaseRoute(selectedRoute);
       
-      // Calculate nutrition for the route
-      if (selectedRoute.items && Array.isArray(selectedRoute.items)) {
-        try {
-          const nutrition = await calculateRouteNutrition(selectedRoute.items);
-          setRouteNutrition(nutrition);
-        } catch (error) {
-          console.error('Error calculating nutrition:', error);
-          setRouteNutrition(null);
-        }
-      } else {
-        setRouteNutrition(null);
-      }
       
-      alert(t('dispatchLounge.recipeSetToShowcase').replace('{title}', selectedRoute.title));
+      console.log(t('dispatchLounge.recipeSetToShowcase').replace('{title}', selectedRoute.title));
       
     } catch (error) {
       console.error('Error importing route:', error);
-      alert(t('dispatchLounge.failedToImport'));
+      console.error(t('dispatchLounge.failedToImport'));
     } finally {
       setRunbookModalOpen(false);
     }
@@ -257,17 +242,6 @@ const DispatchLounge = () => {
                             <li className="italic text-gray-400">{t('dispatchLounge.noIngredientsListed')}</li>
                           )}
                         </ul>
-                        {routeNutrition && (
-                          <div className="mt-2">
-                            <div className="font-semibold mb-1">{t('dispatchLounge.nutritionTotal').replace('{servings}', servingSize.toString())}:</div>
-                            <div className="text-sm">
-                              <div>{t('dispatchLounge.carbs')}: {(routeNutrition.carbs * servingSize).toFixed(1)}g</div>
-                              <div>{t('dispatchLounge.sugars')}: {(routeNutrition.sugars * servingSize).toFixed(1)}g</div>
-                              <div>{t('dispatchLounge.fiber')}: {(routeNutrition.fiber * servingSize).toFixed(1)}g</div>
-                              <div>{t('dispatchLounge.protein')}: {(routeNutrition.protein * servingSize).toFixed(1)}g</div>
-                            </div>
-                          </div>
-                        )}
                       </div>
                       {/* Right Page */}
                       <div className="flex-1 p-6 bg-white flex flex-col">

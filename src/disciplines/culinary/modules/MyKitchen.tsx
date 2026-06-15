@@ -233,21 +233,21 @@ const MyKitchen = () => {
                   
                   if (newIngredients.length === 0) {
                     setScanStatus(t('myKitchen.noNewIngredients'));
-                    alert(t('myKitchen.noNewIngredients'));
+                    console.log(t('myKitchen.noNewIngredients'));
                   } else {
                     // Check user before saving
                     try {
                       const sessionValid = await isSessionValid();
                       if (!sessionValid || !user) {
                         setScanStatus(t('myKitchen.notSignedIn'));
-                        alert(t('myKitchen.notSignedIn'));
+                        console.error(t('myKitchen.notSignedIn'));
                         setScanLoading(false);
                         return;
                       }
                     } catch (userErr) {
                       console.error('Error fetching user:', userErr);
                       setScanStatus(t('myKitchen.couldNotVerify'));
-                      alert(t('myKitchen.couldNotVerify'));
+                      console.error(t('myKitchen.couldNotVerify'));
                       setScanLoading(false);
                       return;
                     }
@@ -260,17 +260,17 @@ const MyKitchen = () => {
                       await saveKitchen(user?.id!, updatedIngredients);
                       setKitchenError(null);
                       setScanStatus(t('myKitchen.ingredientsSaved'));
-                      alert(t('myKitchen.ingredientsSaved'));
+                      console.log(t('myKitchen.ingredientsSaved'));
                     } catch (err: any) {
                       setKitchenError(t('myKitchen.failedToSave') + ' ' + (err.message || err.toString()));
                       setScanStatus(t('myKitchen.failedToSave') + ' ' + (err.message || err.toString()));
-                      alert(t('myKitchen.failedToSave') + ' ' + (err.message || err.toString()));
+                      console.error(t('myKitchen.failedToSave') + ' ' + (err.message || err.toString()))
                     }
                   }
                   setDetectedIngredients([]);
                 } catch (err: any) {
                   setScanError(err.message || t('myKitchen.failedToScan'));
-                  alert(t('myKitchen.failedToScan') + ': ' + (err.message || err.toString()));
+                  console.error(t('myKitchen.failedToScan') + ': ' + (err.message || err.toString()))
                 }
                 setScanLoading(false);
               };

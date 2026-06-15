@@ -228,21 +228,21 @@ const MySite = () => {
                   
                   if (newIngredients.length === 0) {
                     setScanStatus(t('mySite.noNewIngredients'));
-                    alert(t('mySite.noNewIngredients'));
+                    console.log(t('mySite.noNewIngredients'));
                   } else {
                     // Check user before saving
                     try {
                       const sessionValid = await isSessionValid();
                       if (!sessionValid || !user) {
                         setScanStatus(t('mySite.notSignedIn'));
-                        alert(t('mySite.notSignedIn'));
+                        console.error(t('mySite.notSignedIn'));
                         setScanLoading(false);
                         return;
                       }
                     } catch (userErr) {
                       console.error('Error fetching user:', userErr);
                       setScanStatus(t('mySite.couldNotVerify'));
-                      alert(t('mySite.couldNotVerify'));
+                      console.error(t('mySite.couldNotVerify'));
                       setScanLoading(false);
                       return;
                     }
@@ -255,17 +255,17 @@ const MySite = () => {
                       await saveKitchen(user?.id!, updatedIngredients);
                       setKitchenError(null);
                       setScanStatus(t('mySite.ingredientsSaved'));
-                      alert(t('mySite.ingredientsSaved'));
+                      console.log(t('mySite.ingredientsSaved'));
                     } catch (err: any) {
                       setKitchenError(t('mySite.failedToSave') + ' ' + (err.message || err.toString()));
                       setScanStatus(t('mySite.failedToSave') + ' ' + (err.message || err.toString()));
-                      alert(t('mySite.failedToSave') + ' ' + (err.message || err.toString()));
+                      console.error(t('mySite.failedToSave') + ' ' + (err.message || err.toString()))
                     }
                   }
                   setDetectedIngredients([]);
                 } catch (err: any) {
                   setScanError(err.message || t('mySite.failedToScan'));
-                  alert(t('mySite.failedToScan') + ': ' + (err.message || err.toString()));
+                  console.error(t('mySite.failedToScan') + ': ' + (err.message || err.toString()))
                 }
                 setScanLoading(false);
               };

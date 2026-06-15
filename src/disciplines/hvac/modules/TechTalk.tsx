@@ -9,8 +9,6 @@ import { useRecipeContext } from '../components/SystemContext';
 import { RecipeCard } from '../components/SystemMatcherModal';
 import { useSupabase } from '../components/SupabaseProvider';
 import GlobalTestShop from '../components/GlobalTestShop';
-import { fetchNutritionData, calculateRecipeNutrition } from '../api/nutritionService';
-import { KeyNutrients } from '../types/nutrition';
 
 const TechTalk = () => {
   const { t } = useTranslation();
@@ -20,7 +18,6 @@ const TechTalk = () => {
   
   // Showcase recipe state
   const [showcaseRecipe, setShowcaseRecipe] = useState<any>(null);
-  const [recipeNutrition, setRecipeNutrition] = useState<KeyNutrients | null>(null);
   const [servingSize, setServingSize] = useState(2);
   const [cookbookModalOpen, setCookbookModalOpen] = useState(false);
   
@@ -137,7 +134,7 @@ const TechTalk = () => {
   // Open modal for My CookBook import
   const importFromCookBook = () => {
     if (!user) {
-      alert(t('techTalk.pleaseSignIn'));
+      console.error(t('techTalk.pleaseSignIn'));
       return;
     }
     setCookbookModalOpen(true);
@@ -148,7 +145,7 @@ const TechTalk = () => {
     
     if (!selectedRecipe) {
       console.error('No recipe selected');
-      alert(t('techTalk.errorNoRecipe'));
+      console.error(t('techTalk.errorNoRecipe'));
       return;
     }
 
@@ -156,24 +153,12 @@ const TechTalk = () => {
       // Set the selected recipe as the showcase recipe
       setShowcaseRecipe(selectedRecipe);
       
-      // Calculate nutrition for the recipe
-      if (selectedRecipe.ingredients && Array.isArray(selectedRecipe.ingredients)) {
-        try {
-          const nutrition = await calculateRecipeNutrition(selectedRecipe.ingredients);
-          setRecipeNutrition(nutrition);
-        } catch (error) {
-          console.error('Error calculating nutrition:', error);
-          setRecipeNutrition(null);
-        }
-      } else {
-        setRecipeNutrition(null);
-      }
       
-      alert(t('techTalk.recipeSetToShowcase').replace('{title}', selectedRecipe.title));
+      console.log(t('techTalk.recipeSetToShowcase').replace('{title}', selectedRecipe.title));
       
     } catch (error) {
       console.error('Error importing recipe:', error);
-      alert(t('techTalk.failedToImport'));
+      console.error(t('techTalk.failedToImport'));
     } finally {
       setCookbookModalOpen(false);
     }
@@ -293,17 +278,6 @@ const TechTalk = () => {
                             <li className="italic text-gray-400">{t('techTalk.noIngredientsListed')}</li>
                           )}
                         </ul>
-                        {recipeNutrition && (
-                          <div className="mt-2">
-                            <div className="font-semibold mb-1">{t('techTalk.nutritionTotal').replace('{servings}', servingSize.toString())}:</div>
-                            <div className="text-sm">
-                              <div>{t('techTalk.carbs')}: {(recipeNutrition.carbs * servingSize).toFixed(1)}g</div>
-                              <div>{t('techTalk.sugars')}: {(recipeNutrition.sugars * servingSize).toFixed(1)}g</div>
-                              <div>{t('techTalk.fiber')}: {(recipeNutrition.fiber * servingSize).toFixed(1)}g</div>
-                              <div>{t('techTalk.protein')}: {(recipeNutrition.protein * servingSize).toFixed(1)}g</div>
-                            </div>
-                          </div>
-                        )}
                       </div>
                       {/* Right Page */}
                       <div className="flex-1 p-6 bg-white flex flex-col">

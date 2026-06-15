@@ -445,7 +445,7 @@ const MyPanel = () => {
 
                     setScanStatus(t('myPanel.noNewIngredients'));
 
-                    alert(t('myPanel.noNewIngredients'));
+                    console.log(t('myPanel.noNewIngredients'));
 
                   } else {
 
@@ -460,7 +460,7 @@ const MyPanel = () => {
 
                         setScanStatus(t('myPanel.notSignedIn'));
 
-                        alert(t('myPanel.notSignedIn'));
+                        console.error(t('myPanel.notSignedIn'));
 
                         setScanLoading(false);
 
@@ -474,7 +474,7 @@ const MyPanel = () => {
 
                       setScanStatus(t('myPanel.couldNotVerify'));
 
-                      alert(t('myPanel.couldNotVerify'));
+                      console.error(t('myPanel.couldNotVerify'));
 
                       setScanLoading(false);
 
@@ -500,7 +500,7 @@ const MyPanel = () => {
 
                       setScanStatus(t('myPanel.ingredientsSaved'));
 
-                      alert(t('myPanel.ingredientsSaved'));
+                      console.log(t('myPanel.ingredientsSaved'));
 
                     } catch (err: any) {
 
@@ -508,7 +508,7 @@ const MyPanel = () => {
 
                       setScanStatus(t('myPanel.failedToSave') + ' ' + (err.message || err.toString()));
 
-                      alert(t('myPanel.failedToSave') + ' ' + (err.message || err.toString()));
+                      console.error(t('myPanel.failedToSave') + ' ' + (err.message || err.toString()))
 
                     }
 
@@ -520,7 +520,7 @@ const MyPanel = () => {
 
                   setScanError(err.message || t('myPanel.failedToScan'));
 
-                  alert(t('myPanel.failedToScan') + ': ' + (err.message || err.toString()));
+                  console.error(t('myPanel.failedToScan') + ': ' + (err.message || err.toString()))
 
                 }
 

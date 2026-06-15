@@ -65,7 +65,7 @@ const SpecBookImportModal: React.FC<SpecBookImportModalProps> = ({
       
     } catch (error) {
       console.error('Error during import:', error);
-      alert(wt('failedToImport', 'Failed to import spec. Please try again.'));
+      console.error(wt('failedToImport', 'Failed to import spec. Please try again.'));
     } finally {
       setIsLoading(false);
     }

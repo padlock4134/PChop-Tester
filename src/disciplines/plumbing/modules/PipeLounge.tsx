@@ -24,9 +24,6 @@ import GlobalTestVan from '../components/GlobalTestVan';
 
 import { useSupabase } from '../components/SupabaseProvider';
 
-import { fetchNutritionData, calculateRecipeNutrition } from '../api/nutritionService';
-
-import { KeyNutrients } from '../types/nutrition';
 
 
 
@@ -46,7 +43,6 @@ const PipeLounge = () => {
 
   const [showcaseRecipe, setShowcaseRecipe] = useState<any>(null);
 
-  const [recipeNutrition, setRecipeNutrition] = useState<KeyNutrients | null>(null);
 
   const [servingSize, setServingSize] = useState(2);
 
@@ -128,7 +124,7 @@ const PipeLounge = () => {
 
     if (!user) {
 
-      alert(t('pipeLounge.pleaseSignIn'));
+      console.error(t('pipeLounge.pleaseSignIn'));
 
       return;
 
@@ -151,7 +147,7 @@ const PipeLounge = () => {
 
       console.error('No fit selected');
 
-      alert(t('pipeLounge.errorNoRecipe'));
+      console.error(t('pipeLounge.errorNoRecipe'));
 
       return;
 
@@ -169,31 +165,10 @@ const PipeLounge = () => {
 
       // Calculate nutrition for the fit
 
-      if (selectedRecipe.materials && Array.isArray(selectedRecipe.materials)) {
-
-        try {
-
-          const nutrition = await calculateRecipeNutrition(selectedRecipe.materials);
-
-          setRecipeNutrition(nutrition);
-
-        } catch (error) {
-
-          console.error('Error calculating nutrition:', error);
-
-          setRecipeNutrition(null);
-
-        }
-
-      } else {
-
-        setRecipeNutrition(null);
-
-      }
 
       
 
-      alert(t('pipeLounge.recipeSetToShowcase').replace('{title}', selectedRecipe.title));
+      console.log(t('pipeLounge.recipeSetToShowcase').replace('{title}', selectedRecipe.title));
 
       
 
@@ -201,7 +176,7 @@ const PipeLounge = () => {
 
       console.error('Error importing fit:', error);
 
-      alert(t('pipeLounge.failedToImport'));
+      console.error(t('pipeLounge.failedToImport'));
 
     } finally {
 
@@ -441,27 +416,6 @@ const PipeLounge = () => {
 
                         </ul>
 
-                        {recipeNutrition && (
-
-                          <div className="mt-2">
-
-                            <div className="font-semibold mb-1">{t('pipeLounge.nutritionTotal').replace('{servings}', servingSize.toString())}:</div>
-
-                            <div className="text-sm">
-
-                              <div>{t('pipeLounge.carbs')}: {(recipeNutrition.carbs * servingSize).toFixed(1)}g</div>
-
-                              <div>{t('pipeLounge.sugars')}: {(recipeNutrition.sugars * servingSize).toFixed(1)}g</div>
-
-                              <div>{t('pipeLounge.fiber')}: {(recipeNutrition.fiber * servingSize).toFixed(1)}g</div>
-
-                              <div>{t('pipeLounge.protein')}: {(recipeNutrition.protein * servingSize).toFixed(1)}g</div>
-
-                            </div>
-
-                          </div>
-
-                        )}
 
                       </div>
 

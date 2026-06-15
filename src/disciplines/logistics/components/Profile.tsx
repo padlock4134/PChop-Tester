@@ -92,7 +92,7 @@ const EditProfileModal = ({
 
       if (error) {
         console.error('Error updating profile:', error);
-        alert(t('profile.failedToSaveProfile'));
+        console.error(t('profile.failedToSaveProfile'));
         return;
       }
 
@@ -110,7 +110,7 @@ const EditProfileModal = ({
       onClose();
     } catch (error) {
       console.error('Error saving profile:', error);
-      alert('Failed to save profile changes. Please try again.');
+      console.error('Failed to save profile changes. Please try again.');
     }
   };
 
@@ -421,7 +421,7 @@ const RequestsModal = ({ open, onClose }: { open: boolean; onClose: () => void }
   
   const handleSubmit = () => {
     if (!selectedType || !requestDetails.trim()) {
-      alert(t('profile.pleaseSelectRequestType'));
+      console.error(t('profile.pleaseSelectRequestType'));
       return;
     }
     setShowSuccess(true);
@@ -1204,7 +1204,7 @@ Generated: ${currentDate}`;
       // Left-click: Add talent (with validation)
       const maxTalents = Math.floor(userProfile.xp / 100); // 1 talent per 100 XP
       if (selectedTalents.length >= maxTalents) {
-        alert(t('profile.talents.maxSelectionAlert', { defaultValue: 'You can only select {{count}} talents at your current level.', count: maxTalents }));
+        console.error(t('profile.talents.maxSelectionAlert', { defaultValue: 'You can only select {{count}} talents at your current level.', count: maxTalents }));
         return;
       }
       newSelectedTalents = [...selectedTalents, talentName];
@@ -1226,13 +1226,13 @@ Generated: ${currentDate}`;
         console.error('Error saving talents:', error);
         // Revert local state if save failed
         setSelectedTalents(selectedTalents);
-        alert(t('profile.talents.saveFailed', { defaultValue: 'Failed to save talent selection. Please try again.' }));
+        console.error(t('profile.talents.saveFailed', { defaultValue: 'Failed to save talent selection. Please try again.' }));
       }
     } catch (error) {
       console.error('Error saving talents:', error);
       // Revert local state if save failed
       setSelectedTalents(selectedTalents);
-      alert(t('profile.talents.saveFailed', { defaultValue: 'Failed to save talent selection. Please try again.' }));
+      console.error(t('profile.talents.saveFailed', { defaultValue: 'Failed to save talent selection. Please try again.' }));
     }
   };
 
@@ -1429,7 +1429,7 @@ Generated: ${currentDate}`;
         
       } catch (error) {
         console.error('Error uploading avatar:', error);
-        alert('Failed to upload avatar. Please try again.');
+        console.error('Failed to upload avatar. Please try again.');
       } finally {
         setAvatarUploading(false);
       }

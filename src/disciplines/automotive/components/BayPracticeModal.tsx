@@ -29,7 +29,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose, 
     setModeNotice(null);
     const lessonTitle = getPracticeLessonTitle(courses, selectedLesson);
     if (!lessonTitle) {
-      alert('Please select a lesson first.');
+      console.error('Please select a lesson first.');
       return;
     }
 
@@ -49,7 +49,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose, 
       }
 
       // Fallback: Show placeholder if no default scene exists
-      alert('AR scene not available for this lesson yet. Please select a different lesson.');
+      console.error('AR scene not available for this lesson yet. Please select a different lesson.');
     } catch (error) {
       console.error('Error starting virtual practice:', error);
     }
@@ -121,7 +121,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose, 
               <ARGarageScene 
                 scene={arScene}
                 onComplete={() => {
-                  alert(t('autoSchool.diagnosticBay.practiceComplete'));
+                  console.log(t('autoSchool.diagnosticBay.practiceComplete'));
                   cleanupPractice();
                 }}
                 guideOpen={guideOpen}

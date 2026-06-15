@@ -29,7 +29,7 @@ const InstallPWAButton: React.FC = () => {
     e.stopPropagation();
     
     if (isIOS) {
-      window.alert('To install PorkChop on iOS, tap the Share icon in Safari, then choose "Add to Home Screen".');
+      console.log('To install PorkChop on iOS, tap the Share icon in Safari, then choose "Add to Home Screen".');
     } else if (deferredPrompt) {
       deferredPrompt.prompt();
       deferredPrompt.userChoice.then(() => setDeferredPrompt(null));

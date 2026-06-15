@@ -30,9 +30,6 @@ const PostComposer = () => {
       // Check if this is a repair share (simplified check for repair keywords)
       const isRepairShare = /repair|parts?|instructions?|method|steps|service|labor time|procedure/i.test(input);
       
-      // In a real app, you would upload the image and create the post here
-      // For now, we'll just simulate a successful post
-      
       if (isRepairShare) {
         // Award XP for sharing a repair guide
         const { error } = await supabase.rpc('increment_user_xp', {
@@ -59,11 +56,11 @@ const PostComposer = () => {
       setImage(null);
       
       // Show success message or update UI
-      alert('Post shared successfully!' + (isRepairShare ? ' +' + XP_REWARDS.REPAIR_SHARE + ' XP for sharing a repair guide!' : ''));
+      console.log('Post shared successfully!' + (isRepairShare ? ' +' + XP_REWARDS.REPAIR_SHARE + ' XP for sharing a repair guide!' : ''));
       
     } catch (error) {
       console.error('Error sharing post:', error);
-      alert('Failed to share post. Please try again.');
+      console.error('Failed to share post. Please try again.');
     } finally {
       setIsSubmitting(false);
     }

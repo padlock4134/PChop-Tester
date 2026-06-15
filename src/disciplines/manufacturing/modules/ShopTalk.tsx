@@ -9,8 +9,6 @@ import { useRecipeContext } from '../components/ProcessContext';
 import { RecipeCard } from '../components/ProcessMatcherModal';
 import ProductionLine from '../components/GlobalTestFloor';
 import { useSupabase } from '../../../components/DisciplineSupabaseProvider';
-import { fetchNutritionData, calculateRecipeNutrition } from '../api/nutritionService';
-import { KeyNutrients } from '../types/nutrition';
 
 const ShopTalk = () => {
   const { t } = useTranslation();
@@ -20,7 +18,6 @@ const ShopTalk = () => {
   
   // Showcase recipe state
   const [showcaseRecipe, setShowcaseRecipe] = useState<any>(null);
-  const [recipeNutrition, setRecipeNutrition] = useState<KeyNutrients | null>(null);
   const [servingSize, setServingSize] = useState(2);
   const [cookbookModalOpen, setCookbookModalOpen] = useState(false);
   
@@ -155,7 +152,7 @@ const ShopTalk = () => {
       return;
     }
     if (!user) {
-      alert(t('shopTalk.pleaseSignIn'));
+      console.error(t('shopTalk.pleaseSignIn'));
       return;
     }
     setCookbookModalOpen(true);
@@ -166,7 +163,7 @@ const ShopTalk = () => {
     
     if (!selectedRecipe) {
       console.error('No recipe selected');
-      alert(t('shopTalk.errorNoRecipe'));
+      console.error(t('shopTalk.errorNoRecipe'));
       return;
     }
 
@@ -174,24 +171,12 @@ const ShopTalk = () => {
       // Set the selected recipe as the showcase recipe
       setShowcaseRecipe(selectedRecipe);
       
-      // Calculate nutrition for the recipe
-      if (selectedRecipe.ingredients && Array.isArray(selectedRecipe.ingredients)) {
-        try {
-          const nutrition = await calculateRecipeNutrition(selectedRecipe.ingredients);
-          setRecipeNutrition(nutrition);
-        } catch (error) {
-          console.error('Error calculating nutrition:', error);
-          setRecipeNutrition(null);
-        }
-      } else {
-        setRecipeNutrition(null);
-      }
       
-      alert(t('shopTalk.recipeSetToShowcase').replace('{title}', selectedRecipe.title));
+      console.log(t('shopTalk.recipeSetToShowcase').replace('{title}', selectedRecipe.title));
       
     } catch (error) {
       console.error('Error importing recipe:', error);
-      alert(t('shopTalk.failedToImport'));
+      console.error(t('shopTalk.failedToImport'));
     } finally {
       setCookbookModalOpen(false);
     }
@@ -311,17 +296,6 @@ const ShopTalk = () => {
                             <li className="italic text-gray-400">{t('shopTalk.noIngredientsListed')}</li>
                           )}
                         </ul>
-                        {recipeNutrition && (
-                          <div className="mt-2">
-                            <div className="font-semibold mb-1">{t('shopTalk.nutritionTotal').replace('{servings}', servingSize.toString())}:</div>
-                            <div className="text-sm">
-                              <div>{t('shopTalk.carbs')}: {(recipeNutrition.carbs * servingSize).toFixed(1)}g</div>
-                              <div>{t('shopTalk.sugars')}: {(recipeNutrition.sugars * servingSize).toFixed(1)}g</div>
-                              <div>{t('shopTalk.fiber')}: {(recipeNutrition.fiber * servingSize).toFixed(1)}g</div>
-                              <div>{t('shopTalk.protein')}: {(recipeNutrition.protein * servingSize).toFixed(1)}g</div>
-                            </div>
-                          </div>
-                        )}
                       </div>
                       {/* Right Page */}
                       <div className="flex-1 p-6 bg-white flex flex-col">

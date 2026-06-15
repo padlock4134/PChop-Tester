@@ -5,8 +5,6 @@ import { useFreddieContext } from '../components/PipeFreddieContext';
 import { useRecipeContext } from '../components/FitContext';
 import VideoModal from '../components/VideoModal';
 import { getTutorialVideo, TutorialVideoResult } from '../utils/videoSearch';
-import { calculateRecipeNutrition } from '../api/nutritionService';
-import { KeyNutrients } from '../types/nutrition';
 import SyllabusCard from '../components/SyllabusCard';
 import JobTimer from '../components/JobTimer';
 import FitPracticeModal from '../components/FitPracticeModal';
@@ -55,33 +53,19 @@ const PlumbingSchool = () => {
   const { updateContext } = useFreddieContext();
   const { selectedRecipe, setSelectedRecipe } = useRecipeContext();
   const [modalIdx, setModalIdx] = useState<null | number>(null);
-  const [fitNutrition, setFitNutrition] = useState<KeyNutrients | null>(null);
   const [servingSize, setServingSize] = useState(2);
   const [benchPracticeOpen, setBenchPracticeOpen] = useState(false);
   const [activeMobileTab, setActiveMobileTab] = useState<'school' | 'syllabus'>('school');
   const syllabusData = useCurriculumSyllabus(supabase, 'plumbing');
 
   const handleLessonClick = (lessonId: string) => {
+    setBenchPracticeOpen(true);
   };
 
   useEffect(() => {
     updateContext({ page: 'PlumbingSchool' });
   }, [updateContext]);
 
-  useEffect(() => {
-    if (selectedRecipe && !selectedRecipe.nutrition) {
-      // Calculate nutrition if missing
-      calculateRecipeNutrition(selectedRecipe.materials)
-        .then(nutrition => {
-          setFitNutrition(nutrition);
-        })
-        .catch(error => {
-          console.error('Error calculating nutrition:', error);
-        });
-    } else {
-      setFitNutrition(selectedRecipe?.nutrition || null);
-    }
-  }, [selectedRecipe]);
 
   const isRecipeSelected = !!selectedRecipe;
   const tutorials = isRecipeSelected ? getTwoTutorials(selectedRecipe, t) : getDefaultTutorials(t);
@@ -300,17 +284,6 @@ const PlumbingSchool = () => {
                     <li className="italic text-gray-400">{t('plumbingSchool.noIngredientsListed')}</li>
                   )}
                 </ul>
-                {fitNutrition && (
-                  <div className="mt-2">
-                    <div className="font-semibold mb-1">{t('plumbingSchool.nutritionTotal').replace('{servings}', servingSize.toString())}:</div>
-                    <div className="text-sm">
-                      <div>{t('plumbingSchool.carbs')}: {(fitNutrition.carbs * servingSize).toFixed(1)}g</div>
-                      <div>{t('plumbingSchool.sugars')}: {(fitNutrition.sugars * servingSize).toFixed(1)}g</div>
-                      <div>{t('plumbingSchool.fiber')}: {(fitNutrition.fiber * servingSize).toFixed(1)}g</div>
-                      <div>{t('plumbingSchool.protein')}: {(fitNutrition.protein * servingSize).toFixed(1)}g</div>
-                    </div>
-                  </div>
-                )}
               </div>
               {/* Right Page */}
               <div className="flex-1 p-6 bg-white flex flex-col">

@@ -9,8 +9,6 @@ import { useRecipeContext } from '../components/CircuitContext';
 import { RecipeCard } from '../components/CircuitMatcherModal';
 import { useSupabase } from '../../../components/DisciplineSupabaseProvider';
 import GlobalTestPanel from '../components/GlobalTestPanel';
-import { fetchNutritionData, calculateRecipeNutrition } from '../api/nutritionService';
-import { KeyNutrients } from '../types/nutrition';
 
 const WireLounge = () => {
   const { t } = useTranslation();
@@ -20,7 +18,6 @@ const WireLounge = () => {
   
   // Showcase recipe state
   const [showcaseRecipe, setShowcaseRecipe] = useState<any>(null);
-  const [recipeNutrition, setRecipeNutrition] = useState<KeyNutrients | null>(null);
   const [servingSize, setServingSize] = useState(2);
   const [cookbookModalOpen, setCookbookModalOpen] = useState(false);
   
@@ -151,7 +148,7 @@ const WireLounge = () => {
   // Open modal for My CookBook import
   const importFromCookBook = () => {
     if (!user) {
-      alert(t('wireLounge.pleaseSignIn'));
+      console.error(t('wireLounge.pleaseSignIn'));
       return;
     }
     setCookbookModalOpen(true);
@@ -162,7 +159,7 @@ const WireLounge = () => {
     
     if (!selectedRecipe) {
       console.error('No recipe selected');
-      alert(t('wireLounge.errorNoRecipe'));
+      console.error(t('wireLounge.errorNoRecipe'));
       return;
     }
 
@@ -170,24 +167,12 @@ const WireLounge = () => {
       // Set the selected recipe as the showcase recipe
       setShowcaseRecipe(selectedRecipe);
       
-      // Calculate nutrition for the recipe
-      if (selectedRecipe.ingredients && Array.isArray(selectedRecipe.ingredients)) {
-        try {
-          const nutrition = await calculateRecipeNutrition(selectedRecipe.ingredients);
-          setRecipeNutrition(nutrition);
-        } catch (error) {
-          console.error('Error calculating nutrition:', error);
-          setRecipeNutrition(null);
-        }
-      } else {
-        setRecipeNutrition(null);
-      }
       
-      alert(t('wireLounge.recipeSetToShowcase').replace('{title}', selectedRecipe.title));
+      console.log(t('wireLounge.recipeSetToShowcase').replace('{title}', selectedRecipe.title));
       
     } catch (error) {
       console.error('Error importing recipe:', error);
-      alert(t('wireLounge.failedToImport'));
+      console.error(t('wireLounge.failedToImport'));
     } finally {
       setCookbookModalOpen(false);
     }
@@ -307,17 +292,6 @@ const WireLounge = () => {
                             <li className="italic text-gray-400">{t('wireLounge.noIngredientsListed')}</li>
                           )}
                         </ul>
-                        {recipeNutrition && (
-                          <div className="mt-2">
-                            <div className="font-semibold mb-1">{t('wireLounge.nutritionTotal').replace('{servings}', servingSize.toString())}:</div>
-                            <div className="text-sm">
-                              <div>{t('wireLounge.carbs')}: {(recipeNutrition.carbs * servingSize).toFixed(1)}g</div>
-                              <div>{t('wireLounge.sugars')}: {(recipeNutrition.sugars * servingSize).toFixed(1)}g</div>
-                              <div>{t('wireLounge.fiber')}: {(recipeNutrition.fiber * servingSize).toFixed(1)}g</div>
-                              <div>{t('wireLounge.protein')}: {(recipeNutrition.protein * servingSize).toFixed(1)}g</div>
-                            </div>
-                          </div>
-                        )}
                       </div>
                       {/* Right Page */}
                       <div className="flex-1 p-6 bg-white flex flex-col">

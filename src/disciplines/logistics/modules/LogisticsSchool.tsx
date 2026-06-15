@@ -5,8 +5,6 @@ import { useFreddieContext } from '../components/DockFreddieContext';
 import VideoModal from '../components/VideoModal';
 import { useRouteContext } from '../components/RouteContext';
 import { getTutorialVideo, TutorialVideoResult } from '../utils/videoSearch';
-import { calculateRouteNutrition } from '../api/nutritionService';
-import { KeyNutrients } from '../types/nutrition';
 import SyllabusCard from '../components/SyllabusCard';
 import ShipmentTimer from '../components/ShipmentTimer';
 import DockPracticeModal from '../components/DockPracticeModal';
@@ -54,33 +52,19 @@ const LogisticsSchool = () => {
   const { updateContext } = useFreddieContext();
   const { selectedRoute, setSelectedRoute } = useRouteContext();
   const [modalIdx, setModalIdx] = useState<null | number>(null);
-  const [routeNutrition, setRouteNutrition] = useState<KeyNutrients | null>(null);
   const [servingSize, setServingSize] = useState(2);
   const [benchPracticeOpen, setBenchPracticeOpen] = useState(false);
   const [activeMobileTab, setActiveMobileTab] = useState<'school' | 'syllabus'>('school');
   const syllabusData = useCurriculumSyllabus(supabase, 'logistics');
 
   const handleLessonClick = (lessonId: string) => {
+    setBenchPracticeOpen(true);
   };
 
   useEffect(() => {
     updateContext({ page: 'LogisticsSchool' });
   }, [updateContext]);
 
-  useEffect(() => {
-    if (selectedRoute && !selectedRoute.nutrition) {
-      // Calculate nutrition if missing
-      calculateRouteNutrition(selectedRoute.items)
-        .then(nutrition => {
-          setRouteNutrition(nutrition);
-        })
-        .catch(error => {
-          console.error('Error calculating nutrition:', error);
-        });
-    } else {
-      setRouteNutrition(selectedRoute?.nutrition || null);
-    }
-  }, [selectedRoute]);
 
   const isRouteSelected = !!selectedRoute;
   const tutorials = isRouteSelected ? getTwoTutorials(selectedRoute) : getDefaultTutorials();
@@ -299,17 +283,6 @@ const LogisticsSchool = () => {
                     <li className="italic text-gray-400">{t('logisticsSchool.noIngredientsListed')}</li>
                   )}
                 </ul>
-                {routeNutrition && (
-                  <div className="mt-2">
-                    <div className="font-semibold mb-1">{t('logisticsSchool.nutritionTotal').replace('{servings}', servingSize.toString())}:</div>
-                    <div className="text-sm">
-                      <div>{t('logisticsSchool.carbs')}: {(routeNutrition.carbs * servingSize).toFixed(1)}g</div>
-                      <div>{t('logisticsSchool.sugars')}: {(routeNutrition.sugars * servingSize).toFixed(1)}g</div>
-                      <div>{t('logisticsSchool.fiber')}: {(routeNutrition.fiber * servingSize).toFixed(1)}g</div>
-                      <div>{t('logisticsSchool.protein')}: {(routeNutrition.protein * servingSize).toFixed(1)}g</div>
-                    </div>
-                  </div>
-                )}
               </div>
               {/* Right Page */}
               <div className="flex-1 p-6 bg-white flex flex-col">

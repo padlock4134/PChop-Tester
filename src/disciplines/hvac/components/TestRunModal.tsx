@@ -171,7 +171,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
   const handleRecipeMatcherOpen = () => {
     // Only show if user has added ingredients
     if (ingredients.length === 0) {
-      alert('Please add some components to your shop inventory first!');
+      console.error('Please add some components to your shop inventory first!');
       return;
     }
     
@@ -183,12 +183,8 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
   };
 
   const handleLike = () => {
-    setIsSaving(true);
-    // Simulate API call
-    setTimeout(() => {
-      setIsSaving(false);
-      handleSkip();
-    }, 500);
+    setIsSaving(false);
+    handleSkip();
   };
 
   const handleSkip = () => {
@@ -270,7 +266,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
           />
           <button
             className="bg-lobsterRed text-weatheredWhite px-4 py-2 rounded font-bold hover:bg-seafoam hover:text-maineBlue transition-colors w-full sm:w-auto max-w-xs flex items-center justify-center gap-2"
-            onClick={() => alert('Functionality available in app. Please try again later.')}
+            onClick={() => console.log('Functionality available in app. Please try again later.')}
           >
             Scan Shop
           </button>

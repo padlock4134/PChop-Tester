@@ -75,10 +75,10 @@ const ClassRegistrationModal: React.FC<ClassRegistrationModalProps> = ({ open, o
                 />
                 <div>
                   <label htmlFor="cul101" className="font-semibold text-maineBlue cursor-pointer">
-                    CUL 101 - Knife Skills & Safety
+CON 101 - Site Safety
                   </label>
-                  <div className="text-sm text-gray-600">Monday 9:00 AM - 11:00 AM • Lab Kitchen A</div>
-                  <div className="text-xs text-gray-500">Instructor: Chef Martinez</div>
+                  <div className="text-sm text-gray-600">Monday 9:00 AM - 11:00 AM • Site A</div>
+                  <div className="text-xs text-gray-500">Instructor: Foreman Martinez</div>
                 </div>
               </div>
               <div className="text-right">
@@ -102,10 +102,10 @@ const ClassRegistrationModal: React.FC<ClassRegistrationModalProps> = ({ open, o
                 />
                 <div>
                   <label htmlFor="cul205" className="font-semibold text-maineBlue cursor-pointer">
-                    CUL 205 - Seafood Preparation
+CON 205 - Framing
                   </label>
-                  <div className="text-sm text-gray-600">Wednesday 1:00 PM - 4:00 PM • Lab Kitchen B</div>
-                  <div className="text-xs text-gray-500">Instructor: Chef Thompson</div>
+                  <div className="text-sm text-gray-600">Wednesday 1:00 PM - 4:00 PM • Site B</div>
+                  <div className="text-xs text-gray-500">Instructor: Foreman Thompson</div>
                 </div>
               </div>
               <div className="text-right">
@@ -129,10 +129,10 @@ const ClassRegistrationModal: React.FC<ClassRegistrationModalProps> = ({ open, o
                 />
                 <div>
                   <label htmlFor="cul150" className="font-semibold text-maineBlue cursor-pointer">
-                    CUL 150 - Pastry Fundamentals
+CON 150 - Blueprint Reading
                   </label>
-                  <div className="text-sm text-gray-600">Friday 10:00 AM - 12:00 PM • Baking Lab</div>
-                  <div className="text-xs text-gray-500">Instructor: Chef Rodriguez</div>
+                  <div className="text-sm text-gray-600">Friday 10:00 AM - 12:00 PM • Shop</div>
+                  <div className="text-xs text-gray-500">Instructor: Foreman Rodriguez</div>
                 </div>
               </div>
               <div className="text-right">
@@ -155,10 +155,10 @@ const ClassRegistrationModal: React.FC<ClassRegistrationModalProps> = ({ open, o
                 />
                 <div>
                   <label className="font-semibold text-gray-600 cursor-not-allowed">
-                    CUL 301 - Advanced Sauce Making
+CON 301 - Advanced Structures
                   </label>
-                  <div className="text-sm text-gray-500">Tuesday 2:00 PM - 5:00 PM • Lab Kitchen C</div>
-                  <div className="text-xs text-gray-500">Instructor: Chef Williams</div>
+                  <div className="text-sm text-gray-500">Tuesday 2:00 PM - 5:00 PM • Site C</div>
+                  <div className="text-xs text-gray-500">Instructor: Foreman Williams</div>
                 </div>
               </div>
               <div className="text-right">
@@ -166,7 +166,7 @@ const ClassRegistrationModal: React.FC<ClassRegistrationModalProps> = ({ open, o
                 <div className="text-xs text-gray-500">4 available</div>
               </div>
             </div>
-            <div className="text-xs text-red-600 ml-7">✗ {t('registration.requires')} CUL 201 (Basic Sauces)</div>
+            <div className="text-xs text-red-600 ml-7">✗ {t('registration.requires')} CON 201 (Basic Construction)</div>
           </div>
         </div>
 

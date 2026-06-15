@@ -30,7 +30,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose, 
     setModeNotice(null);
     const lessonTitle = getPracticeLessonTitle(courses, selectedLesson);
     if (!lessonTitle) {
-      alert('Please select a lesson first.');
+      console.error('Please select a lesson first.');
       return;
     }
 
@@ -72,7 +72,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose, 
       }
     } catch (error) {
       console.error('Error generating AR practice:', error);
-      alert('Could not generate AR practice scene');
+      console.error('Could not generate AR practice scene');
       setIsPracticing(false);
     } finally {
       setIsGeneratingAR(false);
@@ -152,7 +152,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose, 
               <ARShopScene 
                 scene={arScene}
                 onComplete={() => {
-                  alert('Practice complete! Great work.');
+                  console.log('Practice complete! Great work.');
                   cleanupPractice();
                 }}
                 guideOpen={guideOpen}

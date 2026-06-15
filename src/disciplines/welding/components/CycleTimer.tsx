@@ -172,10 +172,10 @@ const CycleTimer: React.FC<CycleTimerProps> = ({ servingSize, setServingSize }) 
         </div>
         
         <div className="text-xs text-gray-500">
-          *1 serving = ~400-600 calories or 1 cup portions
+          *1 operator = 1 learner assigned to the welding station.
         </div>
         <div className="text-xs text-gray-400 mt-1">
-          Recommended nutritional values and numbers provided by the USDA
+          Time recommendations scale by crew size for realistic shop pacing.
         </div>
       </div>
 

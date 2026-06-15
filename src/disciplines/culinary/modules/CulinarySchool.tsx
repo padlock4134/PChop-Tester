@@ -61,6 +61,7 @@ const CulinarySchool = () => {
   const syllabusData = useCurriculumSyllabus(supabase, 'culinary');
 
   const handleLessonClick = (lessonId: string) => {
+    setBenchPracticeOpen(true);
   };
 
   useEffect(() => {

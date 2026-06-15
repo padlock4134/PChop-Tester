@@ -219,21 +219,21 @@ const MyTorch = () => {
                   
                   if (newMaterials.length === 0) {
                     setScanStatus(t('myBench.noNewIngredients'));
-                    alert(t('myBench.noNewIngredients'));
+                    console.log(t('myBench.noNewIngredients'));
                   } else {
                     // Check user before saving
                     try {
                       const sessionValid = await isSessionValid();
                       if (!sessionValid || !user) {
                         setScanStatus(t('myBench.notSignedIn'));
-                        alert(t('myBench.notSignedIn'));
+                        console.error(t('myBench.notSignedIn'));
                         setScanLoading(false);
                         return;
                       }
                     } catch (userErr) {
                       console.error('Error fetching user:', userErr);
                       setScanStatus(t('myBench.couldNotVerify'));
-                      alert(t('myBench.couldNotVerify'));
+                      console.error(t('myBench.couldNotVerify'));
                       setScanLoading(false);
                       return;
                     }
@@ -246,17 +246,17 @@ const MyTorch = () => {
                       await saveBench(user?.id!, updatedMaterials);
                       setBenchError(null);
                       setScanStatus(t('myBench.ingredientsSaved'));
-                      alert(t('myBench.ingredientsSaved'));
+                      console.log(t('myBench.ingredientsSaved'));
                     } catch (err: any) {
                       setBenchError(t('myBench.failedToSave') + ' ' + (err.message || err.toString()));
                       setScanStatus(t('myBench.failedToSave') + ' ' + (err.message || err.toString()));
-                      alert(t('myBench.failedToSave') + ' ' + (err.message || err.toString()));
+                      console.error(t('myBench.failedToSave') + ' ' + (err.message || err.toString()));
                     }
                   }
                   setDetectedMaterials([]);
                 } catch (err: any) {
                   setScanError(err.message || t('myBench.failedToScan'));
-                  alert(t('myBench.failedToScan') + ': ' + (err.message || err.toString()));
+                  console.error(t('myBench.failedToScan') + ': ' + (err.message || err.toString()));
                 }
                 setScanLoading(false);
               };

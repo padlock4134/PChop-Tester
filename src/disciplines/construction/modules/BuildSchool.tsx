@@ -5,8 +5,6 @@ import { useFreddieContext } from '../components/SiteFreddieContext';
 import { useRecipeContext } from '../components/TaskContext';
 import VideoModal from '../components/VideoModal';
 import { getTutorialVideo, TutorialVideoResult } from '../utils/videoSearch';
-import { calculateRecipeNutrition } from '../api/nutritionService';
-import { KeyNutrients } from '../types/nutrition';
 import SyllabusCard from '../components/SyllabusCard';
 import JobTimer from '../components/JobTimer';
 import FieldPracticeModal from '../components/FieldPracticeModal';
@@ -54,33 +52,19 @@ const BuildSchool = () => {
   const { updateContext } = useFreddieContext();
   const { selectedRecipe, setSelectedRecipe } = useRecipeContext();
   const [modalIdx, setModalIdx] = useState<null | number>(null);
-  const [recipeNutrition, setRecipeNutrition] = useState<KeyNutrients | null>(null);
   const [servingSize, setServingSize] = useState(2);
   const [benchPracticeOpen, setBenchPracticeOpen] = useState(false);
   const [activeMobileTab, setActiveMobileTab] = useState<'school' | 'syllabus'>('school');
   const syllabusData = useCurriculumSyllabus(supabase, 'construction');
 
   const handleLessonClick = (lessonId: string) => {
+    setBenchPracticeOpen(true);
   };
 
   useEffect(() => {
     updateContext({ page: 'BuildSchool' });
   }, [updateContext]);
 
-  useEffect(() => {
-    if (selectedRecipe && !selectedRecipe.nutrition) {
-      // Calculate nutrition if missing
-      calculateRecipeNutrition(selectedRecipe.ingredients)
-        .then(nutrition => {
-          setRecipeNutrition(nutrition);
-        })
-        .catch(error => {
-          console.error('Error calculating nutrition:', error);
-        });
-    } else {
-      setRecipeNutrition(selectedRecipe?.nutrition || null);
-    }
-  }, [selectedRecipe]);
 
   const isRecipeSelected = !!selectedRecipe;
   const tutorials = isRecipeSelected ? getTwoTutorials(selectedRecipe) : getDefaultTutorials();
@@ -299,17 +283,6 @@ const BuildSchool = () => {
                     <li className="italic text-gray-400">{t('buildSchool.noIngredientsListed')}</li>
                   )}
                 </ul>
-                {recipeNutrition && (
-                  <div className="mt-2">
-                    <div className="font-semibold mb-1">{t('buildSchool.nutritionTotal').replace('{servings}', servingSize.toString())}:</div>
-                    <div className="text-sm">
-                      <div>{t('buildSchool.carbs')}: {(recipeNutrition.carbs * servingSize).toFixed(1)}g</div>
-                      <div>{t('buildSchool.sugars')}: {(recipeNutrition.sugars * servingSize).toFixed(1)}g</div>
-                      <div>{t('buildSchool.fiber')}: {(recipeNutrition.fiber * servingSize).toFixed(1)}g</div>
-                      <div>{t('buildSchool.protein')}: {(recipeNutrition.protein * servingSize).toFixed(1)}g</div>
-                    </div>
-                  </div>
-                )}
               </div>
               {/* Right Page */}
               <div className="flex-1 p-6 bg-white flex flex-col">

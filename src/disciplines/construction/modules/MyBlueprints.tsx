@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useFreddieContext } from '../../culinary/components/FreddieContext';
-import { useRecipeContext } from '../../culinary/components/RecipeContext';
+import { useFreddieContext } from '../components/SiteFreddieContext';
+import { useRecipeContext } from '../components/TaskContext';
 import { useNavigate } from 'react-router-dom';
 import { fetchCookbook, removeRecipeFromCookbook } from './cookbookSupabase';
 import { supabase } from '../api/supabaseClient';
@@ -234,7 +234,7 @@ const MyBlueprints = () => {
           // Instagram doesn't support direct sharing via URL, so we'll copy to clipboard with instructions
           const instagramMessage = `Check out my blueprints! ${shareData.url}\n\nTo share on Instagram:\n1. Open Instagram\n2. Create a new post\n3. Paste this link in your caption`;
           await navigator.clipboard.writeText(instagramMessage);
-          alert(t('myBlueprints.sharingInstructions'));
+          console.log(t('myBlueprints.sharingInstructions'));
           shared = true;
           break;
         case 'slack':
@@ -247,7 +247,7 @@ const MyBlueprints = () => {
             shared = true;
           } else {
             await navigator.clipboard.writeText(shareData.url);
-            alert(t('myBlueprints.linkCopied'));
+            console.log(t('myBlueprints.linkCopied'));
             shared = true;
           }
           break;
@@ -288,7 +288,7 @@ const MyBlueprints = () => {
     } catch (err: any) {
       console.error('Error sharing:', err);
       if (err.name !== 'AbortError') {
-        alert(t('myBlueprints.failedToShare'));
+        console.error(t('myBlueprints.failedToShare'));
       }
     } finally {
       setShowShareModal(false);
@@ -1007,7 +1007,7 @@ const MyBlueprints = () => {
                       setSavedVideos(allVideos);
                     } catch (error) {
                       console.error('Error loading videos:', error);
-                      alert('Failed to load videos');
+                      console.error('Failed to load videos');
                     } finally {
                       setLoadingVideos(false);
                     }

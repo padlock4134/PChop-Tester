@@ -154,7 +154,7 @@ const ChefsCorner = () => {
   // Open modal for My CookBook import
   const importFromCookBook = () => {
     if (!user) {
-      alert(t('chefsCorner.pleaseSignIn'));
+      console.error(t('chefsCorner.pleaseSignIn'));
       return;
     }
     setCookbookModalOpen(true);
@@ -165,7 +165,7 @@ const ChefsCorner = () => {
     
     if (!selectedRecipe) {
       console.error('No recipe selected');
-      alert(t('chefsCorner.errorNoRecipe'));
+      console.error(t('chefsCorner.errorNoRecipe'));
       return;
     }
 
@@ -186,11 +186,11 @@ const ChefsCorner = () => {
         setRecipeNutrition(null);
       }
       
-      alert(t('chefsCorner.recipeSetToShowcase').replace('{title}', selectedRecipe.title));
+      console.log(t('chefsCorner.recipeSetToShowcase').replace('{title}', selectedRecipe.title));
       
     } catch (error) {
       console.error('Error importing recipe:', error);
-      alert(t('chefsCorner.failedToImport'));
+      console.error(t('chefsCorner.failedToImport'));
     } finally {
       setCookbookModalOpen(false);
     }

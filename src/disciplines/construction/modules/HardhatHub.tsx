@@ -9,8 +9,6 @@ import { useRecipeContext } from '../components/TaskContext';
 import { RecipeCard } from '../components/TaskMatcherModal';
 import { useSupabase } from '../../../components/DisciplineSupabaseProvider';
 import GlobalTestSite from '../components/GlobalTestSite';
-import { fetchNutritionData, calculateRecipeNutrition } from '../api/nutritionService';
-import { KeyNutrients } from '../types/nutrition';
 
 const HardhatHub = () => {
   const { t } = useTranslation();
@@ -20,7 +18,6 @@ const HardhatHub = () => {
   
   // Showcase recipe state
   const [showcaseRecipe, setShowcaseRecipe] = useState<any>(null);
-  const [recipeNutrition, setRecipeNutrition] = useState<KeyNutrients | null>(null);
   const [servingSize, setServingSize] = useState(2);
   const [cookbookModalOpen, setCookbookModalOpen] = useState(false);
   
@@ -152,7 +149,7 @@ const HardhatHub = () => {
   const importFromCookBook = () => {
     if (authLoading) return;
     if (!user) {
-      alert(t('hardhatHub.pleaseSignIn'));
+      console.error(t('hardhatHub.pleaseSignIn'));
       return;
     }
     setCookbookModalOpen(true);
@@ -163,7 +160,7 @@ const HardhatHub = () => {
     
     if (!selectedRecipe) {
       console.error('No recipe selected');
-      alert(t('hardhatHub.errorNoRecipe'));
+      console.error(t('hardhatHub.errorNoRecipe'));
       return;
     }
 
@@ -171,24 +168,12 @@ const HardhatHub = () => {
       // Set the selected recipe as the showcase recipe
       setShowcaseRecipe(selectedRecipe);
       
-      // Calculate nutrition for the recipe
-      if (selectedRecipe.ingredients && Array.isArray(selectedRecipe.ingredients)) {
-        try {
-          const nutrition = await calculateRecipeNutrition(selectedRecipe.ingredients);
-          setRecipeNutrition(nutrition);
-        } catch (error) {
-          console.error('Error calculating nutrition:', error);
-          setRecipeNutrition(null);
-        }
-      } else {
-        setRecipeNutrition(null);
-      }
       
-      alert(t('hardhatHub.recipeSetToShowcase').replace('{title}', selectedRecipe.title));
+      console.log(t('hardhatHub.recipeSetToShowcase').replace('{title}', selectedRecipe.title));
       
     } catch (error) {
       console.error('Error importing recipe:', error);
-      alert(t('hardhatHub.failedToImport'));
+      console.error(t('hardhatHub.failedToImport'));
     } finally {
       setCookbookModalOpen(false);
     }
@@ -308,17 +293,6 @@ const HardhatHub = () => {
                             <li className="italic text-gray-400">{t('hardhatHub.noIngredientsListed')}</li>
                           )}
                         </ul>
-                        {recipeNutrition && (
-                          <div className="mt-2">
-                            <div className="font-semibold mb-1">{t('hardhatHub.nutritionTotal').replace('{servings}', servingSize.toString())}:</div>
-                            <div className="text-sm">
-                              <div>{t('hardhatHub.carbs')}: {(recipeNutrition.carbs * servingSize).toFixed(1)}g</div>
-                              <div>{t('hardhatHub.sugars')}: {(recipeNutrition.sugars * servingSize).toFixed(1)}g</div>
-                              <div>{t('hardhatHub.fiber')}: {(recipeNutrition.fiber * servingSize).toFixed(1)}g</div>
-                              <div>{t('hardhatHub.protein')}: {(recipeNutrition.protein * servingSize).toFixed(1)}g</div>
-                            </div>
-                          </div>
-                        )}
                       </div>
                       {/* Right Page */}
                       <div className="flex-1 p-6 bg-white flex flex-col">

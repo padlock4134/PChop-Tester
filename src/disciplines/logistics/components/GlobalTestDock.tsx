@@ -104,7 +104,7 @@ const GlobalTestDock: React.FC<GlobalTestDockProps> = ({ showcaseRoute }) => {
   // Report function - now logs to database for admin dashboard
   const handleReport = async (sessionId?: string, reason?: string) => {
     if (!user) {
-      alert(t('dispatchLounge.globalTestKitchen.pleaseLogInReport'));
+      console.error(t('dispatchLounge.globalTestKitchen.pleaseLogInReport'));
       return;
     }
 
@@ -125,25 +125,25 @@ const GlobalTestDock: React.FC<GlobalTestDockProps> = ({ showcaseRoute }) => {
 
         if (error) {
           console.error('Error logging report:', error);
-          alert(t('dispatchLounge.globalTestKitchen.failedToReport'));
+          console.error(t('dispatchLounge.globalTestKitchen.failedToReport'));
         } else {
           // Log the report activity for admin dashboard
           logUserActivity('session_reported', { 
             session_id: sessionId || currentLiveSession?.id, 
             reason: reportReason 
           });
-          alert(t('dispatchLounge.globalTestKitchen.thankYouReport'));
+          console.log(t('dispatchLounge.globalTestKitchen.thankYouReport'));
         }
       } catch (error) {
         console.error('Error submitting report:', error);
-        alert('Failed to submit report. Please try again.');
+        console.error('Failed to submit report. Please try again.');
       }
     }
   };
 
   const handleScheduleSession = async () => {
     if (!user) {
-      alert(t('dispatchLounge.globalTestKitchen.pleaseLogInSchedule'));
+      console.error(t('dispatchLounge.globalTestKitchen.pleaseLogInSchedule'));
       return;
     }
 
@@ -167,7 +167,7 @@ const GlobalTestDock: React.FC<GlobalTestDockProps> = ({ showcaseRoute }) => {
 
         if (error) {
           console.error('Error saving session:', error);
-          alert(t('dispatchLounge.globalTestKitchen.failedToSchedule').replace('{error}', error.message));
+          console.error(t('dispatchLounge.globalTestKitchen.failedToSchedule').replace('{error}', error.message));
           return;
         }
 
@@ -209,7 +209,7 @@ const GlobalTestDock: React.FC<GlobalTestDockProps> = ({ showcaseRoute }) => {
         
       } catch (error) {
         console.error('Error scheduling session:', error);
-        alert(t('dispatchLounge.globalTestKitchen.failedToScheduleGeneric'));
+        console.error(t('dispatchLounge.globalTestKitchen.failedToScheduleGeneric'));
       }
     }
   };
@@ -219,7 +219,6 @@ const GlobalTestDock: React.FC<GlobalTestDockProps> = ({ showcaseRoute }) => {
     setIsViewer(true);
     setIsHost(false);
     setLiveSessionModalOpen(true);
-    // Simulate viewer count for the session
     setViewerCount(session.viewers);
   };
 
@@ -351,7 +350,7 @@ const GlobalTestDock: React.FC<GlobalTestDockProps> = ({ showcaseRoute }) => {
       setViewerCount(Math.floor(Math.random() * 30) + 15);
     } catch (error) {
       console.error('Error accessing camera/microphone:', error);
-      alert('Could not access camera/microphone. Please check permissions.');
+      console.error('Could not access camera/microphone. Please check permissions.');
     }
   };
 
@@ -367,21 +366,21 @@ const GlobalTestDock: React.FC<GlobalTestDockProps> = ({ showcaseRoute }) => {
 
   const handleSaveSession = async () => {
     if (!recordedBlob) {
-      alert('No recording found to save.');
+      a(' tording found to save.');
       setSaveConfirmModalOpen(false);
       endRecordingSession();
       return;
     }
     
     if (recordedBlob.size === 0) {
-      alert('Recording is empty. Please try recording again.');
+      console.error('Recording is empty. Please try recording again.');
       setSaveConfirmModalOpen(false);
       endRecordingSession();
       return;
     }
 
     if (!videoTitle.trim()) {
-      alert('Please enter a title for your video.');
+      console.error('Please enter a title for your video.');
       return;
     }
 
@@ -410,7 +409,7 @@ const GlobalTestDock: React.FC<GlobalTestDockProps> = ({ showcaseRoute }) => {
 
       if (error) {
         console.error('Upload error details:', error);
-        alert(t('dispatchLounge.globalTestKitchen.failedToSaveVideo').replace('{error}', error.message || 'Unknown error'));
+        console.error(t('dispatchLounge.globalTestKitchen.failedToSaveVideo').replace('{error}', error.message || 'Unknown error'));
         setIsSaving(false);
         return;
       }
@@ -428,7 +427,7 @@ const GlobalTestDock: React.FC<GlobalTestDockProps> = ({ showcaseRoute }) => {
       
     } catch (error) {
       console.error('Error saving video:', error);
-      alert(t('dispatchLounge.globalTestKitchen.failedToSaveVideoGeneric'));
+      a(tdtatchLounge.globalTestKitchen.failedToSaveVideoGeneric'));
     } finally {
       setIsSaving(false);
       setSaveConfirmModalOpen(false);
@@ -473,7 +472,7 @@ const GlobalTestDock: React.FC<GlobalTestDockProps> = ({ showcaseRoute }) => {
 
   const saveVideoToSupabase = async () => {
     if (!recordedBlob) {
-      alert('No recording found to save.');
+      a(' tording found to save.');
       return;
     }
 
@@ -494,18 +493,18 @@ const GlobalTestDock: React.FC<GlobalTestDockProps> = ({ showcaseRoute }) => {
 
       if (error) {
         console.error('Upload error:', error);
-        alert(t('dispatchLounge.globalTestKitchen.failedToSaveVideoGeneric'));
+        console.error(t('dispatchLounge.globalTestKitchen.failedToSaveVideoGeneric'));
         return;
       }
 
-      alert('Video saved successfully to Practice Videos!');
+      console.log('Video saved successfully to Practice Videos!');
       
       // End the session after successful save
       handleEndSession();
       
     } catch (error) {
       console.error('Error saving video:', error);
-      alert(t('dispatchLounge.globalTestKitchen.failedToSaveVideoGeneric'));
+      a('ptatchLounge.globalTestKitchen.failedToSaveVideoGeneric'));
     } finally {
       setIsSaving(false);
     }
@@ -517,7 +516,7 @@ const GlobalTestDock: React.FC<GlobalTestDockProps> = ({ showcaseRoute }) => {
     const [datePart, timePart] = session.scheduledTime.split(' at ');
     
     if (!datePart || !timePart) {
-      alert('Invalid date format. Please reschedule this session.');
+      console.error('Invalid date format. Please reschedule this session.');
       return;
     }
     
@@ -525,7 +524,7 @@ const GlobalTestDock: React.FC<GlobalTestDockProps> = ({ showcaseRoute }) => {
     
     // Validate date
     if (isNaN(startDate.getTime())) {
-      alert('Invalid date. Please check the scheduled time and try again.');
+      console.error('Invalid date. Please check the scheduled time and try again.');
       return;
     }
     
@@ -573,7 +572,7 @@ END:VCALENDAR`;
     const [datePart, timePart] = session.scheduledTime.split(' at ');
     
     if (!datePart || !timePart) {
-      alert('Invalid date format. Please reschedule this session.');
+      console.error('Invalid date format. Please reschedule this session.');
       return;
     }
     
@@ -581,7 +580,7 @@ END:VCALENDAR`;
     
     // Validate date
     if (isNaN(startDate.getTime())) {
-      alert('Invalid date. Please check the scheduled time and try again.');
+      console.error('Invalid date. Please check the scheduled time and try again.');
       return;
     }
     

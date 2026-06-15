@@ -63,7 +63,7 @@ const CookBookImportModal: React.FC<CookBookImportModalProps> = ({
       
     } catch (error) {
       console.error('Error during import:', error);
-      alert('Failed to import recipe. Please try again.');
+      console.error('Failed to import recipe. Please try again.');
     } finally {
       setIsLoading(false);
     }

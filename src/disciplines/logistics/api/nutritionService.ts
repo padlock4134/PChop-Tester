@@ -14,7 +14,7 @@ interface KeyNutrients {
   phosphorus: number;
 }
 
-const USDA_API_URL = 'https://api.nal.usda.gov/fdc/v1/cargos/search';
+const USDA_API_URL = 'https://api.nal.usda.gov/fdc/v1/foods/search';
 const API_KEY = (import.meta as any).env.VITE_USDA_API_KEY;
 
 export async function fetchNutritionData(item: string): Promise<__PROTECT_CARGO__ | null> {
@@ -23,12 +23,12 @@ export async function fetchNutritionData(item: string): Promise<__PROTECT_CARGO_
     
     const data = await response.json();
     
-    if (data.cargos && data.cargos.length > 0) {
-      const cargo = data.cargos[0];
+    if (data.foods && data.foods.length > 0) {
+      const food = data.foods[0];
       return {
-        id: cargo.fdcId,
-        name: cargo.description,
-        nutrients: cargo.cargoNutrients.map((nutrient: any) => ({
+        id: food.fdcId,
+        name: food.description,
+        nutrients: food.foodNutrients.map((nutrient: any) => ({
           name: nutrient.nutrientName,
           unit: nutrient.unitName,
           value: nutrient.value

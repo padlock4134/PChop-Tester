@@ -102,8 +102,7 @@ const WeldingSchool = () => {
 
 
   const handleLessonClick = (lessonId: string) => {
-
-
+    setBenchPracticeOpen(true);
   };
 
 

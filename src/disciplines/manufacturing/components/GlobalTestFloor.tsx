@@ -110,7 +110,7 @@ const ProductionLine: React.FC<ProductionLineProps> = ({ showcaseRecipe }) => {
   // Report function - now logs to database for admin dashboard
   const handleReport = async (sessionId?: string, reason?: string) => {
     if (!user) {
-      alert('Please log in to report a session');
+      console.error('Please log in to report a session');
       return;
     }
 
@@ -131,25 +131,25 @@ const ProductionLine: React.FC<ProductionLineProps> = ({ showcaseRecipe }) => {
 
         if (error) {
           console.error('Error logging report:', error);
-          alert('Failed to submit report');
+          console.error('Failed to submit report');
         } else {
           // Log the report activity for admin dashboard
           logUserActivity('session_reported', { 
             session_id: sessionId || currentLiveSession?.id, 
             reason: reportReason 
           });
-          alert('Thank you for your report');
+          console.log('Thank you for your report');
         }
       } catch (error) {
         console.error('Error submitting report:', error);
-        alert('Failed to submit report. Please try again.');
+        console.error('Failed to submit report. Please try again.');
       }
     }
   };
 
   const handleScheduleSession = async () => {
     if (!user) {
-      alert('Please log in to schedule a session');
+      console.error('Please log in to schedule a session');
       return;
     }
 
@@ -173,7 +173,7 @@ const ProductionLine: React.FC<ProductionLineProps> = ({ showcaseRecipe }) => {
 
         if (error) {
           console.error('Error saving session:', error);
-          alert(`Failed to schedule session: ${error.message}`);
+          console.error(`Failed to schedule session: ${error.message}`);
           return;
         }
 
@@ -215,7 +215,7 @@ const ProductionLine: React.FC<ProductionLineProps> = ({ showcaseRecipe }) => {
         
       } catch (error) {
         console.error('Error scheduling session:', error);
-        alert('Failed to schedule session');
+        console.error('Failed to schedule session');
       }
     }
   };
@@ -225,7 +225,6 @@ const ProductionLine: React.FC<ProductionLineProps> = ({ showcaseRecipe }) => {
     setIsViewer(true);
     setIsHost(false);
     setLiveSessionModalOpen(true);
-    // Simulate viewer count for the session
     setViewerCount(session.viewers);
   };
 
@@ -357,7 +356,7 @@ const ProductionLine: React.FC<ProductionLineProps> = ({ showcaseRecipe }) => {
       setViewerCount(Math.floor(Math.random() * 30) + 15);
     } catch (error) {
       console.error('Error accessing camera/microphone:', error);
-      alert('Could not access camera/microphone. Please check permissions.');
+      console.error('Could not access camera/microphone. Please check permissions.');
     }
   };
 
@@ -373,21 +372,21 @@ const ProductionLine: React.FC<ProductionLineProps> = ({ showcaseRecipe }) => {
 
   const handleSaveSession = async () => {
     if (!recordedBlob) {
-      alert('No recording found to save.');
+      console.error('No recording found to save.');
       setSaveConfirmModalOpen(false);
       endRecordingSession();
       return;
     }
     
     if (recordedBlob.size === 0) {
-      alert('Recording is empty. Please try recording again.');
+      console.error('Recording is empty. Please try recording again.');
       setSaveConfirmModalOpen(false);
       endRecordingSession();
       return;
     }
 
     if (!videoTitle.trim()) {
-      alert('Please enter a title for your video.');
+      console.error('Please enter a title for your video.');
       return;
     }
 
@@ -416,7 +415,7 @@ const ProductionLine: React.FC<ProductionLineProps> = ({ showcaseRecipe }) => {
 
       if (error) {
         console.error('Upload error details:', error);
-        alert(t('shopTalk.globalTestFloor.failedToSaveVideo').replace('{error}', error.message || 'Unknown error'));
+        console.error(t('shopTalk.globalTestFloor.failedToSaveVideo').replace('{error}', error.message || 'Unknown error'));
         setIsSaving(false);
         return;
       }
@@ -434,7 +433,7 @@ const ProductionLine: React.FC<ProductionLineProps> = ({ showcaseRecipe }) => {
       
     } catch (error) {
       console.error('Error saving video:', error);
-      alert(t('shopTalk.globalTestFloor.failedToSaveVideoGeneric'));
+      console.error(t('shopTalk.globalTestFloor.failedToSaveVideoGeneric'));
     } finally {
       setIsSaving(false);
       setSaveConfirmModalOpen(false);
@@ -459,7 +458,7 @@ const ProductionLine: React.FC<ProductionLineProps> = ({ showcaseRecipe }) => {
     setRecordedBlob(null);
 
 if (!videoTitle.trim()) {
-  alert('Please enter a title for your video.');
+  console.error('Please enter a title for your video.');
   return;
 }
     setIsViewer(false);
@@ -473,7 +472,7 @@ if (!videoTitle.trim()) {
 
   const saveVideoToSupabase = async () => {
     if (!recordedBlob) {
-      alert('No recording found to save.');
+      console.error('No recording found to save.');
       return;
     }
 
@@ -494,18 +493,18 @@ if (!videoTitle.trim()) {
 
       if (error) {
         console.error('Upload error:', error);
-        alert(t('shopTalk.globalTestFloor.failedToSaveVideoGeneric'));
+        console.error(t('shopTalk.globalTestFloor.failedToSaveVideoGeneric'));
         return;
       }
 
-      alert('Video saved successfully to Production Floor Videos!');
+      console.log('Video saved successfully to Production Floor Videos!');
       
       // End the session after successful save
       endRecordingSession();
       
     } catch (error) {
       console.error('Error saving video:', error);
-      alert(t('shopTalk.globalTestFloor.failedToSaveVideoGeneric'));
+      console.error(t('shopTalk.globalTestFloor.failedToSaveVideoGeneric'));
     } finally {
       setIsSaving(false);
     }
@@ -517,7 +516,7 @@ if (!videoTitle.trim()) {
     const [datePart, timePart] = session.scheduledTime.split(' at ');
     
     if (!datePart || !timePart) {
-      alert('Invalid date format. Please reschedule this session.');
+      console.error('Invalid date format. Please reschedule this session.');
       return;
     }
     
@@ -525,7 +524,7 @@ if (!videoTitle.trim()) {
     
     // Validate date
     if (isNaN(startDate.getTime())) {
-      alert('Invalid date. Please check the scheduled time and try again.');
+      console.error('Invalid date. Please check the scheduled time and try again.');
       return;
     }
     
@@ -573,7 +572,7 @@ END:VCALENDAR`;
     const [datePart, timePart] = session.scheduledTime.split(' at ');
     
     if (!datePart || !timePart) {
-      alert('Invalid date format. Please reschedule this session.');
+      console.error('Invalid date format. Please reschedule this session.');
       return;
     }
     
@@ -581,7 +580,7 @@ END:VCALENDAR`;
     
     // Validate date
     if (isNaN(startDate.getTime())) {
-      alert('Invalid date. Please check the scheduled time and try again.');
+      console.error('Invalid date. Please check the scheduled time and try again.');
       return;
     }
     

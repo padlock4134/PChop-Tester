@@ -30,7 +30,7 @@ const DockPracticeModal: React.FC<DockPracticeModalProps> = ({ open, onClose, co
     setModeNotice(null);
     const lessonTitle = getPracticeLessonTitle(courses, selectedLesson);
     if (!lessonTitle) {
-      alert('Please select a lesson first.');
+      console.error('Please select a lesson first.');
       return;
     }
 
@@ -72,7 +72,7 @@ const DockPracticeModal: React.FC<DockPracticeModalProps> = ({ open, onClose, co
       }
     } catch (error) {
       console.error('Error generating AR practice:', error);
-      alert(t('logisticsSchool.dockPractice.couldNotGenerateAR'));
+      console.error(t('logisticsSchool.dockPractice.couldNotGenerateAR'));
       setIsPracticing(false);
     } finally {
       setIsGeneratingAR(false);
@@ -152,7 +152,7 @@ const DockPracticeModal: React.FC<DockPracticeModalProps> = ({ open, onClose, co
               <ARDockScene 
                 scene={arScene}
                 onComplete={() => {
-                  alert(t('logisticsSchool.dockPractice.practiceComplete'));
+                  console.log(t('logisticsSchool.dockPractice.practiceComplete'));
                   cleanupPractice();
                 }}
                 guideOpen={guideOpen}

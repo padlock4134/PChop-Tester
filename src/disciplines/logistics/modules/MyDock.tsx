@@ -220,21 +220,21 @@ const MyDock = () => {
                   
                   if (newItems.length === 0) {
                     setScanStatus(t('myDock.noNewIngredients', { defaultValue: 'No new items detected.' }));
-                    alert(t('myDock.noNewIngredients', { defaultValue: 'No new items detected.' }));
+                    console.log(t('myDock.noNewIngredients', { defaultValue: 'No new items detected.' }));
                   } else {
                     // Check user before saving
                     try {
                       const sessionValid = await isSessionValid();
                       if (!sessionValid || !user) {
                         setScanStatus(t('myDock.notSignedIn'));
-                        alert(t('myDock.notSignedIn'));
+                        console.error(t('myDock.notSignedIn'));
                         setScanLoading(false);
                         return;
                       }
                     } catch (userErr) {
                       console.error('Error fetching user:', userErr);
                       setScanStatus(t('myDock.couldNotVerify'));
-                      alert(t('myDock.couldNotVerify'));
+                      console.error(t('myDock.couldNotVerify'));
                       setScanLoading(false);
                       return;
                     }
@@ -247,17 +247,17 @@ const MyDock = () => {
                       await saveDock(user?.id!, updatedItems);
                       setDockError(null);
                       setScanStatus(t('myDock.ingredientsSaved', { defaultValue: 'Items saved to inventory!' }));
-                      alert(t('myDock.ingredientsSaved', { defaultValue: 'Items saved to inventory!' }));
+                      console.log(t('myDock.ingredientsSaved', { defaultValue: 'Items saved to inventory!' }));
                     } catch (err: any) {
                       setDockError(t('myDock.failedToSave') + ' ' + (err.message || err.toString()));
                       setScanStatus(t('myDock.failedToSave') + ' ' + (err.message || err.toString()));
-                      alert(t('myDock.failedToSave') + ' ' + (err.message || err.toString()));
+                      console.error(t('myDock.failedToSave') + ' ' + (err.message || err.toString()))
                     }
                   }
                   setDetectedItems([]);
                 } catch (err: any) {
                   setScanError(err.message || t('myDock.failedToScan'));
-                  alert(t('myDock.failedToScan') + ': ' + (err.message || err.toString()));
+                  console.error(t('myDock.failedToScan') + ': ' + (err.message || err.toString()))
                 }
                 setScanLoading(false);
               };

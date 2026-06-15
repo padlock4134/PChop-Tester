@@ -373,7 +373,7 @@ const LocalMarketsModal: React.FC<LocalMarketsModalProps> = ({ open, onClose, se
       );
     } else {
       setLoading(false);
-      alert('Geolocation is not supported by this browser.');
+      console.error('Geolocation is not supported by this browser.');
     }
   };
 

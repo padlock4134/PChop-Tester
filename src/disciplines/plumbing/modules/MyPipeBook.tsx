@@ -266,7 +266,7 @@ const MyPipeBook = () => {
           // Instagram doesn't support direct sharing via URL, so we'll copy to clipboard with instructions
           const instagramMessage = `Check out my pipe book! ${shareData.url}\n\nTo share on Instagram:\n1. Open Instagram\n2. Create a new post\n3. Paste this link in your caption`;
           await navigator.clipboard.writeText(instagramMessage);
-          alert(t('myPipeBook.sharingInstructions'));
+          console.log(t('myPipeBook.sharingInstructions'));
           shared = true;
           break;
         case 'slack':
@@ -279,7 +279,7 @@ const MyPipeBook = () => {
             shared = true;
           } else {
             await navigator.clipboard.writeText(shareData.url);
-            alert(t('myPipeBook.linkCopied'));
+            console.log(t('myPipeBook.linkCopied'));
             shared = true;
           }
           break;
@@ -320,7 +320,7 @@ const MyPipeBook = () => {
     } catch (err: any) {
       console.error('Error sharing:', err);
       if (err.name !== 'AbortError') {
-        alert(t('myPipeBook.failedToShare'));
+        console.error(t('myPipeBook.failedToShare'));
       }
     } finally {
       setShowShareModal(false);
@@ -1043,7 +1043,7 @@ const MyPipeBook = () => {
                     setSavedVideos(allVideos);
                   } catch (error) {
                     console.error('Error loading videos:', error);
-                    alert(t('myPipeBook.failedToLoadVideos', { defaultValue: 'Failed to load videos' }));
+                    console.error(t('myPipeBook.failedToLoadVideos', { defaultValue: 'Failed to load videos' }));
                   } finally {
                     setLoadingVideos(false);
                   }

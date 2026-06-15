@@ -30,9 +30,6 @@ const PostComposer = () => {
       // Check if this is a project share (simplified check for project keywords)
       const isProjectShare = /project|materials?|instructions?|method|steps|specs|setup time|weld time/i.test(input);
       
-      // In a real app, you would upload the image and create the post here
-      // For now, we'll just simulate a successful post
-      
       if (isProjectShare) {
         // Award XP for sharing a project
         const { error } = await supabase.rpc('increment_user_xp', {
@@ -59,11 +56,11 @@ const PostComposer = () => {
       setImage(null);
       
       // Show success message or update UI
-      alert('Post shared successfully!' + (isProjectShare ? ' +' + XP_REWARDS.PROJECT_SHARE + ' XP for sharing a project!' : ''));
+      console.log('Post shared successfully!' + (isProjectShare ? ' +' + XP_REWARDS.PROJECT_SHARE + ' XP for sharing a project!' : ''));
       
     } catch (error) {
       console.error('Error sharing post:', error);
-      alert('Failed to share post. Please try again.');
+      console.error('Failed to share post. Please try again.');
     } finally {
       setIsSubmitting(false);
     }

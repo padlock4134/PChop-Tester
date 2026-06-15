@@ -10,8 +10,6 @@ import { useRecipeContext } from '../components/RepairContext';
 import { RecipeCard } from '../components/RepairMatcherModal';
 import { useSupabase } from '../../../components/DisciplineSupabaseProvider';
 import TheCarLift from '../components/GlobalTestGarage';
-import { fetchNutritionData, calculateRecipeNutrition } from '../api/nutritionService';
-import { KeyNutrients } from '../types/nutrition';
 
 const GearheadLounge = () => {
   const { t } = useTranslation();
@@ -21,7 +19,6 @@ const GearheadLounge = () => {
   
   // Showcase recipe state
   const [showcaseRecipe, setShowcaseRecipe] = useState<any>(null);
-  const [recipeNutrition, setRecipeNutrition] = useState<KeyNutrients | null>(null);
   const [servingSize, setServingSize] = useState(2);
   const [manualModalOpen, setManualModalOpen] = useState(false);
   
@@ -152,7 +149,7 @@ const GearheadLounge = () => {
   // Open modal for My Manual import
   const importFromManual = () => {
     if (!user) {
-      alert(t('gearheadLounge.pleaseSignIn'));
+      console.error(t('gearheadLounge.pleaseSignIn'));
       return;
     }
     setManualModalOpen(true);
@@ -163,7 +160,7 @@ const GearheadLounge = () => {
     
     if (!selectedRecipe) {
       console.error('No recipe selected');
-      alert(t('gearheadLounge.errorNoRecipe'));
+      console.error(t('gearheadLounge.errorNoRecipe'));
       return;
     }
 
@@ -171,24 +168,12 @@ const GearheadLounge = () => {
       // Set the selected recipe as the showcase recipe
       setShowcaseRecipe(selectedRecipe);
       
-      // Calculate nutrition for the recipe
-      if (selectedRecipe.ingredients && Array.isArray(selectedRecipe.ingredients)) {
-        try {
-          const nutrition = await calculateRecipeNutrition(selectedRecipe.ingredients);
-          setRecipeNutrition(nutrition);
-        } catch (error) {
-          console.error('Error calculating nutrition:', error);
-          setRecipeNutrition(null);
-        }
-      } else {
-        setRecipeNutrition(null);
-      }
       
-      alert(t('gearheadLounge.recipeSetToShowcase').replace('{title}', selectedRecipe.title));
+      console.log(t('gearheadLounge.recipeSetToShowcase').replace('{title}', selectedRecipe.title));
       
     } catch (error) {
       console.error('Error importing recipe:', error);
-      alert(t('gearheadLounge.failedToImport'));
+      console.error(t('gearheadLounge.failedToImport'));
     } finally {
       setManualModalOpen(false);
     }
@@ -308,17 +293,6 @@ const GearheadLounge = () => {
                             <li className="italic text-gray-400">{t('gearheadLounge.noIngredientsListed')}</li>
                           )}
                         </ul>
-                        {recipeNutrition && (
-                          <div className="mt-2">
-                            <div className="font-semibold mb-1">{t('gearheadLounge.nutritionTotal').replace('{servings}', servingSize.toString())}:</div>
-                            <div className="text-sm">
-                              <div>{t('gearheadLounge.carbs')}: {(recipeNutrition.carbs * servingSize).toFixed(1)}g</div>
-                              <div>{t('gearheadLounge.sugars')}: {(recipeNutrition.sugars * servingSize).toFixed(1)}g</div>
-                              <div>{t('gearheadLounge.fiber')}: {(recipeNutrition.fiber * servingSize).toFixed(1)}g</div>
-                              <div>{t('gearheadLounge.protein')}: {(recipeNutrition.protein * servingSize).toFixed(1)}g</div>
-                            </div>
-                          </div>
-                        )}
                       </div>
                       {/* Right Page */}
                       <div className="flex-1 p-6 bg-white flex flex-col">

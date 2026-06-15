@@ -190,7 +190,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
   const handleRouteMatcherOpen = () => {
     // Only show if user has added items
     if (items.length === 0) {
-      alert('Please add some logistics items to your dock inventory first!');
+      console.error('Please add some logistics items to your dock inventory first!');
       return;
     }
     
@@ -202,12 +202,8 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
   };
 
   const handleLike = () => {
-    setIsSaving(true);
-    // Simulate API call
-    setTimeout(() => {
-      setIsSaving(false);
-      handleSkip();
-    }, 500);
+    setIsSaving(false);
+    handleSkip();
   };
 
   const handleSkip = () => {
@@ -301,7 +297,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
           />
           <button
             className="bg-lobsterRed text-weatheredWhite px-4 py-2 rounded font-bold hover:bg-seafoam hover:text-maineBlue transition-colors w-full sm:w-auto max-w-xs flex items-center justify-center gap-2"
-            onClick={() => alert('Functionality available in app. Please try again later.')}
+            onClick={() => console.log('Functionality available in app. Please try again later.')
           >
             Scan Dock
           </button>

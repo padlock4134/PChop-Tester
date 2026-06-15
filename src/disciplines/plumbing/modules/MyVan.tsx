@@ -227,21 +227,21 @@ const MyVan = () => {
                   
                   if (newParts.length === 0) {
                     setScanStatus(t('myVan.noNewIngredients'));
-                    alert(t('myVan.noNewIngredients'));
+                    console.log(t('myVan.noNewIngredients'));
                   } else {
                     // Check user before saving
                     try {
                       const sessionValid = await isSessionValid();
                       if (!sessionValid || !user) {
                         setScanStatus(t('myVan.notSignedIn'));
-                        alert(t('myVan.notSignedIn'));
+                        console.error(t('myVan.notSignedIn'));
                         setScanLoading(false);
                         return;
                       }
                     } catch (userErr) {
                       console.error('Error fetching user:', userErr);
                       setScanStatus(t('myVan.couldNotVerify'));
-                      alert(t('myVan.couldNotVerify'));
+                      console.error(t('myVan.couldNotVerify'));
                       setScanLoading(false);
                       return;
                     }
@@ -254,17 +254,17 @@ const MyVan = () => {
                       await saveVan(user?.id!, updatedMaterials);
                       setVanError(null);
                       setScanStatus(t('myVan.ingredientsSaved'));
-                      alert(t('myVan.ingredientsSaved'));
+                      console.log(t('myVan.ingredientsSaved'));
                     } catch (err: any) {
                       setVanError(t('myVan.failedToSave') + ' ' + (err.message || err.toString()));
                       setScanStatus(t('myVan.failedToSave') + ' ' + (err.message || err.toString()));
-                      alert(t('myVan.failedToSave') + ' ' + (err.message || err.toString()));
+                      console.error(t('myVan.failedToSave') + ' ' + (err.message || err.toString()))
                     }
                   }
                   setDetectedMaterials([]);
                 } catch (err: any) {
                   setScanError(err.message || t('myVan.failedToScan'));
-                  alert(t('myVan.failedToScan') + ': ' + (err.message || err.toString()));
+                  console.error(t('myVan.failedToScan') + ': ' + (err.message || err.toString()))
                 }
                 setScanLoading(false);
               };

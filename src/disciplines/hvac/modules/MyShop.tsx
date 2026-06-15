@@ -230,21 +230,21 @@ const MyShop = () => {
                   
                   if (newIngredients.length === 0) {
                     setScanStatus(t('myShop.noNewIngredients'));
-                    alert(t('myShop.noNewIngredients'));
+                    console.log(t('myShop.noNewIngredients'));
                   } else {
                     // Check user before saving
                     try {
                       const sessionValid = await isSessionValid();
                       if (!sessionValid || !user) {
                         setScanStatus(t('myShop.notSignedIn'));
-                        alert(t('myShop.notSignedIn'));
+                        console.error(t('myShop.notSignedIn'));
                         setScanLoading(false);
                         return;
                       }
                     } catch (userErr) {
                       console.error('Error fetching user:', userErr);
                       setScanStatus(t('myShop.couldNotVerify'));
-                      alert(t('myShop.couldNotVerify'));
+                      console.error(t('myShop.couldNotVerify'));
                       setScanLoading(false);
                       return;
                     }
@@ -257,17 +257,17 @@ const MyShop = () => {
                       await saveKitchen(user?.id!, updatedIngredients);
                       setKitchenError(null);
                       setScanStatus(t('myShop.ingredientsSaved'));
-                      alert(t('myShop.ingredientsSaved'));
+                      console.log(t('myShop.ingredientsSaved'));
                     } catch (err: any) {
                       setKitchenError(t('myShop.failedToSave') + ' ' + (err.message || err.toString()));
                       setScanStatus(t('myShop.failedToSave') + ' ' + (err.message || err.toString()));
-                      alert(t('myShop.failedToSave') + ' ' + (err.message || err.toString()));
+                      console.error(t('myShop.failedToSave') + ' ' + (err.message || err.toString()))
                     }
                   }
                   setDetectedIngredients([]);
                 } catch (err: any) {
                   setScanError(err.message || t('myShop.failedToScan'));
-                  alert(t('myShop.failedToScan') + ': ' + (err.message || err.toString()));
+                  console.error(t('myShop.failedToScan') + ': ' + (err.message || err.toString()))
                 }
                 setScanLoading(false);
               };

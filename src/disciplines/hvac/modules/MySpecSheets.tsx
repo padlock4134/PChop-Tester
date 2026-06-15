@@ -195,7 +195,7 @@ const MySpecSheets = () => {
           // Instagram doesn't support direct sharing via URL, so we'll copy to clipboard with instructions
           const instagramMessage = `Check out my cookbook! ${shareData.url}\n\nTo share on Instagram:\n1. Open Instagram\n2. Create a new post\n3. Paste this link in your caption`;
           await navigator.clipboard.writeText(instagramMessage);
-          alert(t('mySpecSheets.sharingInstructions'));
+          console.log(t('mySpecSheets.sharingInstructions'));
           shared = true;
           break;
         case 'slack':
@@ -208,7 +208,7 @@ const MySpecSheets = () => {
             shared = true;
           } else {
             await navigator.clipboard.writeText(shareData.url);
-            alert(t('mySpecSheets.linkCopied'));
+            console.log(t('mySpecSheets.linkCopied'));
             shared = true;
           }
           break;
@@ -249,7 +249,7 @@ const MySpecSheets = () => {
     } catch (err: any) {
       console.error('Error sharing:', err);
       if (err.name !== 'AbortError') {
-        alert(t('mySpecSheets.failedToShare'));
+        console.error(t('mySpecSheets.failedToShare'));
       }
     } finally {
       setShowShareModal(false);
@@ -963,7 +963,7 @@ const MySpecSheets = () => {
                     setSavedVideos(allVideos);
                   } catch (error) {
                     console.error('Error loading videos:', error);
-                    alert('Failed to load videos');
+                    console.error('Failed to load videos');
                   } finally {
                     setLoadingVideos(false);
                   }

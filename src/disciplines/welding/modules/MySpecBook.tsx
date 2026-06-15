@@ -186,7 +186,7 @@ const MySpecBook = () => {
           // Instagram doesn't support direct sharing via URL, so we'll copy to clipboard with instructions
           const instagramMessage = `Check out my spec book! ${shareData.url}\n\nTo share on Instagram:\n1. Open Instagram\n2. Create a new post\n3. Paste this link in your caption`;
           await navigator.clipboard.writeText(instagramMessage);
-          alert(t('mySpecBook.sharingInstructions'));
+          console.log(t('mySpecBook.sharingInstructions'));
           shared = true;
           break;
         case 'slack':
@@ -199,7 +199,7 @@ const MySpecBook = () => {
             shared = true;
           } else {
             await navigator.clipboard.writeText(shareData.url);
-            alert(t('mySpecBook.linkCopied'));
+            console.log(t('mySpecBook.linkCopied'));
             shared = true;
           }
           break;
@@ -240,7 +240,7 @@ const MySpecBook = () => {
     } catch (err: any) {
       console.error('Error sharing:', err);
       if (err.name !== 'AbortError') {
-        alert(t('mySpecBook.failedToShare'));
+        console.error(t('mySpecBook.failedToShare'));
       }
     } finally {
       setShowShareModal(false);
@@ -951,7 +951,7 @@ const MySpecBook = () => {
                     setSavedVideos(allVideos);
                   } catch (error) {
                     console.error('Error loading videos:', error);
-                    alert('Failed to load videos');
+                    console.error('Failed to load videos');
                   } finally {
                     setLoadingVideos(false);
                   }

@@ -63,7 +63,7 @@ const PipeBookImportModal: React.FC<PipeBookImportModalProps> = ({
       
     } catch (error) {
       console.error('Error during import:', error);
-      alert(t('pipeLounge.importModal.failedImport', { defaultValue: 'Failed to import procedure. Please try again.' }));
+      console.error(t('pipeLounge.importModal.failedImport', { defaultValue: 'Failed to import procedure. Please try again.' }));
     } finally {
       setIsLoading(false);
     }

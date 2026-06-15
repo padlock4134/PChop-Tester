@@ -222,21 +222,21 @@ const MyGarage = () => {
                   
                   if (newIngredients.length === 0) {
                     setScanStatus(t('myGarage.noNewIngredients'));
-                    alert(t('myGarage.noNewIngredients'));
+                    console.log(t('myGarage.noNewIngredients'));
                   } else {
                     // Check user before saving
                     try {
                       const sessionValid = await isSessionValid();
                       if (!sessionValid || !user) {
                         setScanStatus(t('myGarage.notSignedIn'));
-                        alert(t('myGarage.notSignedIn'));
+                        console.error(t('myGarage.notSignedIn'));
                         setScanLoading(false);
                         return;
                       }
                     } catch (userErr) {
                       console.error('Error fetching user:', userErr);
                       setScanStatus(t('myGarage.couldNotVerify'));
-                      alert(t('myGarage.couldNotVerify'));
+                      console.error(t('myGarage.couldNotVerify'));
                       setScanLoading(false);
                       return;
                     }
@@ -249,17 +249,17 @@ const MyGarage = () => {
                       await saveKitchen(user?.id!, updatedIngredients);
                       setGarageError(null);
                       setScanStatus(t('myGarage.ingredientsSaved'));
-                      alert(t('myGarage.ingredientsSaved'));
+                      console.log(t('myGarage.ingredientsSaved'));
                     } catch (err: any) {
                       setGarageError(t('myGarage.failedToSave') + ' ' + (err.message || err.toString()));
                       setScanStatus(t('myGarage.failedToSave') + ' ' + (err.message || err.toString()));
-                      alert(t('myGarage.failedToSave') + ' ' + (err.message || err.toString()));
+                      console.error(t('myGarage.failedToSave') + ' ' + (err.message || err.toString()))
                     }
                   }
                   setDetectedIngredients([]);
                 } catch (err: any) {
                   setScanError(err.message || t('myGarage.failedToScan'));
-                  alert(t('myGarage.failedToScan') + ': ' + (err.message || err.toString()));
+                  console.error(t('myGarage.failedToScan') + ': ' + (err.message || err.toString()))
                 }
                 setScanLoading(false);
               };

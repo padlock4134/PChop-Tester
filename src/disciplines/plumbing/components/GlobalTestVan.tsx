@@ -106,7 +106,7 @@ const GlobalTestVan: React.FC<GlobalTestVanProps> = ({ showcaseRecipe }) => {
   // Report function - now logs to database for admin dashboard
   const handleReport = async (sessionId?: string, reason?: string) => {
     if (!user) {
-      alert(t('pipeLounge.globalTestKitchen.pleaseLogInReport'));
+      console.error(t('pipeLounge.globalTestKitchen.pleaseLogInReport'));
       return;
     }
 
@@ -127,25 +127,25 @@ const GlobalTestVan: React.FC<GlobalTestVanProps> = ({ showcaseRecipe }) => {
 
         if (error) {
           console.error('Error logging report:', error);
-          alert(t('pipeLounge.globalTestKitchen.failedToReport'));
+          console.error(t('pipeLounge.globalTestKitchen.failedToReport'));
         } else {
           // Log the report activity for admin dashboard
           logUserActivity('session_reported', { 
             session_id: sessionId || currentLiveSession?.id, 
             reason: reportReason 
           });
-          alert(t('pipeLounge.globalTestKitchen.thankYouReport'));
+          console.log(t('pipeLounge.globalTestKitchen.thankYouReport'));
         }
       } catch (error) {
         console.error('Error submitting report:', error);
-        alert('Failed to submit report. Please try again.');
+        console.error('Failed to submit report. Please try again.');
       }
     }
   };
 
   const handleScheduleSession = async () => {
     if (!user) {
-      alert(t('pipeLounge.globalTestKitchen.pleaseLogInSchedule'));
+      console.error(t('pipeLounge.globalTestKitchen.pleaseLogInSchedule'));
       return;
     }
 
@@ -169,7 +169,7 @@ const GlobalTestVan: React.FC<GlobalTestVanProps> = ({ showcaseRecipe }) => {
 
         if (error) {
           console.error('Error saving session:', error);
-          alert(t('pipeLounge.globalTestKitchen.failedToSchedule').replace('{error}', error.message));
+          console.error(t('pipeLounge.globalTestKitchen.failedToSchedule').replace('{error}', error.message));
           return;
         }
 
@@ -211,7 +211,7 @@ const GlobalTestVan: React.FC<GlobalTestVanProps> = ({ showcaseRecipe }) => {
         
       } catch (error) {
         console.error('Error scheduling session:', error);
-        alert(t('pipeLounge.globalTestKitchen.failedToScheduleGeneric'));
+        console.error(t('pipeLounge.globalTestKitchen.failedToScheduleGeneric'));
       }
     }
   };
@@ -221,7 +221,6 @@ const GlobalTestVan: React.FC<GlobalTestVanProps> = ({ showcaseRecipe }) => {
     setIsViewer(true);
     setIsHost(false);
     setLiveSessionModalOpen(true);
-    // Simulate viewer count for the session
     setViewerCount(session.viewers);
   };
 
@@ -353,7 +352,7 @@ const GlobalTestVan: React.FC<GlobalTestVanProps> = ({ showcaseRecipe }) => {
       setViewerCount(Math.floor(Math.random() * 30) + 15);
     } catch (error) {
       console.error('Error accessing camera/microphone:', error);
-      alert('Could not access camera/microphone. Please check permissions.');
+      console.error('Could not access camera/microphone. Please check permissions.');
     }
   };
 
@@ -369,21 +368,21 @@ const GlobalTestVan: React.FC<GlobalTestVanProps> = ({ showcaseRecipe }) => {
 
   const handleSaveSession = async () => {
     if (!recordedBlob) {
-      alert('No recording found to save.');
+      console.error('No recording found to save.');
       setSaveConfirmModalOpen(false);
       endRecordingSession();
       return;
     }
     
     if (recordedBlob.size === 0) {
-      alert('Recording is empty. Please try recording again.');
+      console.error('Recording is empty. Please try recording again.');
       setSaveConfirmModalOpen(false);
       endRecordingSession();
       return;
     }
 
     if (!videoTitle.trim()) {
-      alert('Please enter a title for your video.');
+      console.error('Please enter a title for your video.');
       return;
     }
 
@@ -412,7 +411,7 @@ const GlobalTestVan: React.FC<GlobalTestVanProps> = ({ showcaseRecipe }) => {
 
       if (error) {
         console.error('Upload error details:', error);
-        alert(t('pipeLounge.globalTestKitchen.failedToSaveVideo').replace('{error}', error.message || 'Unknown error'));
+        console.error(t('pipeLounge.globalTestKitchen.failedToSaveVideo').replace('{error}', error.message || 'Unknown error'));
         setIsSaving(false);
         return;
       }
@@ -430,7 +429,7 @@ const GlobalTestVan: React.FC<GlobalTestVanProps> = ({ showcaseRecipe }) => {
       
     } catch (error) {
       console.error('Error saving video:', error);
-      alert(t('pipeLounge.globalTestKitchen.failedToSaveVideoGeneric'));
+      console.error(t('pipeLounge.globalTestKitchen.failedToSaveVideoGeneric'));
     } finally {
       setIsSaving(false);
       setSaveConfirmModalOpen(false);
@@ -475,7 +474,7 @@ const GlobalTestVan: React.FC<GlobalTestVanProps> = ({ showcaseRecipe }) => {
 
   const saveVideoToSupabase = async () => {
     if (!recordedBlob) {
-      alert('No recording found to save.');
+      console.error('No recording found to save.');
       return;
     }
 
@@ -496,18 +495,18 @@ const GlobalTestVan: React.FC<GlobalTestVanProps> = ({ showcaseRecipe }) => {
 
       if (error) {
         console.error('Upload error:', error);
-        alert(t('pipeLounge.globalTestKitchen.failedToSaveVideoGeneric'));
+        console.error(t('pipeLounge.globalTestKitchen.failedToSaveVideoGeneric'));
         return;
       }
 
-      alert('Video saved successfully to Practice Videos!');
+      console.log('Video saved successfully to Practice Videos!');
       
       // End the session after successful save
       handleEndSession();
       
     } catch (error) {
       console.error('Error saving video:', error);
-      alert(t('pipeLounge.globalTestKitchen.failedToSaveVideoGeneric'));
+      console.error(t('pipeLounge.globalTestKitchen.failedToSaveVideoGeneric'));
     } finally {
       setIsSaving(false);
     }
@@ -519,7 +518,7 @@ const GlobalTestVan: React.FC<GlobalTestVanProps> = ({ showcaseRecipe }) => {
     const [datePart, timePart] = session.scheduledTime.split(' at ');
     
     if (!datePart || !timePart) {
-      alert('Invalid date format. Please reschedule this session.');
+      console.error('Invalid date format. Please reschedule this session.');
       return;
     }
     
@@ -527,7 +526,7 @@ const GlobalTestVan: React.FC<GlobalTestVanProps> = ({ showcaseRecipe }) => {
     
     // Validate date
     if (isNaN(startDate.getTime())) {
-      alert('Invalid date. Please check the scheduled time and try again.');
+      console.error('Invalid date. Please check the scheduled time and try again.');
       return;
     }
     
@@ -575,7 +574,7 @@ END:VCALENDAR`;
     const [datePart, timePart] = session.scheduledTime.split(' at ');
     
     if (!datePart || !timePart) {
-      alert('Invalid date format. Please reschedule this session.');
+      console.error('Invalid date format. Please reschedule this session.');
       return;
     }
     
@@ -583,7 +582,7 @@ END:VCALENDAR`;
     
     // Validate date
     if (isNaN(startDate.getTime())) {
-      alert('Invalid date. Please check the scheduled time and try again.');
+      console.error('Invalid date. Please check the scheduled time and try again.');
       return;
     }
     

@@ -202,7 +202,7 @@ const MyPlaybook = () => {
           // Instagram doesn't support direct sharing via URL, so we'll copy to clipboard with instructions
           const instagramMessage = `Check out my cookbook! ${shareData.url}\n\nTo share on Instagram:\n1. Open Instagram\n2. Create a new post\n3. Paste this link in your caption`;
           await navigator.clipboard.writeText(instagramMessage);
-          alert(t('myPlaybook.sharingInstructions'));
+          console.log(t('myPlaybook.sharingInstructions'));
           shared = true;
           break;
         case 'slack':
@@ -215,7 +215,7 @@ const MyPlaybook = () => {
             shared = true;
           } else {
             await navigator.clipboard.writeText(shareData.url);
-            alert(t('myPlaybook.linkCopied'));
+            console.log(t('myPlaybook.linkCopied'));
             shared = true;
           }
           break;
@@ -256,7 +256,7 @@ const MyPlaybook = () => {
     } catch (err: any) {
       console.error('Error sharing:', err);
       if (err.name !== 'AbortError') {
-        alert(t('myPlaybook.failedToShare'));
+        console.error(t('myPlaybook.failedToShare'));
       }
     } finally {
       setShowShareModal(false);
@@ -287,7 +287,7 @@ const MyPlaybook = () => {
           instructions: r.instructions,
           tools: r.equipment,
           specifications: r.nutrition as any,
-          safetyTags: r.healthTags
+          safetyTags: r.healthTags || []
         }));
         setLocalProcesses(converted);
       } catch (err) {
@@ -557,7 +557,7 @@ const MyPlaybook = () => {
                     <div key={processId} className="py-2 px-2 hover:bg-sand rounded flex items-center justify-between">
                       <div className="flex items-center">
                         <span className="mr-2">🍽️</span>
-                        <span className="text-sm">{process ? process.name : `Recipe ${index + 1}`}</span>
+                        <span className="text-sm">{process ? process.name : `Process ${index + 1}`}</span>
                       </div>
                       {process && process.safetyTags && process.safetyTags.length > 0 && (
                         <span className="text-xs bg-green-100 text-green-800 px-1 py-0.5 rounded">
@@ -731,7 +731,7 @@ const MyPlaybook = () => {
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-1.5 w-full">
                     {/* Ingredients */}
                     <div className="bg-seafoam/20 p-1.5 rounded-lg text-center border-2 border-seafoam">
-                      <h4 className="font-bold mb-0.5 text-xs sm:text-sm text-maineBlue">🥘 {t('myPlaybook.ingredients')}</h4>
+                      <h4 className="font-bold mb-0.5 text-xs sm:text-sm text-maineBlue">⚙️ {t('myPlaybook.materials')}</h4>
                       <ul className="list-disc pl-3 max-h-[50px] sm:max-h-[60px] overflow-y-auto text-left text-[10px] sm:text-xs space-y-0">
                         {filteredProcesses[currentIndex].materials?.slice(0, 6).map((material, i) => (
                           <li key={i} className="line-clamp-1">{material}</li>
@@ -963,7 +963,7 @@ const MyPlaybook = () => {
                     setSavedVideos(allVideos);
                   } catch (error) {
                     console.error('Error loading videos:', error);
-                    alert('Failed to load videos');
+                    console.error('Failed to load videos');
                   } finally {
                     setLoadingVideos(false);
                   }
@@ -1135,9 +1135,9 @@ const MyPlaybook = () => {
                   </div>
                   </div>
 
-                  {/* Right Page - Assignment Recipe Card */}
+                  {/* Right Page - Assignment Process Card */}
                   <div className="w-full lg:w-1/2 h-1/2 lg:h-full bg-white rounded-b-lg lg:rounded-b-none lg:rounded-r-lg p-3 lg:p-4 flex flex-col">
-                    {/* Assignment Recipe Card (matching CulinarySchool layout) */}
+                    {/* Assignment Process Card (matching MfgAcademy layout) */}
                     <div className="flex flex-col bg-white w-full h-full overflow-hidden rounded-lg border-4 border-maineBlue">
                       {/* Assignment Image */}
                       <div className="w-full h-20 lg:h-24 bg-gray-100 flex items-center justify-center border-b-2 border-amber-300 flex-shrink-0">

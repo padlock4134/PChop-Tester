@@ -63,7 +63,7 @@ const RunbookImportModal: React.FC<RunbookImportModalProps> = ({
       
     } catch (error) {
       console.error('Error during import:', error);
-      alert('Failed to import route. Please try again.');
+      console.error('Failed to import route. Please try again.');
     } finally {
       setIsLoading(false);
     }

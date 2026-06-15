@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
 import { supabase } from '../disciplines/culinary/api/supabaseClient';
-import { useSupabase } from '../disciplines/culinary/components/SupabaseProvider';
+import { useSupabase } from './DisciplineSupabaseProvider';
 import { askChefFreddie } from '../disciplines/culinary/api/chefFreddie';
 import { DisciplineKey, DISCIPLINE_CONFIG, loadCustomDisciplines } from '../disciplineConfig';
 import { getSkin, loadCustomSkins } from '../disciplineSkinConfig';
