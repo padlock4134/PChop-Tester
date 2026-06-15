@@ -48,6 +48,89 @@ interface AdminDashboardProps {
   onClose?: () => void;
 }
 
+// Floating Admin Freddie Widget
+const AdminFreddieWidget: React.FC<{ currentUserId?: string }> = ({ currentUserId }) => {
+  const [open, setOpen] = useState(false);
+  const [messages, setMessages] = useState<{ sender: 'freddie' | 'user'; text: string }[]>([]);
+  const [input, setInput] = useState('');
+  const [loading, setLoading] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (open && messages.length === 0) {
+      setMessages([{ sender: 'freddie', text: 'Hi! I\'m your admin assistant. Ask me anything about managing your dashboard, students, or curriculum.' }]);
+    }
+    if (open) setTimeout(() => inputRef.current?.focus(), 100);
+  }, [open]);
+
+  const send = async (text: string) => {
+    if (!text.trim() || !currentUserId) return;
+    setMessages(prev => [...prev, { sender: 'user', text }]);
+    setInput('');
+    setLoading(true);
+    try {
+      const reply = await askChefFreddie(currentUserId, text);
+      setMessages(prev => [...prev, { sender: 'freddie', text: reply }]);
+    } catch (err: any) {
+      setMessages(prev => [...prev, { sender: 'freddie', text: err.message || 'Sorry, something went wrong.' }]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <>
+      <button
+        onClick={() => setOpen(o => !o)}
+        className="fixed bottom-6 right-6 bg-maineBlue rounded-full w-16 h-16 flex items-center justify-center shadow-lg z-50 hover:scale-110 transition-transform border-4 border-seafoam"
+        aria-label="Open Admin Assistant"
+      >
+        <img src="logo.png" className="w-10 h-10 rounded-full" alt="Admin Assistant" />
+      </button>
+
+      {open && (
+        <div className="fixed bottom-24 right-6 bg-white border-4 border-maineBlue rounded-lg shadow-lg w-80 z-50 flex flex-col max-h-[60vh]">
+          <div className="flex justify-between items-center px-4 py-3 border-b-2 border-maineBlue bg-maineBlue rounded-t-lg">
+            <span className="font-retro text-seafoam font-bold text-sm">Admin Assistant</span>
+            <button onClick={() => { setOpen(false); setMessages([]); }} className="text-seafoam hover:text-white text-xl font-bold">✕</button>
+          </div>
+          <div className="flex-1 overflow-y-auto p-3 space-y-2">
+            {messages.map((msg, i) => (
+              <div key={i} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
+                <span className={`block rounded-lg px-3 py-2 text-sm max-w-[85%] ${msg.sender === 'freddie' ? 'bg-blue-50 text-maineBlue border border-maineBlue' : 'bg-maineBlue text-white'}`}>
+                  {msg.text}
+                </span>
+              </div>
+            ))}
+            {loading && (
+              <div className="flex justify-start">
+                <span className="block bg-blue-50 text-maineBlue border border-maineBlue rounded-lg px-3 py-2 text-sm">...</span>
+              </div>
+            )}
+          </div>
+          <div className="p-3 border-t-2 border-gray-200 flex gap-2">
+            <input
+              ref={inputRef}
+              className="flex-1 border-2 border-maineBlue rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-seafoam"
+              placeholder="Ask anything..."
+              value={input}
+              onChange={e => setInput(e.target.value)}
+              onKeyDown={e => { if (e.key === 'Enter' && input.trim()) send(input.trim()); }}
+            />
+            <button
+              onClick={() => send(input.trim())}
+              disabled={!input.trim() || loading}
+              className="bg-maineBlue text-white px-3 py-2 rounded-lg text-sm font-retro hover:bg-blue-700 disabled:opacity-50"
+            >
+              ➤
+            </button>
+          </div>
+        </div>
+      )}
+    </>
+  );
+};
+
 // Base discipline options
 const baseDisciplineOptions = [
   { key: 'total' as const, label: 'TOTAL', icon: '📊' },
@@ -7877,13 +7960,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       )}
 
       {/* Floating Chef Freddie Widget */}
-      <button
-        onClick={() => setShowChefFreddieModal(true)}
-        className="fixed bottom-6 right-6 bg-maineBlue rounded-full w-16 h-16 flex items-center justify-center shadow-lg z-50 hover:scale-110 transition-transform border-4 border-seafoam"
-        aria-label="Open Chef Freddie"
-      >
-        <img src="logo.png" className="w-10 h-10 rounded-full" alt="Chef Freddie" />
-      </button>
+      <AdminFreddieWidget currentUserId={currentUser?.id} />
 
     </div>
   );
