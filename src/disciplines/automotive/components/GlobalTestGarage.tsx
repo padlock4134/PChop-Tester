@@ -264,9 +264,7 @@ const TheCarLift: React.FC<TheCarLiftProps> = ({ showcaseRecipe }) => {
           .from('schedule_sessions')
           .select('*')
           .eq('user_id', user.id)
-          .eq('discipline_slug', 'automotive')
-          .order('scheduled_date', { ascending: true })
-          .order('scheduled_time', { ascending: true });
+          .eq('discipline_slug', 'automotive');
 
         if (error) {
           console.error('Error loading scheduled sessions:', error);
@@ -275,17 +273,21 @@ const TheCarLift: React.FC<TheCarLiftProps> = ({ showcaseRecipe }) => {
 
         if (!data) return;
         
-        // Convert database format to component format
-        const sessions: UpcomingSession[] = data.map((session: any) => ({
-          id: session.id,
-          hostName: t('gearheadLounge.globalTestKitchen.you'),
-          serviceName: session.dish_name,
-          vehicleType: session.cuisine,
-          scheduledTime: `${session.scheduled_date} at ${session.scheduled_time}`,
-          description: session.description,
-          sessionType: session.session_type,
-          instructorTag: session.teacher_tag || undefined
-        }));
+        // Convert database format to component format and sort by date/time
+        const sessions: UpcomingSession[] = data
+          .map((session: any) => ({
+            id: session.id,
+            hostName: t('gearheadLounge.globalTestKitchen.you'),
+            serviceName: session.dish_name,
+            vehicleType: session.cuisine,
+            scheduledTime: `${session.scheduled_date} at ${session.scheduled_time}`,
+            description: session.description,
+            sessionType: session.session_type,
+            instructorTag: session.teacher_tag || undefined,
+            _sortDate: new Date(`${session.scheduled_date}T${session.scheduled_time}`)
+          }))
+          .sort((a, b) => a._sortDate.getTime() - b._sortDate.getTime())
+          .map(({ _sortDate, ...session }) => session);
 
         setUpcomingSessions(sessions);
       } catch (error) {

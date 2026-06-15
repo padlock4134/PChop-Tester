@@ -258,9 +258,7 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
           .from('schedule_sessions')
           .select('*')
           .eq('user_id', user.id)
-          .eq('discipline_slug', 'hvac')
-          .order('scheduled_date', { ascending: true })
-          .order('scheduled_time', { ascending: true });
+          .eq('discipline_slug', 'hvac');
 
         if (error) {
           console.error('Error loading scheduled sessions:', error);
@@ -269,17 +267,21 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
 
         if (!data) return;
         
-        // Convert database format to component format
-        const sessions: UpcomingSession[] = data.map((session: any) => ({
-          id: session.id,
-          hostName: t('techTalk.globalTestKitchen.you'),
-          dishName: session.dish_name,
-          culture: session.cuisine,
-          scheduledTime: `${session.scheduled_date} at ${session.scheduled_time}`,
-          description: session.description,
-          sessionType: session.session_type,
-          teacherTag: session.teacher_tag || undefined
-        }));
+        // Convert database format to component format and sort by date/time
+        const sessions: UpcomingSession[] = data
+          .map((session: any) => ({
+            id: session.id,
+            hostName: t('techTalk.globalTestKitchen.you'),
+            dishName: session.dish_name,
+            culture: session.cuisine,
+            scheduledTime: `${session.scheduled_date} at ${session.scheduled_time}`,
+            description: session.description,
+            sessionType: session.session_type,
+            teacherTag: session.teacher_tag || undefined,
+            _sortDate: new Date(`${session.scheduled_date}T${session.scheduled_time}`)
+          }))
+          .sort((a, b) => a._sortDate.getTime() - b._sortDate.getTime())
+          .map(({ _sortDate, ...session }) => session);
 
         setUpcomingSessions(sessions);
       } catch (error) {
