@@ -644,7 +644,6 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [newStudentName, setNewStudentName] = useState('');
   const [newStudentEmail, setNewStudentEmail] = useState('');
   const [newStudentPhone, setNewStudentPhone] = useState('');
-  const [newStudentProgram, setNewStudentProgram] = useState(skin.people.defaultProgram);
   const [showEditStudentModal, setShowEditStudentModal] = useState(false);
   const [editingStudent, setEditingStudent] = useState<User | null>(null);
   const [showEditFacultyModal, setShowEditFacultyModal] = useState(false);
@@ -5244,17 +5243,6 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue"
                 />
               </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Program</label>
-                <select
-                  value={newStudentProgram}
-                  onChange={(e) => setNewStudentProgram(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue"
-                >
-                  <option value={skin.people.defaultProgram}>{skin.people.defaultProgram}</option>
-                </select>
-              </div>
             </div>
             
             <div className="flex justify-end gap-3 mt-6">
@@ -5279,7 +5267,6 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         email: newStudentEmail,
                         username: newStudentName,
                         phone: newStudentPhone || null,
-                        program: newStudentProgram || null,
                         xp: 0,
                         level: 1,
                         chat_count: 0,
@@ -5296,7 +5283,6 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       username: newStudentName,
                       email: newStudentEmail,
                       phone: newStudentPhone || undefined,
-                      program: newStudentProgram || undefined,
                       xp: 0,
                       level: 1,
                       chat_count: 0,
@@ -5310,7 +5296,6 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     setNewStudentName('');
                     setNewStudentEmail('');
                     setNewStudentPhone('');
-                    setNewStudentProgram(skin.people.defaultProgram);
                     setShowAddStudentModal(false);
                     
                     showSuccess(t('admin.studentAddedSuccess', { defaultValue: 'Student added successfully!' }));
@@ -5382,17 +5367,6 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   placeholder="(555) 123-4567"
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue text-sm min-h-[44px]"
                 />
-              </div>
-              
-              <div>
-                <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Program</label>
-                <select
-                  value={editingStudent.program || skin.people.defaultProgram}
-                  onChange={(e) => setEditingStudent({...editingStudent, program: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue text-sm min-h-[44px]"
-                >
-                  <option value={skin.people.defaultProgram}>{skin.people.defaultProgram}</option>
-                </select>
               </div>
               
               <div>
@@ -5549,7 +5523,6 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                           username: editingStudent.username,
                           email: editingStudent.email,
                           phone: editingStudent.phone || null,
-                          program: editingStudent.program || null,
                         })
                         .eq('id', editingStudent.id);
                       
