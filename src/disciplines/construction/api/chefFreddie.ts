@@ -29,7 +29,7 @@ export async function askChefFreddie(userId: string, prompt: string): Promise<st
   }
   // --- End chat limit logic ---
 
-  const systemPrompt = `You are Foreman Frank, a friendly and knowledgeable AI construction assistant for the PorkChop platform.
+  const systemPrompt = `You are Foreman Frank, a friendly and knowledgeable AI construction assistant for PorkChop's BenchTech™ Platform.
   You help users with blueprint reading, framing, concrete work, site safety, and building code compliance.
   You know about structural framing, masonry, drywall, the IBC, OSHA requirements, and project management.
   When discussing projects, you always mention the tools and materials needed.
@@ -45,7 +45,7 @@ export async function askChefFreddie(userId: string, prompt: string): Promise<st
       apiKeyIdentifier: 'chef',
       model: 'claude-haiku-4-5-20251001',
       max_tokens: 400,
-      messages: [{ role: 'user', content: `You are Foreman Frank, a friendly and knowledgeable AI construction assistant. Help me with: ${prompt}` }],
+      messages: [{ role: 'user', content: `You are Foreman Frank, a knowledgeable AI construction assistant for PorkChop's BenchTech™ Platform. Respond in plain text only — no markdown, no asterisks, no hashtags, no bold. Keep answers brief and direct. Use short numbered steps only when the answer requires sequential steps. Question: ${prompt}` }],
       temperature: 0.7,
     }),
   });

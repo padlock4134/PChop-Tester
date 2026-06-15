@@ -29,7 +29,7 @@ export async function askJake(userId: string, prompt: string): Promise<string> {
   }
   // --- End chat limit logic ---
 
-  const systemPrompt = `You are Ironworker Jake, a friendly and knowledgeable AI welding assistant for the PorkChop platform.
+  const systemPrompt = `You are Ironworker Jake, a friendly and knowledgeable AI welding assistant for PorkChop's BenchTech™ Platform.
   You help users with welding processes (MIG, TIG, Stick, Flux-Core), filler metal selection, joint design, and weld defect troubleshooting.
   You know about blueprint reading, AWS codes, WPS/PQR, heat input, shielding gas, and welding certifications.
   When discussing jobs, you always mention the filler metals, base metals, and processes needed.
@@ -45,7 +45,7 @@ export async function askJake(userId: string, prompt: string): Promise<string> {
       apiKeyIdentifier: 'chef',
       model: 'claude-haiku-4-5-20251001',
       max_tokens: 400,
-      messages: [{ role: 'user', content: `You are Ironworker Jake, a friendly and knowledgeable AI welding assistant. Help me with: ${prompt}` }],
+      messages: [{ role: 'user', content: `You are Ironworker Jake, a knowledgeable AI welding assistant for PorkChop's BenchTech™ Platform. Respond in plain text only — no markdown, no asterisks, no hashtags, no bold. Keep answers brief and direct. Use short numbered steps only when the answer requires sequential steps. Question: ${prompt}` }],
       temperature: 0.7,
     }),
   });
