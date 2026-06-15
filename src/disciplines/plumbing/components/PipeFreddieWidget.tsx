@@ -25,6 +25,21 @@ const getProactiveMessage = (page: string, t: any) => {
   }
 };
 
+const getChips = (page: string): string[] => {
+  switch (page) {
+    case 'MyVan':
+      return ['Help me look up materials', 'Help me plan my van inventory', 'How do I use My Van?'];
+    case 'MyPipeBook':
+      return ['Help me write a job ticket', 'Review a project with me', 'How do I use My Pipebook?'];
+    case 'PipeLounge':
+      return ['Help me find a local supply house', 'Connect me with other plumbers', 'How do I use the Pipe Lounge?'];
+    case 'PlumbingSchool':
+      return ['Help me prep for a code exam', 'Explain a pipe fitting technique', 'How do I use Plumbing School?'];
+    default:
+      return ['Help with a pipe issue', 'Code compliance question', 'How do I use this module?'];
+  }
+};
+
 
 const MentorFreddieWidget = () => {
   const { t } = useTranslation();
@@ -33,10 +48,12 @@ const MentorFreddieWidget = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [lastPage, setLastPage] = useState<string | undefined>();
   const [input, setInput] = useState('');
+  const [chipsVisible, setChipsVisible] = useState(true);
 
   const { user } = useSupabase();
 
   const sendUserMessage = async (text: string) => {
+    setChipsVisible(false);
     setMessages(msgs => [...msgs, { sender: 'user', text }]);
     setInput('');
     try {
@@ -100,6 +117,7 @@ const MentorFreddieWidget = () => {
         }
         return msgs;
       });
+      setChipsVisible(true);
     }
     // eslint-disable-next-line
   }, [open, context.page]);
@@ -148,6 +166,19 @@ const MentorFreddieWidget = () => {
                   <span className={`px-3 py-2 rounded-2xl text-sm max-w-[85%] ${msg.sender === 'freddie' ? 'bg-sand text-gray-800 rounded-tl-sm' : 'bg-maineBlue text-white rounded-tr-sm'}`}>{msg.text}</span>
                 </div>
               ))}
+              {chipsVisible && messages.length > 0 && (
+                <div className="flex flex-col gap-1 pt-1">
+                  {getChips(context.page).map(chip => (
+                    <button
+                      key={chip}
+                      onClick={() => sendUserMessage(chip)}
+                      className="text-left text-xs px-3 py-2 rounded-xl border-2 border-maineBlue text-maineBlue bg-white hover:bg-blue-50 transition-colors"
+                    >
+                      {chip}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
             <div className="p-3 border-t-2 border-gray-100 flex gap-2">
               <input

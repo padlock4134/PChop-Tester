@@ -48,28 +48,37 @@ interface AdminDashboardProps {
   onClose?: () => void;
 }
 
-// Floating Admin Freddie Widget
+// Director Vance — CTE Director Admin Widget
+const VANCE_CHIPS = [
+  'How do I add or manage students?',
+  'Explain the Overview tab',
+  'How do I use this dashboard?',
+];
+
 const AdminFreddieWidget: React.FC<{ currentUserId?: string }> = ({ currentUserId }) => {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<{ sender: 'freddie' | 'user'; text: string }[]>([]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
+  const [chipsVisible, setChipsVisible] = useState(true);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (open && messages.length === 0) {
-      setMessages([{ sender: 'freddie', text: 'Hi! I\'m your admin assistant. Ask me anything about managing your dashboard, students, or curriculum.' }]);
+      setMessages([{ sender: 'freddie', text: "Director Vance here. I oversee all CTE programs on this platform. What can I help you with — student management, curriculum, reports, or something else?" }]);
+      setChipsVisible(true);
     }
     if (open) setTimeout(() => inputRef.current?.focus(), 100);
   }, [open]);
 
   const send = async (text: string) => {
     if (!text.trim() || !currentUserId) return;
+    setChipsVisible(false);
     setMessages(prev => [...prev, { sender: 'user', text }]);
     setInput('');
     setLoading(true);
     try {
-      const reply = await askChefFreddie(currentUserId, text);
+      const reply = await askChefFreddie(currentUserId, `You are Director Vance, a CTE program director and admin assistant for the PorkChop platform. You help school administrators manage students, track program performance, configure curriculum, and run their CTE pathways. Be direct and knowledgeable. Help with: ${text}`);
       setMessages(prev => [...prev, { sender: 'freddie', text: reply }]);
     } catch (err: any) {
       setMessages(prev => [...prev, { sender: 'freddie', text: err.message || 'Sorry, something went wrong.' }]);
@@ -82,16 +91,16 @@ const AdminFreddieWidget: React.FC<{ currentUserId?: string }> = ({ currentUserI
     <>
       <button
         onClick={() => setOpen(o => !o)}
-        className="fixed bottom-6 right-6 bg-maineBlue rounded-full w-16 h-16 flex items-center justify-center shadow-lg z-50 hover:scale-110 transition-transform border-4 border-seafoam"
-        aria-label="Open Admin Assistant"
+        className="fixed bottom-6 right-6 bg-maineBlue text-seafoam rounded-full w-16 h-16 flex items-center justify-center shadow-lg z-50 hover:bg-seafoam hover:text-maineBlue transition-colors"
+        aria-label="Open Director Vance"
       >
-        <img src="logo.png" className="w-10 h-10 rounded-full" alt="Admin Assistant" />
+        <span className="text-3xl">🎓</span>
       </button>
 
       {open && (
         <div className="fixed bottom-24 right-6 bg-white border-4 border-maineBlue rounded-xl shadow-xl w-80 z-50 flex flex-col max-h-[60vh]">
           <div className="flex justify-between items-center px-4 py-3 bg-blue-50 rounded-t-xl border-b-2 border-maineBlue">
-            <span className="font-retro font-bold text-maineBlue">Admin Assistant</span>
+            <span className="font-retro font-bold text-maineBlue">Director Vance</span>
             <button onClick={() => { setOpen(false); setMessages([]); }} className="text-gray-400 hover:text-gray-600 text-lg font-bold">✕</button>
           </div>
           <div className="flex-1 overflow-y-auto p-3 space-y-2">
@@ -102,6 +111,19 @@ const AdminFreddieWidget: React.FC<{ currentUserId?: string }> = ({ currentUserI
                 </span>
               </div>
             ))}
+            {chipsVisible && messages.length > 0 && (
+              <div className="flex flex-col gap-1 pt-1">
+                {VANCE_CHIPS.map(chip => (
+                  <button
+                    key={chip}
+                    onClick={() => send(chip)}
+                    className="text-left text-xs px-3 py-2 rounded-xl border-2 border-maineBlue text-maineBlue bg-white hover:bg-blue-50 transition-colors"
+                  >
+                    {chip}
+                  </button>
+                ))}
+              </div>
+            )}
             {loading && (
               <div className="flex justify-start">
                 <span className="px-3 py-2 rounded-2xl rounded-tl-sm bg-sand text-gray-800 text-sm">...</span>

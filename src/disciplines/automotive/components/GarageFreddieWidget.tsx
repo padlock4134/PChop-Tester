@@ -49,6 +49,21 @@ const getProactiveMessage = (page: string, t: any) => {
 
 };
 
+const getChips = (page: string): string[] => {
+  switch (page) {
+    case 'MyGarage':
+      return ['Help me look up a repair procedure', 'What tools do I need for this job?', 'How do I use My Garage?'];
+    case 'MyManual':
+      return ['Help me write a repair order', 'Review a service record for me', 'How do I use My Manual?'];
+    case 'GearheadLounge':
+      return ['Help me find a parts supplier', 'Connect me with other techs', 'How do I use the Gearhead Lounge?'];
+    case 'AutoSchool':
+      return ['Help me prep for ASE exams', 'Explain a diagnostic procedure', 'How do I use Auto School?'];
+    default:
+      return ['Help me diagnose an issue', 'What tools do I need?', 'How do I use this module?'];
+  }
+};
+
 
 
 
@@ -67,6 +82,8 @@ const GarageFreddieWidget = () => {
 
   const [input, setInput] = useState('');
 
+  const [chipsVisible, setChipsVisible] = useState(true);
+
 
 
   const { user } = useSupabase();
@@ -74,6 +91,8 @@ const GarageFreddieWidget = () => {
 
 
   const sendUserMessage = async (text: string) => {
+
+    setChipsVisible(false);
 
     setMessages(msgs => [...msgs, { sender: 'user', text }]);
 
@@ -201,6 +220,8 @@ const GarageFreddieWidget = () => {
 
       });
 
+      setChipsVisible(true);
+
     }
 
     // eslint-disable-next-line
@@ -260,6 +281,32 @@ const GarageFreddieWidget = () => {
                 </div>
 
               ))}
+
+              {chipsVisible && messages.length > 0 && (
+
+                <div className="flex flex-col gap-1 pt-1">
+
+                  {getChips(context.page).map(chip => (
+
+                    <button
+
+                      key={chip}
+
+                      onClick={() => sendUserMessage(chip)}
+
+                      className="text-left text-xs px-3 py-2 rounded-xl border-2 border-maineBlue text-maineBlue bg-white hover:bg-blue-50 transition-colors"
+
+                    >
+
+                      {chip}
+
+                    </button>
+
+                  ))}
+
+                </div>
+
+              )}
 
             </div>
 
