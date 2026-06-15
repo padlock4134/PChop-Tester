@@ -3,7 +3,7 @@
 
 CREATE TABLE IF NOT EXISTS user_collections (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+  user_id UUID NOT NULL,
   discipline VARCHAR(50) NOT NULL,
   name VARCHAR(255) NOT NULL,
   emoji VARCHAR(10) NOT NULL DEFAULT '📁',
@@ -24,32 +24,32 @@ END $$;
 
 DO $$
 BEGIN
-  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE tablename = 'user_collections' AND policyname = 'Users can view own collections') THEN
-    CREATE POLICY "Users can view own collections" ON user_collections
-      FOR SELECT USING (auth.uid() = user_id);
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE tablename = 'user_collections' AND policyname = 'Users can view collections') THEN
+    CREATE POLICY "Users can view collections" ON user_collections
+      FOR SELECT USING (true);
   END IF;
 END $$;
 
 DO $$
 BEGIN
-  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE tablename = 'user_collections' AND policyname = 'Users can insert own collections') THEN
-    CREATE POLICY "Users can insert own collections" ON user_collections
-      FOR INSERT WITH CHECK (auth.uid() = user_id);
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE tablename = 'user_collections' AND policyname = 'Users can insert collections') THEN
+    CREATE POLICY "Users can insert collections" ON user_collections
+      FOR INSERT WITH CHECK (true);
   END IF;
 END $$;
 
 DO $$
 BEGIN
-  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE tablename = 'user_collections' AND policyname = 'Users can delete own collections') THEN
-    CREATE POLICY "Users can delete own collections" ON user_collections
-      FOR DELETE USING (auth.uid() = user_id);
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE tablename = 'user_collections' AND policyname = 'Users can delete collections') THEN
+    CREATE POLICY "Users can delete collections" ON user_collections
+      FOR DELETE USING (true);
   END IF;
 END $$;
 
 DO $$
 BEGIN
-  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE tablename = 'user_collections' AND policyname = 'Users can update own collections') THEN
-    CREATE POLICY "Users can update own collections" ON user_collections
-      FOR UPDATE USING (auth.uid() = user_id);
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE tablename = 'user_collections' AND policyname = 'Users can update collections') THEN
+    CREATE POLICY "Users can update collections" ON user_collections
+      FOR UPDATE USING (true);
   END IF;
 END $$;
