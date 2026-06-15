@@ -647,6 +647,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [showAssignProgramModal, setShowAssignProgramModal] = useState(false);
   const [assignProgramName, setAssignProgramName] = useState('');
   const [selectedStudentIds, setSelectedStudentIds] = useState<Set<string>>(new Set());
+  const [availableSyllabi, setAvailableSyllabi] = useState<string[]>([]);
   const [showEditStudentModal, setShowEditStudentModal] = useState(false);
   const [editingStudent, setEditingStudent] = useState<User | null>(null);
   const [showEditFacultyModal, setShowEditFacultyModal] = useState(false);
@@ -5325,7 +5326,26 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       )}
 
       {/* Assign Program Modal */}
-      {showAssignProgramModal && (
+      {showAssignProgramModal && (() => {
+        // Fetch syllabi when modal opens
+        if (availableSyllabi.length === 0) {
+          supabase
+            .from('content_staging')
+            .select('ai_suggestion')
+            .eq('discipline', selectedDiscipline)
+            .then(({ data }) => {
+              if (data) {
+                const titles = [...new Set(
+                  data
+                    .map((r: any) => r?.ai_suggestion?.metadata?.title)
+                    .filter(Boolean)
+                )] as string[];
+                setAvailableSyllabi(titles);
+              }
+            });
+        }
+        return true;
+      })() && (
         <div className="fixed inset-0 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
           <div className="bg-white rounded-lg shadow-lg border-4 border-green-400 max-w-4xl w-full max-h-[85vh] lg:max-h-[80vh] flex flex-col">
             {/* Sticky Header */}
@@ -5348,16 +5368,22 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             {/* Scrollable Content */}
             <div className="flex-1 overflow-y-auto p-3 sm:p-6">
               <div className="space-y-4 sm:space-y-6">
-                {/* Program Name Input */}
+                {/* Syllabus Dropdown */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Program Name</label>
-                  <input
-                    type="text"
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Select Syllabus</label>
+                  <select
                     value={assignProgramName}
                     onChange={(e) => setAssignProgramName(e.target.value)}
-                    placeholder="Enter program name (e.g., Welding Technology, Advanced Culinary)"
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-                  />
+                  >
+                    <option value="">-- Select a syllabus --</option>
+                    {availableSyllabi.map((title) => (
+                      <option key={title} value={title}>{title}</option>
+                    ))}
+                  </select>
+                  {availableSyllabi.length === 0 && (
+                    <p className="text-sm text-gray-400 mt-1">No syllabi found for this discipline yet.</p>
+                  )}
                 </div>
 
                 {/* Student Selection */}
@@ -5423,6 +5449,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     setShowAssignProgramModal(false);
                     setAssignProgramName('');
                     setSelectedStudentIds(new Set());
+                    setAvailableSyllabi([]);
                   }}
                   className="px-6 py-2 border-2 border-gray-300 rounded-md hover:bg-gray-100 font-retro"
                 >
@@ -5454,6 +5481,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       setShowAssignProgramModal(false);
                       setAssignProgramName('');
                       setSelectedStudentIds(new Set());
+                      setAvailableSyllabi([]);
                     } catch (error: any) {
                       console.error('Error assigning program:', error);
                       showError('Failed to assign program: ' + error.message);
