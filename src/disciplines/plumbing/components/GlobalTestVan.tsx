@@ -162,7 +162,8 @@ const GlobalTestVan: React.FC<GlobalTestVanProps> = ({ showcaseRecipe }) => {
             scheduled_date: scheduledDate,
             scheduled_time: scheduledTime,
             session_type: scheduledSessionType,
-            teacher_tag: scheduledTeacher || null
+            teacher_tag: scheduledTeacher || null,
+            discipline_slug: 'plumbing'
           })
           .select()
           .single();
@@ -259,6 +260,7 @@ const GlobalTestVan: React.FC<GlobalTestVanProps> = ({ showcaseRecipe }) => {
           .from('schedule_sessions')
           .select('*')
           .eq('user_id', user.id)
+          .eq('discipline_slug', 'plumbing')
           .order('scheduled_date', { ascending: true });
 
         if (error) {
@@ -277,7 +279,7 @@ const GlobalTestVan: React.FC<GlobalTestVanProps> = ({ showcaseRecipe }) => {
           scheduledTime: `${session.scheduled_date} at ${session.scheduled_time}`,
           description: session.description,
           sessionType: session.session_type,
-          teacherTag: session.teacher || undefined
+          teacherTag: session.teacher_tag || undefined
         }));
 
         setUpcomingSessions(sessions);

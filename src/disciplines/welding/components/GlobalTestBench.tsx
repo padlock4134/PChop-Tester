@@ -166,7 +166,8 @@ const GlobalTestBench: React.FC<GlobalTestBenchProps> = ({ showcaseProject }) =>
             scheduled_date: scheduledDate,
             scheduled_time: scheduledTime,
             session_type: scheduledSessionType,
-            teacher_tag: scheduledTeacher || null
+            teacher_tag: scheduledTeacher || null,
+            discipline_slug: 'welding'
           })
           .select()
           .single();
@@ -263,6 +264,7 @@ const GlobalTestBench: React.FC<GlobalTestBenchProps> = ({ showcaseProject }) =>
           .from('schedule_sessions')
           .select('*')
           .eq('user_id', user.id)
+          .eq('discipline_slug', 'welding')
           .order('scheduled_date', { ascending: true });
 
         if (error) {
@@ -281,7 +283,7 @@ const GlobalTestBench: React.FC<GlobalTestBenchProps> = ({ showcaseProject }) =>
           scheduledTime: `${session.scheduled_date} at ${session.scheduled_time}`,
           description: session.description,
           sessionType: session.session_type,
-          teacherTag: session.teacher || undefined
+          teacherTag: session.teacher_tag || undefined
         }));
 
         setUpcomingSessions(sessions);
