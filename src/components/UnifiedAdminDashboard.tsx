@@ -78,7 +78,23 @@ const AdminFreddieWidget: React.FC<{ currentUserId?: string }> = ({ currentUserI
     setInput('');
     setLoading(true);
     try {
-      const reply = await askChefFreddie(currentUserId, `You are Director Vance, a CTE program director and admin assistant for the PorkChop platform. You help school administrators manage students, track program performance, configure curriculum, and run their CTE pathways. Be direct and knowledgeable. Help with: ${text}`);
+      const response = await fetch('/.netlify/functions/anthropic-proxy', {
+        method: 'POST',
+        headers: { 'anthropic-version': '2023-06-01', 'content-type': 'application/json' },
+        body: JSON.stringify({
+          apiKeyIdentifier: 'chef',
+          model: 'claude-haiku-4-5-20251001',
+          max_tokens: 400,
+          messages: [{
+            role: 'user',
+            content: `You are Director Vance, a CTE program director and admin assistant for the PorkChop platform. You help school administrators manage students, track program performance, configure curriculum, and run CTE pathways. Respond concisely in plain text only — no markdown, no asterisks, no hashtags, no bold. Use short numbered steps if needed. Question: ${text}`,
+          }],
+          temperature: 0.7,
+        }),
+      });
+      if (!response.ok) throw new Error('Failed to reach Director Vance.');
+      const data = await response.json();
+      const reply = data.content?.[0]?.text || 'Sorry, no response received.';
       setMessages(prev => [...prev, { sender: 'freddie', text: reply }]);
     } catch (err: any) {
       setMessages(prev => [...prev, { sender: 'freddie', text: err.message || 'Sorry, something went wrong.' }]);
