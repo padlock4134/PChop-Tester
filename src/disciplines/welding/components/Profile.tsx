@@ -7,6 +7,7 @@ import { supabase } from '../api/supabaseClient';
 // Removed external imports that don't exist
 import ReactMarkdown from 'react-markdown';
 import jsPDF from 'jspdf';
+import ClassRegistrationModal from './ClassRegistrationModal';
 
 // Define UserProfile type
 type UserProfile = {
@@ -38,18 +39,21 @@ const WOW_CLASSIC_XP_TABLE = [
 
 // Experience level mapping between UI labels and backend values
 const EXPERIENCE_LEVEL_MAPPING = {
-  'Beginner': 'new_to_cooking',
-  'Intermediate': 'home_cook', 
-  'Advanced': 'kitchen_confident',
-  'Professional': 'kitchen_confident' // Both Advanced and Professional map to kitchen_confident
+  'Beginner': 'new_to_welding',
+  'Intermediate': 'apprentice_welder', 
+  'Advanced': 'journeyman_welder',
+  'Professional': 'journeyman_welder'
 } as const;
 
-// Reverse mapping for displaying in UI
-const EXPERIENCE_LEVEL_DISPLAY = {
+// Reverse mapping for displaying in UI (includes legacy culinary values for backward compat)
+const EXPERIENCE_LEVEL_DISPLAY: Record<string, string> = {
+  'new_to_welding': 'Beginner',
+  'apprentice_welder': 'Intermediate',
+  'journeyman_welder': 'Advanced',
   'new_to_cooking': 'Beginner',
   'home_cook': 'Intermediate',
   'kitchen_confident': 'Advanced'
-} as const;
+};
 
 // Modal components
 const EditProfileModal = ({ 
@@ -72,6 +76,7 @@ const EditProfileModal = ({
     experienceLevel: user?.experience || 'Beginner',
     program: (user as any)?.program || ''
   });
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   if (!open) return null;
 
@@ -90,8 +95,7 @@ const EditProfileModal = ({
         .eq('id', user.id);
 
       if (error) {
-        console.error('Error updating profile:', error);
-        console.error(t('profile.failedToSaveProfile'));
+        setErrorMsg(t('profile.failedToSaveProfile', { defaultValue: 'Failed to save profile. Please try again.' }));
         return;
       }
 
@@ -108,8 +112,7 @@ const EditProfileModal = ({
       onProfileUpdated(updatedUser);
       onClose();
     } catch (error) {
-      console.error('Error saving profile:', error);
-      console.error('Failed to save profile changes. Please try again.');
+      setErrorMsg('Failed to save profile changes. Please try again.');
     }
   };
 
@@ -223,6 +226,11 @@ const EditProfileModal = ({
 
         {/* Fixed Footer with Buttons */}
         <div className="p-6 pt-4 border-t-2 border-gray-200">
+          {errorMsg && (
+            <div className="mb-3 p-3 bg-red-100 text-red-800 rounded border border-red-300 text-sm text-center">
+              {errorMsg}
+            </div>
+          )}
           <div className="flex justify-center">
             <button 
               onClick={handleSave}
@@ -367,9 +375,11 @@ const ClassScheduleModal = ({ open, onClose, onOpenRegistration }: { open: boole
 
 const RequestsModal = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
   const { t } = useTranslation();
+  const { user } = useSupabase();
   const [selectedType, setSelectedType] = React.useState('');
   const [requestDetails, setRequestDetails] = React.useState('');
   const [showSuccess, setShowSuccess] = React.useState(false);
+  const [submitting, setSubmitting] = React.useState(false);
   
   if (!open) return null;
   
@@ -405,12 +415,27 @@ const RequestsModal = ({ open, onClose }: { open: boolean; onClose: () => void }
     category.items.map((item) => ({ ...item, category: category.title }))
   );
   
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!selectedType || !requestDetails.trim()) {
       console.error(t('profile.pleaseSelectRequestType'));
       return;
     }
-    setShowSuccess(true);
+    setSubmitting(true);
+    try {
+      const { error } = await supabase
+        .from('user_activity_log')
+        .insert({
+          user_id: user?.id,
+          activity_type: 'student_request',
+          metadata: { request_type: selectedType, details: requestDetails }
+        });
+      if (error) throw error;
+      setShowSuccess(true);
+    } catch (err) {
+      console.error('Failed to submit request:', err);
+    } finally {
+      setSubmitting(false);
+    }
   };
   
   if (showSuccess) {
@@ -510,51 +535,11 @@ const RequestsModal = ({ open, onClose }: { open: boolean; onClose: () => void }
         <div className="p-6 pt-4 border-t-2 border-gray-200 flex justify-end">
           <button
             onClick={handleSubmit}
-            disabled={!selectedType || !requestDetails.trim()}
+            disabled={!selectedType || !requestDetails.trim() || submitting}
             className="bg-maineBlue text-white px-8 py-3 rounded-lg font-bold hover:bg-seafoam hover:text-maineBlue transition-colors border-2 border-black disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {t('profile.submitRequest')}
+            {submitting ? t('profile.submitting', { defaultValue: 'Submitting...' }) : t('profile.submitRequest')}
           </button>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const ClassRegistrationModal = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
-  const { t } = useTranslation();
-  if (!open) return null;
-  
-  const availableClasses: any[] = [];
-  
-  return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg shadow-lg border-4 border-black p-6 max-w-3xl w-full max-h-[80vh] overflow-y-auto">
-        <div className="flex justify-between items-center mb-6">
-          <div></div>
-          <h2 className="text-2xl font-bold text-maineBlue">{t('profile.registerForClasses')}</h2>
-          <button
-            onClick={onClose}
-            className="text-gray-500 hover:text-gray-700 text-2xl font-bold"
-          >
-            ×
-          </button>
-        </div>
-        
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {availableClasses.map((classItem, index) => (
-            <div key={index} className="bg-weatheredWhite border-2 border-gray-300 rounded-lg p-4 flex flex-col text-center">
-              <div className="flex-1 mb-4">
-                <h4 className="font-bold text-gray-800 text-lg mb-2">{classItem.name}</h4>
-                <p className="text-gray-600 text-sm">Instructor: {classItem.instructor}</p>
-                <p className="text-gray-600 text-sm">{classItem.time}</p>
-                <p className="text-sm text-green-600">{t('profile.spotsAvailable').replace('{spots}', classItem.spots.toString())}</p>
-              </div>
-              <button className="bg-seafoam text-maineBlue px-4 py-2 rounded font-bold hover:bg-maineBlue hover:text-seafoam transition-colors border border-black w-full">
-                {t('profile.register')}
-              </button>
-            </div>
-          ))}
         </div>
       </div>
     </div>

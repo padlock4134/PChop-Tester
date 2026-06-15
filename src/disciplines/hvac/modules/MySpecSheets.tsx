@@ -87,13 +87,17 @@ const MySpecSheets = () => {
   const [selectedCollection, setSelectedCollection] = useState<{id: string, name: string, emoji: string, recipes: string[]} | null>(null);
   const [selectedRecipes, setSelectedRecipes] = useState<string[]>([]);
   const [newCollectionName, setNewCollectionName] = useState('');
-  const [collections, setCollections] = useState([
-    { id: '1', name: 'Favorites', emoji: '⭐', recipes: ['1', '2', '3'] },
-    { id: '2', name: 'Quick Cook', emoji: '⚡', recipes: ['1', '2'] },
-    { id: '3', name: 'Healthy Options', emoji: '🥗', recipes: ['1', '2', '3', '4', '5'] }
-  ]);
+  const [collections, setCollections] = useState<{id: string, name: string, emoji: string, recipes: string[]}[]>([]);
 
   const { user, isLoading } = useSupabase();
+
+  useEffect(() => {
+    if (!user) return;
+    supabase.from('user_collections').select('*').eq('user_id', user.id).eq('discipline', 'hvac')
+      .then(({ data }) => {
+        if (data) setCollections(data.map(r => ({ id: r.id, name: r.name, emoji: r.emoji, recipes: r.items as string[] })));
+      });
+  }, [user]);
 
   // Load recipes and set page context on mount
   const { updateContext } = useFreddieContext();
@@ -118,19 +122,15 @@ const MySpecSheets = () => {
   };
 
   // Handle creating a new collection
-  const handleCreateCollection = () => {
-    if (newCollectionName.trim() && selectedRecipes.length > 0) {
-      const newCollection = {
-        id: Date.now().toString(),
-        name: newCollectionName.trim(),
-        emoji: '📁',
-        recipes: [...selectedRecipes]
-      };
-      setCollections(prev => [...prev, newCollection]);
-      setNewCollectionName('');
-      setSelectedRecipes([]);
-      setShowCreateCollectionModal(false);
+  const handleCreateCollection = async () => {
+    if (!newCollectionName.trim() || selectedRecipes.length === 0) return;
+    const { data, error } = await supabase.from('user_collections').insert({
+      user_id: user?.id, discipline: 'hvac', name: newCollectionName.trim(), emoji: '📁', items: selectedRecipes
+    }).select().single();
+    if (!error && data) {
+      setCollections(prev => [...prev, { id: data.id, name: data.name, emoji: data.emoji, recipes: data.items as string[] }]);
     }
+    setNewCollectionName(''); setSelectedRecipes([]); setShowCreateCollectionModal(false);
   };
 
   // Handle viewing a collection
@@ -140,12 +140,10 @@ const MySpecSheets = () => {
   };
 
   // Handle deleting a collection
-  const handleDeleteCollection = (collectionId: string) => {
-    if (window.confirm(t('mySpecSheets.deleteConfirm'))) {
-      setCollections(prev => prev.filter(collection => collection.id !== collectionId));
-      setShowViewCollectionModal(false);
-      setSelectedCollection(null);
-    }
+  const handleDeleteCollection = async (collectionId: string) => {
+    await supabase.from('user_collections').delete().eq('id', collectionId).eq('user_id', user?.id ?? '');
+    setCollections(prev => prev.filter(c => c.id !== collectionId));
+    setShowViewCollectionModal(false); setSelectedCollection(null);
   };
 
   // Handle opening gradebook

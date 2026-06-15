@@ -35,7 +35,7 @@ exports.handler = async (event) => {
     }
 
     const activeSessionIsCurrent = await isActiveSessionCurrent(session);
-    if (!activeSessionIsCurrent) {
+    if (activeSessionIsCurrent !== 'current') {
       return createErrorResponse(401, 'Session superseded by another login', null, [clearSessionCookie(), clearCsrfCookie()]);
     }
 

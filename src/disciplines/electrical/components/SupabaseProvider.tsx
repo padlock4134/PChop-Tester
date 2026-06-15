@@ -75,7 +75,10 @@ export const SupabaseProvider: React.FC<SupabaseProviderProps> = ({ children }) 
 
         // Award daily XP for all authenticated users
         checkAndAwardDailyXP(user.id);
-        logActivity({ user_id: user.id, activity_type: 'login', discipline: 'electrical' });
+        if (!sessionStorage.getItem(`login_logged_${user.id}`)) {
+          logActivity({ user_id: user.id, activity_type: 'login', discipline: 'electrical' });
+          sessionStorage.setItem(`login_logged_${user.id}`, '1');
+        }
       } catch (error) {
         console.error('[SupabaseProvider] Error getting user:', error);
         navigate('/');

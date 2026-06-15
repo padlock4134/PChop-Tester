@@ -85,7 +85,7 @@ const AdminFreddieWidget: React.FC<{ currentUserId?: string }> = ({ currentUserI
         headers: { 'anthropic-version': '2023-06-01', 'content-type': 'application/json' },
         body: JSON.stringify({
           apiKeyIdentifier: 'chef',
-          model: 'claude-haiku-4-5-20251001',
+          model: 'claude-haiku-3-5-20241022',
           max_tokens: 400,
           messages: [{
             role: 'user',
@@ -574,7 +574,8 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
     pushNotifications: true,
     inAppNotifications: true,
     autoBackup: 'daily',
-    backupRetention: '90-days'
+    backupRetention: '90-days',
+    facultyPerms: {} as Record<string, { gradeAssignments: boolean; manageStudents: boolean; editCurriculum: boolean; viewReports: boolean }>
   });
   const [schoolBranding, setSchoolBranding] = useState({
     logoUrl: '',
@@ -654,6 +655,9 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [editingFaculty, setEditingFaculty] = useState<any | null>(null);
   const [showEditAlumniModal, setShowEditAlumniModal] = useState(false);
   const [editingAlumni, setEditingAlumni] = useState<any | null>(null);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [confirmMessage, setConfirmMessage] = useState('');
+  const [confirmAction, setConfirmAction] = useState<(() => void) | null>(null);
   const [facultyList, setFacultyList] = useState<any[]>([]);
   const [newFacultyName, setNewFacultyName] = useState('');
   const [newFacultyEmail, setNewFacultyEmail] = useState('');
@@ -1148,9 +1152,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
     setUpdatingPermissions(true);
     try {
-      // Save module permissions
-      await supabase.from('module_permissions').delete().neq('id', '00000000-0000-0000-0000-000000000000');
-
+      // Save module permissions — insert first, then prune old rows
       const permissionsToInsert: any[] = [];
       
       Object.keys(modulePermissions).forEach(role => {
@@ -1163,29 +1165,54 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
         });
       });
 
-      const { error: permError } = await supabase
-        .from('module_permissions')
-        .insert(permissionsToInsert);
+      let newPermIds: string[] = [];
+      if (permissionsToInsert.length > 0) {
+        const { data: newPerms, error: permError } = await supabase
+          .from('module_permissions')
+          .insert(permissionsToInsert)
+          .select('id');
 
-      if (permError) {
-        console.error('Error saving permissions:', permError);
-        throw new Error('Failed to save module permissions');
+        if (permError) {
+          console.error('Error saving permissions:', permError);
+          throw new Error('Failed to save module permissions');
+        }
+        newPermIds = (newPerms || []).map((p: any) => p.id);
       }
 
-      // Save platform configuration
-      await supabase.from('platform_config').delete().neq('id', '00000000-0000-0000-0000-000000000000');
+      // Delete old permission rows that were just replaced
+      await supabase.from('module_permissions')
+        .delete()
+        .not('id', 'in', `(${newPermIds.length > 0 ? newPermIds.join(',') : '00000000-0000-0000-0000-000000000000'})`);
 
-      const { error: configError } = await supabase
+      // Save platform configuration — update existing row or insert
+      const { data: existingConfig } = await supabase
         .from('platform_config')
-        .insert({
-          config_data: platformConfig,
-          updated_by: currentUser.id,
-          updated_at: new Date().toISOString()
-        });
+        .select('id')
+        .maybeSingle();
 
-      if (configError) {
-        console.error('Error saving platform config:', configError);
-        throw new Error('Failed to save platform configuration');
+      const configPayload = {
+        config_data: platformConfig,
+        updated_by: currentUser.id,
+        updated_at: new Date().toISOString()
+      };
+
+      if (existingConfig?.id) {
+        const { error: configError } = await supabase
+          .from('platform_config')
+          .update(configPayload)
+          .eq('id', existingConfig.id);
+        if (configError) {
+          console.error('Error saving platform config:', configError);
+          throw new Error('Failed to save platform configuration');
+        }
+      } else {
+        const { error: configError } = await supabase
+          .from('platform_config')
+          .insert(configPayload);
+        if (configError) {
+          console.error('Error saving platform config:', configError);
+          throw new Error('Failed to save platform configuration');
+        }
       }
 
       // Show branded success modal
@@ -1207,14 +1234,19 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   // Save school branding to Supabase
   const saveSchoolBranding = async () => {
     try {
-      await supabase.from('school_branding').delete().neq('id', '00000000-0000-0000-0000-000000000000');
-      
-      const { error } = await supabase
+      const brandingPayload = {
+        branding_data: schoolBranding,
+        updated_at: new Date().toISOString()
+      };
+
+      const { data: existingBranding } = await supabase
         .from('school_branding')
-        .insert([{
-          branding_data: schoolBranding,
-          updated_at: new Date().toISOString()
-        }]);
+        .select('id')
+        .maybeSingle();
+
+      const { error } = existingBranding?.id
+        ? await supabase.from('school_branding').update(brandingPayload).eq('id', existingBranding.id)
+        : await supabase.from('school_branding').insert([brandingPayload]);
 
       if (error) {
         console.error('Error saving school branding:', error);
@@ -2886,8 +2918,9 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             {t('admin.edit')}
                           </button>
                           <button
-                            onClick={async () => {
-                              if (window.confirm(t('admin.confirmRemoveStudent', { name: user.username || user.email }))) {
+                            onClick={() => {
+                              setConfirmMessage(t('admin.confirmRemoveStudent', { name: user.username || user.email }));
+                              setConfirmAction(async () => {
                                 try {
                                   const { error } = await supabase
                                     .from('profiles')
@@ -2899,7 +2932,8 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                                 } catch (error: any) {
                                   showError('Failed to remove student: ' + error.message);
                                 }
-                              }
+                              });
+                              setShowConfirmModal(true);
                             }}
                             className="flex-1 text-red-600 hover:text-white hover:bg-red-600 px-3 py-2 border border-red-600 rounded text-xs sm:text-sm transition-colors min-h-[44px]"
                           >
@@ -3038,10 +3072,18 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         </button>
                         <button
                           onClick={() => {
-                            if (window.confirm(t('admin.confirmRemoveFaculty', { name: faculty.name }))) {
-                              setFacultyList(prev => prev.filter(f => f.id !== faculty.id));
-                              alert(t('admin.facultyRemovedSuccess'));
-                            }
+                            setConfirmMessage(t('admin.confirmRemoveFaculty', { name: faculty.name }));
+                            setConfirmAction(async () => {
+                              try {
+                                const { error } = await supabase.from('faculty').delete().eq('id', faculty.id);
+                                if (error) throw error;
+                                setFacultyList(prev => prev.filter(f => f.id !== faculty.id));
+                                showSuccess(t('admin.facultyRemovedSuccess'));
+                              } catch (err: any) {
+                                showError(err.message || 'Failed to remove faculty member.');
+                              }
+                            });
+                            setShowConfirmModal(true);
                           }}
                           className="flex-1 text-red-600 hover:text-white hover:bg-red-600 px-3 py-2 border border-red-600 rounded text-xs sm:text-sm transition-colors min-h-[44px]"
                         >
@@ -3179,10 +3221,18 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         </button>
                         <button
                           onClick={() => {
-                            if (window.confirm(t('admin.confirmRemoveAlumni', { name: alumni.name }))) {
-                              setAlumniList(prev => prev.filter(a => a.id !== alumni.id));
-                              alert(t('admin.alumniRemovedSuccess'));
-                            }
+                            setConfirmMessage(t('admin.confirmRemoveAlumni', { name: alumni.name }));
+                            setConfirmAction(async () => {
+                              try {
+                                const { error } = await supabase.from('alumni').delete().eq('id', alumni.id);
+                                if (error) throw error;
+                                setAlumniList(prev => prev.filter(a => a.id !== alumni.id));
+                                showSuccess(t('admin.alumniRemovedSuccess'));
+                              } catch (err: any) {
+                                showError(err.message || 'Failed to remove alumni.');
+                              }
+                            });
+                            setShowConfirmModal(true);
                           }}
                           className="flex-1 text-red-600 hover:text-white hover:bg-red-600 px-3 py-2 border border-red-600 rounded text-xs sm:text-sm transition-colors min-h-[44px]"
                         >
@@ -3650,19 +3700,19 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       <h4 className="font-medium text-gray-800 mb-2 sm:mb-3 text-xs sm:text-base">{t('admin.contentModerationSettings')}</h4>
                       <div className="space-y-2">
                         <label className="flex items-center">
-                          <input type="checkbox" className="mr-2 min-w-[16px] min-h-[16px]" checked />
+                          <input type="checkbox" className="mr-2 min-w-[16px] min-h-[16px]" checked={platformConfig.aiContentFiltering} onChange={(e) => setPlatformConfig({...platformConfig, aiContentFiltering: e.target.checked})} />
                           <span className="text-xs sm:text-sm">{t('admin.enableAIFiltering')}</span>
                         </label>
                         <label className="flex items-center">
-                          <input type="checkbox" className="mr-2 min-w-[16px] min-h-[16px]" checked />
+                          <input type="checkbox" className="mr-2 min-w-[16px] min-h-[16px]" checked={platformConfig.flagInappropriate} onChange={(e) => setPlatformConfig({...platformConfig, flagInappropriate: e.target.checked})} />
                           <span className="text-xs sm:text-sm">{t('admin.flagInappropriateContent')}</span>
                         </label>
                         <label className="flex items-center">
-                          <input type="checkbox" className="mr-2 min-w-[16px] min-h-[16px]" />
+                          <input type="checkbox" className="mr-2 min-w-[16px] min-h-[16px]" checked={platformConfig.autoModerate} onChange={(e) => setPlatformConfig({...platformConfig, autoModerate: e.target.checked})} />
                           <span className="text-xs sm:text-sm">{t('admin.autoModeratePosts')}</span>
                         </label>
                         <label className="flex items-center">
-                          <input type="checkbox" className="mr-2 min-w-[16px] min-h-[16px]" checked />
+                          <input type="checkbox" className="mr-2 min-w-[16px] min-h-[16px]" checked={platformConfig.requireImageApproval} onChange={(e) => setPlatformConfig({...platformConfig, requireImageApproval: e.target.checked})} />
                           <span className="text-xs sm:text-sm">{t('admin.requireImageApprovalSetting')}</span>
                         </label>
                       </div>
@@ -3806,7 +3856,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                           </select>
                         </div>
                         <button 
-                          onClick={() => alert(t('admin.manualBackupInitiated'))}
+                          onClick={() => showSuccess(t('admin.manualBackupInitiated'))}
                           className="w-full px-3 py-1 bg-blue-100 text-blue-700 rounded hover:bg-blue-200 text-xs min-h-[36px]"
                         >
                           {t('admin.manualBackupNow')}
@@ -4246,7 +4296,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     <button
                       onClick={() => {
                         navigator.clipboard.writeText(generatedApiKey);
-                        alert(t('admin.apiKeyCopiedToClipboard', { defaultValue: 'API Key copied to clipboard!' }));
+                        showSuccess(t('admin.apiKeyCopiedToClipboard', { defaultValue: 'API Key copied to clipboard!' }));
                       }}
                       className="bg-green-100 text-green-700 px-3 py-2 rounded-md hover:bg-green-200 text-sm sm:text-base font-retro min-h-[44px]"
                     >
@@ -4272,7 +4322,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <div className="flex justify-center">
                   <button
                     onClick={() => {
-                      alert(t('admin.apiKeySavedToSettings', { defaultValue: 'API Key saved to your account settings!' }));
+                      showSuccess(t('admin.apiKeySavedToSettings', { defaultValue: 'API Key saved to your account settings!' }));
                       setShowApiKeyModal(false);
                     }}
                     className="w-full sm:w-auto bg-green-400 text-white px-6 py-2 rounded-md hover:bg-green-500 font-retro text-sm sm:text-base min-h-[44px]"
@@ -4484,7 +4534,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             <div className="flex gap-2 w-full sm:w-auto">
                               <button 
                                 onClick={() => {
-                                  alert(t('admin.announcementPreview', { defaultValue: `Title: ${item.title}\n\nContent:\n${item.content}` }));
+                                  showSuccess(t('admin.announcementPreview', { defaultValue: `Title: ${item.title} — ${item.content}` }));
                                 }}
                                 className="text-yellow-700 hover:text-yellow-800 font-medium text-xs sm:text-sm px-2 min-h-[36px]"
                               >
@@ -4870,13 +4920,13 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       
                       if (error) throw error;
                       
-                      alert(t('admin.announcementSentToRecipients', { count: users.length, defaultValue: `Announcement sent to ${users.length} recipients!` }));
+                      showSuccess(t('admin.announcementSentToRecipients', { count: users.length, defaultValue: `Announcement sent to ${users.length} recipients!` }));
                       setAnnouncementSubject('');
                       setAnnouncementMessage('');
                       setShowAnnouncementModal(false);
                     } catch (error: any) {
                       console.error('Error sending announcement:', error);
-                      alert(t('admin.failedToSendAnnouncement', { defaultValue: 'Failed to send announcement: ' }) + error.message);
+                      showError(t('admin.failedToSendAnnouncement', { defaultValue: 'Failed to send announcement: ' }) + error.message);
                     } finally {
                       setSendingAnnouncement(false);
                     }
@@ -4985,7 +5035,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       if (error) throw error;
                       
                       if (!data || data.length === 0) {
-                        alert(t('admin.noStudentDataToExport', { defaultValue: 'No student data to export' }));
+                        showWarning(t('admin.noStudentDataToExport', { defaultValue: 'No student data to export' }));
                         return;
                       }
                       
@@ -5005,7 +5055,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       setShowExportDataModal(false);
                     } catch (error: any) {
                       console.error('Error exporting data:', error);
-                      alert(t('admin.failedToExportData', { defaultValue: 'Failed to export data: ' }) + error.message);
+                      showError(t('admin.failedToExportData', { defaultValue: 'Failed to export data: ' }) + error.message);
                     } finally {
                       setExportingData(false);
                     }
@@ -5172,10 +5222,10 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       setNewFacultyEmail('');
                       setNewFacultyRole('Instructor');
                       setShowAddFacultyModal(false);
-                      alert(t('admin.facultyMemberAddedSuccess', { defaultValue: 'Faculty member added successfully!' }));
+                      showSuccess(t('admin.facultyMemberAddedSuccess', { defaultValue: 'Faculty member added successfully!' }));
                     } catch (error: any) {
                       console.error('Error adding faculty:', error);
-                      alert(t('admin.failedToAddFaculty', { defaultValue: 'Failed to add faculty: ' }) + error.message);
+                      showError(t('admin.failedToAddFaculty', { defaultValue: 'Failed to add faculty: ' }) + error.message);
                     } finally {
                       setAddingFaculty(false);
                     }
@@ -5773,19 +5823,31 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         </div>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
                           <label className="flex items-center text-xs sm:text-sm min-h-[44px]">
-                            <input type="checkbox" className="mr-2 w-5 h-5" defaultChecked />
+                            <input type="checkbox" className="mr-2 w-5 h-5"
+                              checked={platformConfig.facultyPerms?.[f.id]?.gradeAssignments ?? true}
+                              onChange={(e) => setPlatformConfig({...platformConfig, facultyPerms: {...platformConfig.facultyPerms, [f.id]: {...(platformConfig.facultyPerms?.[f.id] || {gradeAssignments: true, manageStudents: true, editCurriculum: false, viewReports: true}), gradeAssignments: e.target.checked}}})}
+                            />
                             <span className="text-gray-700">Grade Assignments</span>
                           </label>
                           <label className="flex items-center text-xs sm:text-sm min-h-[44px]">
-                            <input type="checkbox" className="mr-2 w-5 h-5" defaultChecked />
+                            <input type="checkbox" className="mr-2 w-5 h-5"
+                              checked={platformConfig.facultyPerms?.[f.id]?.manageStudents ?? true}
+                              onChange={(e) => setPlatformConfig({...platformConfig, facultyPerms: {...platformConfig.facultyPerms, [f.id]: {...(platformConfig.facultyPerms?.[f.id] || {gradeAssignments: true, manageStudents: true, editCurriculum: false, viewReports: true}), manageStudents: e.target.checked}}})}
+                            />
                             <span className="text-gray-700">Manage Students</span>
                           </label>
                           <label className="flex items-center text-xs sm:text-sm min-h-[44px]">
-                            <input type="checkbox" className="mr-2 w-5 h-5" />
+                            <input type="checkbox" className="mr-2 w-5 h-5"
+                              checked={platformConfig.facultyPerms?.[f.id]?.editCurriculum ?? false}
+                              onChange={(e) => setPlatformConfig({...platformConfig, facultyPerms: {...platformConfig.facultyPerms, [f.id]: {...(platformConfig.facultyPerms?.[f.id] || {gradeAssignments: true, manageStudents: true, editCurriculum: false, viewReports: true}), editCurriculum: e.target.checked}}})}
+                            />
                             <span className="text-gray-700">Edit Curriculum</span>
                           </label>
                           <label className="flex items-center text-xs sm:text-sm min-h-[44px]">
-                            <input type="checkbox" className="mr-2 w-5 h-5" defaultChecked />
+                            <input type="checkbox" className="mr-2 w-5 h-5"
+                              checked={platformConfig.facultyPerms?.[f.id]?.viewReports ?? true}
+                              onChange={(e) => setPlatformConfig({...platformConfig, facultyPerms: {...platformConfig.facultyPerms, [f.id]: {...(platformConfig.facultyPerms?.[f.id] || {gradeAssignments: true, manageStudents: true, editCurriculum: false, viewReports: true}), viewReports: e.target.checked}}})}
+                            />
                             <span className="text-gray-700">View Reports</span>
                           </label>
                         </div>
@@ -5799,15 +5861,11 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   onClick={async () => {
                     setUpdatingPermissions(true);
                     try {
-                      // In production, this would update specific faculty permissions
-                      // For now, just demonstrate it works by simulating the update
-                      await new Promise(resolve => setTimeout(resolve, 800));
-                      
-                      alert(t('admin.permissionsUpdatedSuccess', { defaultValue: 'Permissions updated successfully! (In production, this would update faculty roles in the database)' }));
+                      await saveModulePermissions();
                       setShowManagePermissionsModal(false);
                     } catch (error: any) {
                       console.error('Error updating permissions:', error);
-                      alert(t('admin.failedToUpdatePermissions', { defaultValue: 'Failed to update permissions: ' }) + error.message);
+                      showError(t('admin.failedToUpdatePermissions', { defaultValue: 'Failed to update permissions: ' }) + error.message);
                     } finally {
                       setUpdatingPermissions(false);
                     }
@@ -5895,7 +5953,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       if (error) throw error;
                       
                       if (!data || data.length === 0) {
-                        alert(t('admin.noFacultyDataToExport', { defaultValue: 'No faculty data to export' }));
+                        showWarning(t('admin.noFacultyDataToExport', { defaultValue: 'No faculty data to export' }));
                         return;
                       }
                       
@@ -5913,7 +5971,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       setShowDownloadSuccessModal(true);
                     } catch (error: any) {
                       console.error('Error exporting faculty:', error);
-                      alert(t('admin.failedToExportGeneric', { defaultValue: 'Failed to export: ' }) + error.message);
+                      showError(t('admin.failedToExportGeneric', { defaultValue: 'Failed to export: ' }) + error.message);
                     } finally {
                       setExportingFaculty(false);
                     }
@@ -6009,7 +6067,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       if (alumniError) throw alumniError;
                       
                       if (!alumniData || alumniData.length === 0) {
-                        alert(t('admin.noAlumniFoundForNewsletter', { defaultValue: 'No alumni found to send newsletter to' }));
+                        showWarning(t('admin.noAlumniFoundForNewsletter', { defaultValue: 'No alumni found to send newsletter to' }));
                         return;
                       }
                       
@@ -6041,7 +6099,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       setShowAlumniNewsletterModal(false);
                     } catch (error: any) {
                       console.error('Error sending newsletter:', error);
-                      alert(t('admin.failedToSendNewsletter', { defaultValue: 'Failed to send newsletter: ' }) + error.message);
+                      showError(t('admin.failedToSendNewsletter', { defaultValue: 'Failed to send newsletter: ' }) + error.message);
                     } finally {
                       setSendingNewsletter(false);
                     }
@@ -6137,14 +6195,27 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 </div>
                 <div className="flex justify-end">
                   <button
-                    onClick={() => {
-                      // Update the alumni in the list
-                      setAlumniList(prev => prev.map(a => 
-                        a.id === editingAlumni.id ? editingAlumni : a
-                      ));
-                      setShowEditAlumniModal(false);
-                      setEditingAlumni(null);
-                      alert(t('admin.alumniInfoUpdatedSuccess', { defaultValue: 'Alumni information updated successfully!' }));
+                    onClick={async () => {
+                      try {
+                        const { error } = await supabase
+                          .from('alumni')
+                          .update({
+                            full_name: editingAlumni.name,
+                            email: editingAlumni.email || null,
+                            graduation_year: editingAlumni.graduationYear ? parseInt(editingAlumni.graduationYear) : null,
+                            current_position: editingAlumni.position || null,
+                            current_employer: editingAlumni.employer || null,
+                            salary: editingAlumni.salary || null
+                          })
+                          .eq('id', editingAlumni.id);
+                        if (error) throw error;
+                        setAlumniList(prev => prev.map(a => a.id === editingAlumni.id ? editingAlumni : a));
+                        setShowEditAlumniModal(false);
+                        setEditingAlumni(null);
+                        showSuccess(t('admin.alumniInfoUpdatedSuccess', { defaultValue: 'Alumni information updated successfully!' }));
+                      } catch (err: any) {
+                        showError(err.message || 'Failed to update alumni.');
+                      }
                     }}
                     className="w-full sm:w-auto bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro text-sm sm:text-base min-h-[44px]"
                   >
@@ -6231,14 +6302,25 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 </div>
                 <div className="flex justify-end">
                   <button
-                    onClick={() => {
-                      // Update the faculty in the list
-                      setFacultyList(prev => prev.map(f => 
-                        f.id === editingFaculty.id ? editingFaculty : f
-                      ));
-                      setShowEditFacultyModal(false);
-                      setEditingFaculty(null);
-                      alert(t('admin.facultyInfoUpdatedSuccess', { defaultValue: 'Faculty information updated successfully!' }));
+                    onClick={async () => {
+                      try {
+                        const { error } = await supabase
+                          .from('faculty')
+                          .update({
+                            full_name: editingFaculty.name,
+                            email: editingFaculty.email,
+                            role: editingFaculty.role,
+                            status: editingFaculty.status
+                          })
+                          .eq('id', editingFaculty.id);
+                        if (error) throw error;
+                        setFacultyList(prev => prev.map(f => f.id === editingFaculty.id ? editingFaculty : f));
+                        setShowEditFacultyModal(false);
+                        setEditingFaculty(null);
+                        showSuccess(t('admin.facultyInfoUpdatedSuccess', { defaultValue: 'Faculty information updated successfully!' }));
+                      } catch (err: any) {
+                        showError(err.message || 'Failed to update faculty member.');
+                      }
                     }}
                     className="w-full sm:w-auto bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro text-sm sm:text-base min-h-[44px]"
                   >
@@ -6401,7 +6483,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         setShowPlanEventModal(false);
                       } catch (error: any) {
                         console.error('Error creating event:', error);
-                        alert(t('admin.failedToCreateEvent', { defaultValue: 'Failed to create event: ' }) + error.message);
+                        showError(t('admin.failedToCreateEvent', { defaultValue: 'Failed to create event: ' }) + error.message);
                       } finally {
                         setCreatingEvent(false);
                       }
@@ -6506,7 +6588,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         setShowGiftingDonationsModal(false);
                       } catch (error: any) {
                         console.error('Error exporting donor list:', error);
-                        alert(t('admin.failedToExportGeneric', { defaultValue: 'Failed to export: ' }) + error.message);
+                        showError(t('admin.failedToExportGeneric', { defaultValue: 'Failed to export: ' }) + error.message);
                       }
                     }}
                     className="w-full sm:w-auto bg-green-500 text-white px-6 py-2 rounded-md hover:bg-green-600 font-retro text-sm sm:text-base min-h-[44px]"
@@ -6548,7 +6630,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         setShowGiftingDonationsModal(false);
                       } catch (error: any) {
                         console.error('Error creating campaign:', error);
-                        alert(t('admin.failedToCreateCampaign', { defaultValue: 'Failed to create campaign: ' }) + error.message);
+                        showError(t('admin.failedToCreateCampaign', { defaultValue: 'Failed to create campaign: ' }) + error.message);
                       } finally {
                         setCreatingCampaign(false);
                       }
@@ -6630,7 +6712,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       if (error) throw error;
                       
                       if (!data || data.length === 0) {
-                        alert(t('admin.noEmploymentDataToExport', { defaultValue: 'No employment data to export' }));
+                        showWarning(t('admin.noEmploymentDataToExport', { defaultValue: 'No employment data to export' }));
                         return;
                       }
                       
@@ -6662,7 +6744,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       setShowDownloadSuccessModal(true);
                     } catch (error: any) {
                       console.error('Error exporting employment data:', error);
-                      alert(t('admin.failedToExportGeneric', { defaultValue: 'Failed to export: ' }) + error.message);
+                      showError(t('admin.failedToExportGeneric', { defaultValue: 'Failed to export: ' }) + error.message);
                     } finally {
                       setExportingEmployment(false);
                     }
@@ -7024,7 +7106,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       setShowCareerServicesModal(false);
                     } catch (error: any) {
                       console.error('Error scheduling event:', error);
-                      alert(t('admin.failedToScheduleEvent', { defaultValue: 'Failed to schedule event: ' }) + error.message);
+                      showError(t('admin.failedToScheduleEvent', { defaultValue: 'Failed to schedule event: ' }) + error.message);
                     } finally {
                       setSchedulingCareerEvent(false);
                     }
@@ -7112,7 +7194,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       if (error) throw error;
                       
                       if (!data || data.length === 0) {
-                        alert(t('admin.noAlumniDataToExport', { defaultValue: 'No alumni data to export' }));
+                        showWarning(t('admin.noAlumniDataToExport', { defaultValue: 'No alumni data to export' }));
                         return;
                       }
                       
@@ -7130,7 +7212,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       setShowDownloadSuccessModal(true);
                     } catch (error: any) {
                       console.error('Error exporting alumni:', error);
-                      alert(t('admin.failedToExportGeneric', { defaultValue: 'Failed to export: ' }) + error.message);
+                      showError(t('admin.failedToExportGeneric', { defaultValue: 'Failed to export: ' }) + error.message);
                     } finally {
                       setExportingAlumni(false);
                     }
@@ -7295,7 +7377,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       setShowAddAlumniModal(false);
                     } catch (error: any) {
                       console.error('Error adding alumni:', error);
-                      alert(t('admin.failedToAddAlumni', { defaultValue: 'Failed to add alumni: ' }) + error.message);
+                      showError(t('admin.failedToAddAlumni', { defaultValue: 'Failed to add alumni: ' }) + error.message);
                     }
                     }}
                     className="w-full sm:w-auto bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro text-sm sm:text-base min-h-[44px]"
@@ -7376,7 +7458,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   <button
                     onClick={async () => {
                     if (!currentUser?.id) {
-                      alert(t('admin.mustBeLoggedInToSendReminders', { defaultValue: 'You must be logged in to send reminders' }));
+                      showWarning(t('admin.mustBeLoggedInToSendReminders', { defaultValue: 'You must be logged in to send reminders' }));
                       return;
                     }
                     
@@ -7403,7 +7485,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       setShowViewEventModal(false);
                     } catch (error: any) {
                       console.error('Error sending reminders:', error);
-                      alert(t('admin.failedToSendReminders', { defaultValue: 'Failed to send reminders: ' }) + error.message);
+                      showError(t('admin.failedToSendReminders', { defaultValue: 'Failed to send reminders: ' }) + error.message);
                     }
                   }}
                   className="bg-yellow-400 text-white px-6 py-2 rounded-md hover:bg-yellow-500 font-retro"
@@ -7431,7 +7513,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       setShowViewEventModal(false);
                     } catch (error: any) {
                       console.error('Error exporting attendee list:', error);
-                      alert(t('admin.failedToExportGeneric', { defaultValue: 'Failed to export: ' }) + error.message);
+                      showError(t('admin.failedToExportGeneric', { defaultValue: 'Failed to export: ' }) + error.message);
                     }
                     }}
                     className="w-full sm:w-auto bg-green-400 text-white px-6 py-2 rounded-md hover:bg-green-500 font-retro text-sm sm:text-base min-h-[44px]"
@@ -7504,7 +7586,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   <button
                     onClick={async () => {
                     if (!currentUser?.id) {
-                      alert(t('admin.mustBeLoggedInToSendReminders', { defaultValue: 'You must be logged in to send reminders' }));
+                      showWarning(t('admin.mustBeLoggedInToSendReminders', { defaultValue: 'You must be logged in to send reminders' }));
                       return;
                     }
                     
@@ -7531,7 +7613,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       setShowViewCareerEventModal(false);
                     } catch (error: any) {
                       console.error('Error sending reminders:', error);
-                      alert(t('admin.failedToSendReminders', { defaultValue: 'Failed to send reminders: ' }) + error.message);
+                      showError(t('admin.failedToSendReminders', { defaultValue: 'Failed to send reminders: ' }) + error.message);
                     }
                     }}
                     className="w-full sm:w-auto bg-yellow-400 text-white px-6 py-2 rounded-md hover:bg-yellow-500 font-retro text-sm sm:text-base min-h-[44px]"
@@ -7559,7 +7641,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       setShowViewCareerEventModal(false);
                     } catch (error: any) {
                       console.error('Error exporting attendee list:', error);
-                      alert(t('admin.failedToExportGeneric', { defaultValue: 'Failed to export: ' }) + error.message);
+                      showError(t('admin.failedToExportGeneric', { defaultValue: 'Failed to export: ' }) + error.message);
                     }
                     }}
                     className="w-full sm:w-auto bg-purple-400 text-white px-6 py-2 rounded-md hover:bg-purple-500 font-retro text-sm sm:text-base min-h-[44px]"
@@ -7631,13 +7713,13 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 {/* Action Buttons */}
                 <div className="flex flex-col sm:flex-row justify-center gap-2 sm:gap-3">
                   <button
-                    onClick={() => alert(t('admin.sendRenewalRemindersAction', { defaultValue: 'Send renewal reminders to all expiring certifications' }))}
+                    onClick={() => showSuccess(t('admin.sendRenewalRemindersAction', { defaultValue: 'Send renewal reminders to all expiring certifications' }))}
                     className="w-full sm:w-auto bg-yellow-400 text-white px-4 sm:px-6 py-2 rounded-md hover:bg-yellow-500 font-retro text-sm sm:text-base min-h-[44px]"
                   >
                     Send Reminders
                   </button>
                   <button
-                    onClick={() => alert(t('admin.exportCertificationReportAction', { defaultValue: 'Export certification report' }))}
+                    onClick={() => showSuccess(t('admin.exportCertificationReportAction', { defaultValue: 'Export certification report' }))}
                     className="w-full sm:w-auto bg-orange-400 text-white px-4 sm:px-6 py-2 rounded-md hover:bg-orange-500 font-retro text-sm sm:text-base min-h-[44px]"
                   >
                     Export Report
@@ -8175,6 +8257,39 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <p className="text-lg font-medium">{t('admin.noDataAvailableYet', { defaultValue: 'No data available yet' })}</p>
                 <p className="text-sm mt-2">{t('admin.studyGroupsComingSoon', { defaultValue: 'Active study groups will appear here in real-time.' })}</p>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Confirmation Modal */}
+      {showConfirmModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-md w-full p-6">
+            <h3 className="text-xl font-bold text-maineBlue mb-4">Confirm Action</h3>
+            <p className="text-gray-700 mb-6">{confirmMessage}</p>
+            <div className="flex justify-end gap-3">
+              <button
+                onClick={() => {
+                  setShowConfirmModal(false);
+                  setConfirmMessage('');
+                  setConfirmAction(null);
+                }}
+                className="px-4 py-2 border border-gray-300 rounded hover:bg-gray-100 transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={async () => {
+                  if (confirmAction) await confirmAction();
+                  setShowConfirmModal(false);
+                  setConfirmMessage('');
+                  setConfirmAction(null);
+                }}
+                className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition-colors"
+              >
+                Confirm
+              </button>
             </div>
           </div>
         </div>

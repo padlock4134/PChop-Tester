@@ -44,7 +44,7 @@ export const useSupabase = () => {
       return useManufacturingSupabase();
     case 'logistics':
       return useLogisticsSupabase();
-    case 'machining':
+    case 'welding':
       return useMachiningSupabase();
     default:
       return useCulinarySupabase();
@@ -80,7 +80,7 @@ const DisciplineSupabaseProvider: React.FC<{ children: React.ReactNode }> = ({ c
         return ManufacturingSupabaseProvider;
       case 'logistics':
         return LogisticsSupabaseProvider;
-      case 'machining':
+      case 'welding':
         return MachiningSupabaseProvider;
       default:
         return CulinarySupabaseProvider;

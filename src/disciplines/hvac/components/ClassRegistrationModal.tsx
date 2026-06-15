@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useSupabase } from './SupabaseProvider';
+import { supabase } from '../api/supabaseClient';
 
 interface ClassRegistrationModalProps {
   open: boolean;
@@ -9,9 +11,11 @@ interface ClassRegistrationModalProps {
 
 const ClassRegistrationModal: React.FC<ClassRegistrationModalProps> = ({ open, onClose, onRegistrationComplete }) => {
   const { t } = useTranslation();
+  const { user } = useSupabase();
   const [selectedClasses, setSelectedClasses] = useState<string[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const toggleClass = (classId: string) => {
     setSelectedClasses(prev => 
@@ -21,23 +25,20 @@ const ClassRegistrationModal: React.FC<ClassRegistrationModalProps> = ({ open, o
     );
   };
 
-  const handleSubmit = () => {
-    setIsSubmitting(true);
-    setTimeout(() => {
+  const handleSubmit = async () => {
+    if (!user) { setErrorMessage('You must be signed in to register for classes.'); return; }
+    setIsSubmitting(true); setErrorMessage(null);
+    try {
+      const { error } = await supabase.from('user_activity_log').insert({
+        user_id: user.id, activity_type: 'class_registration', discipline: 'hvac',
+        metadata: { selected_classes: selectedClasses }
+      });
+      if (error) throw error;
       setSuccessMessage('Registration requests submitted! Check your student portal for confirmation.');
-      setIsSubmitting(false);
-      
-      // Pass selected classes back to parent
-      if (onRegistrationComplete) {
-        onRegistrationComplete(selectedClasses);
-      }
-      
-      setTimeout(() => {
-        onClose();
-        setSuccessMessage(null);
-        setSelectedClasses([]);
-      }, 2000);
-    }, 1000);
+      if (onRegistrationComplete) onRegistrationComplete(selectedClasses);
+      setTimeout(() => { onClose(); setSuccessMessage(null); setSelectedClasses([]); }, 2000);
+    } catch (err: any) { setErrorMessage('Failed to submit registration. Please try again.'); }
+    finally { setIsSubmitting(false); }
   };
 
   if (!open) return null;
@@ -58,6 +59,11 @@ const ClassRegistrationModal: React.FC<ClassRegistrationModalProps> = ({ open, o
         {successMessage && (
           <div className="mb-4 p-3 bg-green-100 text-green-800 rounded border border-black">
             {successMessage}
+          </div>
+        )}
+        {errorMessage && (
+          <div className="mb-4 p-3 bg-red-100 text-red-800 rounded border border-black">
+            {errorMessage}
           </div>
         )}
         

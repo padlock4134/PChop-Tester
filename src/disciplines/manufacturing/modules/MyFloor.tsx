@@ -186,7 +186,7 @@ const MyFloor = () => {
       
       // Award XP for saving a recipe
       if (user) {
-        await import('../../culinary/services/xpService').then(m => 
+        await import('../services/xpService').then(m => 
           m.awardXP(user.id, XP_REWARDS.PROCESS_SAVE, 'process_save')
         );
         refreshXP();

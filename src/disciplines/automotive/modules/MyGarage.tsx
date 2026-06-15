@@ -142,7 +142,7 @@ const MyGarage = () => {
       
       // Award XP for saving a repair guide
       if (user) {
-        await import('../../culinary/services/xpService').then(m => 
+        await import('../services/xpService').then(m => 
           m.awardXP(user.id, XP_REWARDS.REPAIR_SAVE, 'repair_guide_save')
         );
         refreshXP();

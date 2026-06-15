@@ -6,7 +6,7 @@ export async function scanImage(base64Image: string): Promise<string[]> {
     const response = await fetch('/.netlify/functions/vision-proxy', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ base64Image, discipline: 'machining' })
+      body: JSON.stringify({ base64Image, discipline: 'welding' })
     });
 
     

@@ -149,13 +149,17 @@ const MyPipeBook = () => {
   const [selectedCollection, setSelectedCollection] = useState<{id: string, name: string, emoji: string, fits: string[]} | null>(null);
   const [selectedRecipes, setSelectedRecipes] = useState<string[]>([]);
   const [newCollectionName, setNewCollectionName] = useState('');
-  const [collections, setCollections] = useState([
-    { id: '1', name: t('myPipeBook.defaultCollections.favorites', { defaultValue: 'Favorites' }), emoji: '⭐', fits: ['1', '2', '3'] },
-    { id: '3', name: t('myPipeBook.defaultCollections.quickRepairs', { defaultValue: 'Quick Repairs' }), emoji: '⚡', fits: ['1', '2'] },
-    { id: '4', name: t('myPipeBook.defaultCollections.safetyFirst', { defaultValue: 'Safety First' }), emoji: '🔧', fits: ['1', '2', '3', '4', '5'] }
-  ]);
+  const [collections, setCollections] = useState<{id: string, name: string, emoji: string, fits: string[]}[]>([]);
 
   const { user } = useSupabase();
+
+  useEffect(() => {
+    if (!user) return;
+    supabase.from('user_collections').select('*').eq('user_id', user.id).eq('discipline', 'plumbing')
+      .then(({ data }) => {
+        if (data) setCollections(data.map(r => ({ id: r.id, name: r.name, emoji: r.emoji, fits: r.items as string[] })));
+      });
+  }, [user]);
 
   // Load fits and set page context on mount
   const { updateContext } = useFreddieContext();
@@ -170,15 +174,6 @@ const MyPipeBook = () => {
     { key: 'Dessert', label: t('myPipeBook.dessert') }
   ];
 
-  useEffect(() => {
-    setCollections((prev) => prev.map((collection) => {
-      if (collection.id === '1') return { ...collection, name: t('myPipeBook.defaultCollections.favorites', { defaultValue: 'Favorites' }) };
-      if (collection.id === '3') return { ...collection, name: t('myPipeBook.defaultCollections.quickRepairs', { defaultValue: 'Quick Repairs' }) };
-      if (collection.id === '4') return { ...collection, name: t('myPipeBook.defaultCollections.safetyFirst', { defaultValue: 'Safety First' }) };
-      return collection;
-    }));
-  }, [currentLanguage, t]);
-
   // Handle fit selection for collections
   const handleRecipeSelect = (recipeId: string) => {
     setSelectedRecipes(prev => 
@@ -189,19 +184,15 @@ const MyPipeBook = () => {
   };
 
   // Handle creating a new collection
-  const handleCreateCollection = () => {
-    if (newCollectionName.trim() && selectedRecipes.length > 0) {
-      const newCollection = {
-        id: Date.now().toString(),
-        name: newCollectionName.trim(),
-        emoji: '📁',
-        fits: [...selectedRecipes]
-      };
-      setCollections(prev => [...prev, newCollection]);
-      setNewCollectionName('');
-      setSelectedRecipes([]);
-      setShowCreateCollectionModal(false);
+  const handleCreateCollection = async () => {
+    if (!newCollectionName.trim() || selectedRecipes.length === 0) return;
+    const { data, error } = await supabase.from('user_collections').insert({
+      user_id: user?.id, discipline: 'plumbing', name: newCollectionName.trim(), emoji: '📁', items: selectedRecipes
+    }).select().single();
+    if (!error && data) {
+      setCollections(prev => [...prev, { id: data.id, name: data.name, emoji: data.emoji, fits: data.items as string[] }]);
     }
+    setNewCollectionName(''); setSelectedRecipes([]); setShowCreateCollectionModal(false);
   };
 
   // Handle viewing a collection
@@ -211,12 +202,10 @@ const MyPipeBook = () => {
   };
 
   // Handle deleting a collection
-  const handleDeleteCollection = (collectionId: string) => {
-    if (window.confirm(t('myPipeBook.deleteConfirm'))) {
-      setCollections(prev => prev.filter(collection => collection.id !== collectionId));
-      setShowViewCollectionModal(false);
-      setSelectedCollection(null);
-    }
+  const handleDeleteCollection = async (collectionId: string) => {
+    await supabase.from('user_collections').delete().eq('id', collectionId).eq('user_id', user?.id ?? '');
+    setCollections(prev => prev.filter(c => c.id !== collectionId));
+    setShowViewCollectionModal(false); setSelectedCollection(null);
   };
 
   // Handle opening gradebook
@@ -411,15 +400,6 @@ const MyPipeBook = () => {
       default: return matchesSearch;
     }
   });
-
-  useEffect(() => {
-    setCollections((prev) => prev.map((collection) => {
-      if (collection.id === '1') return { ...collection, name: t('myPipeBook.defaultCollections.favorites', { defaultValue: 'Favorites' }) };
-      if (collection.id === '3') return { ...collection, name: t('myPipeBook.defaultCollections.quickRepairs', { defaultValue: 'Quick Repairs' }) };
-      if (collection.id === '4') return { ...collection, name: t('myPipeBook.defaultCollections.safetyFirst', { defaultValue: 'Safety First' }) };
-      return collection;
-    }));
-  }, [i18n.language, t]);
 
   if (loading) {
     return (

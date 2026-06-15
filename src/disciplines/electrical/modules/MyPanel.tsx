@@ -283,7 +283,7 @@ const MyPanel = () => {
 
       if (user) {
 
-        await import('../../culinary/services/xpService').then(m => 
+        await import('../services/xpService').then(m => 
 
           m.awardXP(user.id, XP_REWARDS.CIRCUIT_SAVE, 'circuit_save')
 

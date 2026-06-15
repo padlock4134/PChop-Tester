@@ -70,8 +70,8 @@ function clearSessionCookie() {
 }
 
 function isSessionValid(session = {}) {
-  const { isAuthenticated, tenantId, userId, supabaseToken, email, role } = session;
-  const isValid = isAuthenticated && tenantId && userId && supabaseToken && email && role && Object.keys(role).length > 0;
+  const { isAuthenticated, tenantId, userId, supabaseToken, email } = session;
+  const isValid = !!(isAuthenticated && tenantId && userId && supabaseToken && email);
   if (!isValid) {
     console.error('User does not have an authenticated session.');
   }

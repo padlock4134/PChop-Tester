@@ -26,6 +26,7 @@ export const useAutoLogout = (options: UseAutoLogoutOptions = {}): UseAutoLogout
   } = options;
 
   const [showWarning, setShowWarning] = useState(false);
+  const showWarningRef = useRef(false);
   const [countdown, setCountdown] = useState(0);
   const warningTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const logoutTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -70,10 +71,12 @@ export const useAutoLogout = (options: UseAutoLogoutOptions = {}): UseAutoLogout
 
   const resetTimer = () => {
     clearAllTimers();
+    showWarningRef.current = false;
     setShowWarning(false);
 
     // Set warning timeout (show modal before logout)
     warningTimeoutRef.current = setTimeout(() => {
+      showWarningRef.current = true;
       setShowWarning(true);
       startCountdown();
       
@@ -108,7 +111,7 @@ export const useAutoLogout = (options: UseAutoLogoutOptions = {}): UseAutoLogout
 
     // Reset timer on any user activity (only if warning is not shown)
     const handleActivity = () => {
-      if (!showWarning) {
+      if (!showWarningRef.current) {
         resetTimer();
       }
     };

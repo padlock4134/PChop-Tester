@@ -54,10 +54,15 @@ exports.handler = async (event) => {
     // Create email transporter
     const transporter = createTransporter();
 
+    if (!process.env.EMAIL_FROM || !process.env.NOTIFICATION_EMAIL) {
+      console.error('Missing required env vars: EMAIL_FROM and/or NOTIFICATION_EMAIL');
+      return createErrorResponse(500, 'Email notification not configured');
+    }
+
     // Send email notification
     await transporter.sendMail({
-      from: process.env.EMAIL_FROM || 'notifications@porkchop.app',
-      to: process.env.NOTIFICATION_EMAIL || 'chef@porkchop.app',
+      from: process.env.EMAIL_FROM,
+      to: process.env.NOTIFICATION_EMAIL,
       subject: emailSubject,
       text: emailText
     });

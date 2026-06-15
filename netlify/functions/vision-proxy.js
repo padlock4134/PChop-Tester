@@ -35,12 +35,7 @@ exports.handler = async (event) => {
     if (!apiKey) {
       return {
         statusCode: 500,
-        body: JSON.stringify({ 
-          error: 'Server configuration error',
-          debug: {
-            availableVars: Object.keys(process.env).filter(k => k.includes('GOOGLE') || k.includes('KEY'))
-          }
-        })
+        body: JSON.stringify({ error: 'Server configuration error' })
       };
     }
 

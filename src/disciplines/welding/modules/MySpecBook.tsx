@@ -86,6 +86,14 @@ const MySpecBook = () => {
 
   const { user, isLoading } = useSupabase();
 
+  useEffect(() => {
+    if (!user) return;
+    supabase.from('user_collections').select('*').eq('user_id', user.id).eq('discipline', 'welding')
+      .then(({ data }) => {
+        if (data) setCollections(data.map(r => ({ id: r.id, name: r.name, emoji: r.emoji, projects: r.items as string[] })));
+      });
+  }, [user]);
+
   // Load projects and set page context on mount
   const { updateContext } = useFreddieContext();
   const { refreshXP } = useLevelProgressContext();
@@ -109,19 +117,15 @@ const MySpecBook = () => {
   };
 
   // Handle creating a new collection
-  const handleCreateCollection = () => {
-    if (newCollectionName.trim() && selectedProjectIds.length > 0) {
-      const newCollection = {
-        id: Date.now().toString(),
-        name: newCollectionName.trim(),
-        emoji: '📁',
-        projects: [...selectedProjectIds]
-      };
-      setCollections(prev => [...prev, newCollection]);
-      setNewCollectionName('');
-      setSelectedProjectIds([]);
-      setShowCreateCollectionModal(false);
+  const handleCreateCollection = async () => {
+    if (!newCollectionName.trim() || selectedProjectIds.length === 0) return;
+    const { data, error } = await supabase.from('user_collections').insert({
+      user_id: user?.id, discipline: 'welding', name: newCollectionName.trim(), emoji: '📁', items: selectedProjectIds
+    }).select().single();
+    if (!error && data) {
+      setCollections(prev => [...prev, { id: data.id, name: data.name, emoji: data.emoji, projects: data.items as string[] }]);
     }
+    setNewCollectionName(''); setSelectedProjectIds([]); setShowCreateCollectionModal(false);
   };
 
   // Handle viewing a collection
@@ -131,12 +135,10 @@ const MySpecBook = () => {
   };
 
   // Handle deleting a collection
-  const handleDeleteCollection = (collectionId: string) => {
-    if (window.confirm(t('mySpecBook.deleteConfirm'))) {
-      setCollections(prev => prev.filter(collection => collection.id !== collectionId));
-      setShowViewCollectionModal(false);
-      setSelectedCollection(null);
-    }
+  const handleDeleteCollection = async (collectionId: string) => {
+    await supabase.from('user_collections').delete().eq('id', collectionId).eq('user_id', user?.id ?? '');
+    setCollections(prev => prev.filter(c => c.id !== collectionId));
+    setShowViewCollectionModal(false); setSelectedCollection(null);
   };
 
   // Handle opening gradebook

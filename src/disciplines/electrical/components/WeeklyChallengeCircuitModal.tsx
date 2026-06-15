@@ -108,7 +108,7 @@ const WeeklyChallengeRecipeModal: React.FC<WeeklyChallengeRecipeModalProps> = ({
         // Award XP for completing the challenge
         const sessionValid = await isSessionValid();
         if (sessionValid && user.id) {
-          await import('../../culinary/services/xpService').then(m => 
+          await import('../services/xpService').then(m => 
             m.awardXP(user.id, XP_REWARDS.CHALLENGE_COMPLETE, 'challenge_complete')
           );
           refreshXP();

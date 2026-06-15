@@ -91,7 +91,7 @@ exports.handler = async (event) => {
       tenantDomainToUse = `${tenantDomainNameFromHost}${separator}${wristbandApplicationVanityDomain}`;
     } else if (tenantDomainParam) {
       // #4b
-      tenantDomainToUse = `${tenantDomainParam}${separator}${this.wristbandApplicationVanityDomain}`;
+      tenantDomainToUse = `${tenantDomainParam}${separator}${wristbandApplicationVanityDomain}`;
     } else {
       // #5
       const appLoginUrl = customApplicationLoginPageUrl || `https://${wristbandApplicationVanityDomain}/login`;

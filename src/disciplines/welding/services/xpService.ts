@@ -70,7 +70,7 @@ export const awardXP = async (userId: string, xpAmount: number, action: string) 
       const startKey = `integrity_start_${userId}_${action}`;
       const startedAt = sessionStorage.getItem(startKey) || new Date().toISOString();
       sessionStorage.removeItem(startKey);
-      trackCompletion({ user_id: userId, discipline: 'machining', module_type: action, module_id: action, started_at: startedAt, completed_at: new Date().toISOString() });
+      trackCompletion({ user_id: userId, discipline: 'welding', module_type: action, module_id: action, started_at: startedAt, completed_at: new Date().toISOString() });
     }
 
     return true;

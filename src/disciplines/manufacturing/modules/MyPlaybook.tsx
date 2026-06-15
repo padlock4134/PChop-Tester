@@ -101,6 +101,14 @@ const MyPlaybook = () => {
 
   const { user, isLoading } = useSupabase();
 
+  useEffect(() => {
+    if (!user) return;
+    supabase.from('user_collections').select('*').eq('user_id', user.id).eq('discipline', 'manufacturing')
+      .then(({ data }) => {
+        if (data) setCollections(data.map(r => ({ id: r.id, name: r.name, emoji: r.emoji, processes: r.items as string[] })));
+      });
+  }, [user]);
+
   // Load processes and set page context on mount
   const { updateContext } = useFreddieContext();
   const { refreshXP } = useLevelProgressContext();
@@ -125,19 +133,15 @@ const MyPlaybook = () => {
   };
 
   // Handle creating a new collection
-  const handleCreateCollection = () => {
-    if (newCollectionName.trim()) {
-      const newCollection = {
-        id: Date.now().toString(),
-        name: newCollectionName.trim(),
-        emoji: '📁',
-        processes: [...selectedProcesses]
-      };
-      setCollections(prev => [...prev, newCollection]);
-      setNewCollectionName('');
-      setSelectedProcesses([]);
-      setShowCreateCollectionModal(false);
+  const handleCreateCollection = async () => {
+    if (!newCollectionName.trim()) return;
+    const { data, error } = await supabase.from('user_collections').insert({
+      user_id: user?.id, discipline: 'manufacturing', name: newCollectionName.trim(), emoji: '📁', items: selectedProcesses
+    }).select().single();
+    if (!error && data) {
+      setCollections(prev => [...prev, { id: data.id, name: data.name, emoji: data.emoji, processes: data.items as string[] }]);
     }
+    setNewCollectionName(''); setSelectedProcesses([]); setShowCreateCollectionModal(false);
   };
 
   // Handle viewing a collection
@@ -147,12 +151,10 @@ const MyPlaybook = () => {
   };
 
   // Handle deleting a collection
-  const handleDeleteCollection = (collectionId: string) => {
-    if (window.confirm(t('myPlaybook.deleteConfirm'))) {
-      setCollections(prev => prev.filter(collection => collection.id !== collectionId));
-      setShowViewCollectionModal(false);
-      setSelectedCollection(null);
-    }
+  const handleDeleteCollection = async (collectionId: string) => {
+    await supabase.from('user_collections').delete().eq('id', collectionId).eq('user_id', user?.id ?? '');
+    setCollections(prev => prev.filter(c => c.id !== collectionId));
+    setShowViewCollectionModal(false); setSelectedCollection(null);
   };
 
   // Handle opening gradebook

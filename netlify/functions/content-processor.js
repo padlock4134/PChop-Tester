@@ -194,7 +194,8 @@ Here is the curriculum content to analyze:
 ${extractedText.substring(0, 50000)}`;
 
     // Call Anthropic API via existing proxy
-    const anthropicResponse = await fetch(`${event.headers.origin || 'http://localhost:8888'}/.netlify/functions/anthropic-proxy`, {
+    const baseUrl = event.headers.origin || `https://${event.headers.host}`;
+    const anthropicResponse = await fetch(`${baseUrl}/.netlify/functions/anthropic-proxy`, {
       method: 'POST',
       headers: {
         'anthropic-version': '2023-06-01',
@@ -202,7 +203,7 @@ ${extractedText.substring(0, 50000)}`;
       },
       body: JSON.stringify({
         apiKeyIdentifier: 'chef', // Use existing chef key
-        model: 'claude-haiku-4-5-20251001',
+        model: 'claude-3-5-haiku-20241022',
         max_tokens: 4000,
         messages: [{ role: 'user', content: aiPrompt }],
         temperature: 0.3, // Lower temperature for more consistent mapping
