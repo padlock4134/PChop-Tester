@@ -644,6 +644,9 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [newStudentName, setNewStudentName] = useState('');
   const [newStudentEmail, setNewStudentEmail] = useState('');
   const [newStudentPhone, setNewStudentPhone] = useState('');
+  const [showAssignProgramModal, setShowAssignProgramModal] = useState(false);
+  const [assignProgramName, setAssignProgramName] = useState('');
+  const [selectedStudentIds, setSelectedStudentIds] = useState<Set<string>>(new Set());
   const [showEditStudentModal, setShowEditStudentModal] = useState(false);
   const [editingStudent, setEditingStudent] = useState<User | null>(null);
   const [showEditFacultyModal, setShowEditFacultyModal] = useState(false);
@@ -2801,12 +2804,20 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               <div className="border-4 border-maineBlue rounded-lg p-3 sm:p-6">
                 <div className="flex justify-center items-center mb-3 sm:mb-4 sm:relative">
                   <h3 className="font-bold text-maineBlue text-sm sm:text-base">📋 {t('admin.studentDirectory')}</h3>
-                  <button
-                    onClick={() => setShowAddStudentModal(true)}
-                    className="hidden sm:flex bg-maineBlue text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro text-sm items-center justify-center gap-2 sm:absolute sm:right-0 min-h-[44px]"
-                  >
-                    <span className="text-lg">+</span> {t('admin.addStudent')}
-                  </button>
+                  <div className="hidden sm:flex gap-2 sm:absolute sm:right-0">
+                    <button
+                      onClick={() => setShowAssignProgramModal(true)}
+                      className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 font-retro text-sm items-center justify-center gap-2 min-h-[44px]"
+                    >
+                      <span className="text-lg">📚</span> Assign Program
+                    </button>
+                    <button
+                      onClick={() => setShowAddStudentModal(true)}
+                      className="bg-maineBlue text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro text-sm items-center justify-center gap-2 min-h-[44px]"
+                    >
+                      <span className="text-lg">+</span> {t('admin.addStudent')}
+                    </button>
+                  </div>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
                   {users.slice(0, 10).map((user) => {
@@ -5308,6 +5319,151 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               >
                 Add Student
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Assign Program Modal */}
+      {showAssignProgramModal && (
+        <div className="fixed inset-0 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-green-400 max-w-4xl w-full max-h-[85vh] lg:max-h-[80vh] flex flex-col">
+            {/* Sticky Header */}
+            <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
+              <div className="text-center relative">
+                <h2 className="text-lg sm:text-2xl font-bold text-green-600 font-retro">📚 Assign Program to Students</h2>
+                <button
+                  onClick={() => {
+                    setShowAssignProgramModal(false);
+                    setAssignProgramName('');
+                    setSelectedStudentIds(new Set());
+                  }}
+                  className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
+                >
+                  ×
+                </button>
+              </div>
+            </div>
+            
+            {/* Scrollable Content */}
+            <div className="flex-1 overflow-y-auto p-3 sm:p-6">
+              <div className="space-y-4 sm:space-y-6">
+                {/* Program Name Input */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Program Name</label>
+                  <input
+                    type="text"
+                    value={assignProgramName}
+                    onChange={(e) => setAssignProgramName(e.target.value)}
+                    placeholder="Enter program name (e.g., Welding Technology, Advanced Culinary)"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                  />
+                </div>
+
+                {/* Student Selection */}
+                <div>
+                  <div className="flex justify-between items-center mb-3">
+                    <h3 className="font-bold text-gray-900">Select Students</h3>
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => setSelectedStudentIds(new Set(users.map(u => u.id)))}
+                        className="text-xs bg-gray-100 text-gray-700 px-3 py-1 rounded hover:bg-gray-200"
+                      >
+                        Select All
+                      </button>
+                      <button
+                        onClick={() => setSelectedStudentIds(new Set())}
+                        className="text-xs bg-gray-100 text-gray-700 px-3 py-1 rounded hover:bg-gray-200"
+                      >
+                        Clear All
+                      </button>
+                    </div>
+                  </div>
+                  <div className="border-4 border-gray-300 rounded-lg max-h-64 overflow-y-auto">
+                    {users.map((user) => (
+                      <label key={user.id} className="flex items-center p-3 border-b border-gray-200 hover:bg-gray-50 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={selectedStudentIds.has(user.id)}
+                          onChange={(e) => {
+                            const newSet = new Set(selectedStudentIds);
+                            if (e.target.checked) {
+                              newSet.add(user.id);
+                            } else {
+                              newSet.delete(user.id);
+                            }
+                            setSelectedStudentIds(newSet);
+                          }}
+                          className="mr-3 w-5 h-5"
+                        />
+                        <div className="flex-1">
+                          <div className="font-medium text-gray-900">{user.username || user.email}</div>
+                          <div className="text-sm text-gray-500">{user.email}</div>
+                        </div>
+                        {user.program && (
+                          <div className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">
+                            {user.program}
+                          </div>
+                        )}
+                      </label>
+                    ))}
+                  </div>
+                  <p className="text-sm text-gray-500 mt-2">
+                    {selectedStudentIds.size} of {users.length} students selected
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="p-3 sm:p-6 border-t-2 border-gray-200">
+              <div className="flex justify-end gap-3">
+                <button
+                  onClick={() => {
+                    setShowAssignProgramModal(false);
+                    setAssignProgramName('');
+                    setSelectedStudentIds(new Set());
+                  }}
+                  className="px-6 py-2 border-2 border-gray-300 rounded-md hover:bg-gray-100 font-retro"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={async () => {
+                    if (!assignProgramName.trim()) {
+                      showWarning('Please enter a program name');
+                      return;
+                    }
+                    if (selectedStudentIds.size === 0) {
+                      showWarning('Please select at least one student');
+                      return;
+                    }
+
+                    try {
+                      const { error } = await supabase
+                        .from('profiles')
+                        .update({ program: assignProgramName.trim() })
+                        .in('id', Array.from(selectedStudentIds));
+
+                      if (error) throw error;
+
+                      // Refresh student list
+                      fetchAdminData();
+
+                      showSuccess(`Assigned "${assignProgramName}" to ${selectedStudentIds.size} students`);
+                      setShowAssignProgramModal(false);
+                      setAssignProgramName('');
+                      setSelectedStudentIds(new Set());
+                    } catch (error: any) {
+                      console.error('Error assigning program:', error);
+                      showError('Failed to assign program: ' + error.message);
+                    }
+                  }}
+                  className="bg-green-500 text-white px-6 py-2 rounded-md hover:bg-green-600 font-retro"
+                >
+                  Assign Program
+                </button>
+              </div>
             </div>
           </div>
         </div>
