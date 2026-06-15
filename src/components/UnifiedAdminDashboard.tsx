@@ -42,6 +42,8 @@ interface User {
   created_at: string;
   last_chat_date?: string;
   chat_count: number;
+  phone?: string;
+  program?: string;
 }
 
 interface AdminDashboardProps {
@@ -1316,7 +1318,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       // Fetch users with profiles
       const { data: usersData, error: usersError } = await supabase
         .from('profiles')
-        .select('id, email, username, xp, level, created_at, last_chat_date, chat_count')
+        .select('id, email, username, xp, level, created_at, last_chat_date, chat_count, phone, program')
         .order('created_at', { ascending: false });
 
       if (usersError) throw usersError;
@@ -2824,9 +2826,9 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             Level {user.level || 1}
                           </span>
                           <div className="text-xs sm:text-sm text-gray-600 space-y-1">
-                            <p>📚 {t('admin.program')}: {skin.people.defaultProgram}</p>
+                            <p>📚 {t('admin.program')}: {user.program || skin.people.defaultProgram}</p>
                             <p className="truncate">📧 {user.email}</p>
-                            <p>📞 —</p>
+                            <p>📞 {user.phone || '—'}</p>
                           </div>
                         </div>
                         <div className="mt-2 flex flex-wrap gap-2">
@@ -2873,10 +2875,19 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             {t('admin.edit')}
                           </button>
                           <button
-                            onClick={() => {
+                            onClick={async () => {
                               if (window.confirm(t('admin.confirmRemoveStudent', { name: user.username || user.email }))) {
-                                setUsers(prev => prev.filter(u => u.id !== user.id));
-                                alert(t('admin.studentRemovedSuccess'));
+                                try {
+                                  const { error } = await supabase
+                                    .from('profiles')
+                                    .delete()
+                                    .eq('id', user.id);
+                                  if (error) throw error;
+                                  setUsers(prev => prev.filter(u => u.id !== user.id));
+                                  showSuccess(t('admin.studentRemovedSuccess', { defaultValue: 'Student removed.' }));
+                                } catch (error: any) {
+                                  showError('Failed to remove student: ' + error.message);
+                                }
                               }
                             }}
                             className="flex-1 text-red-600 hover:text-white hover:bg-red-600 px-3 py-2 border border-red-600 rounded text-xs sm:text-sm transition-colors min-h-[44px]"
@@ -5271,6 +5282,8 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       .insert({
                         email: newStudentEmail,
                         username: newStudentName,
+                        phone: newStudentPhone || null,
+                        program: newStudentProgram || null,
                         xp: 0,
                         level: 1,
                         chat_count: 0,
@@ -5286,6 +5299,8 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       id: data.id,
                       username: newStudentName,
                       email: newStudentEmail,
+                      phone: newStudentPhone || undefined,
+                      program: newStudentProgram || undefined,
                       xp: 0,
                       level: 1,
                       chat_count: 0,
@@ -5302,10 +5317,10 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     setNewStudentProgram(skin.people.defaultProgram);
                     setShowAddStudentModal(false);
                     
-                    alert(t('admin.studentAddedSuccess', { defaultValue: 'Student added successfully!' }));
+                    showSuccess(t('admin.studentAddedSuccess', { defaultValue: 'Student added successfully!' }));
                   } catch (error: any) {
                     console.error('Error adding student:', error);
-                    alert(t('admin.failedToAddStudent', { defaultValue: 'Failed to add student: ' }) + error.message);
+                    showError(t('admin.failedToAddStudent', { defaultValue: 'Failed to add student: ' }) + error.message);
                   }
                 }}
                 className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
@@ -5366,7 +5381,8 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Phone Number</label>
                 <input
                   type="tel"
-                  value="(555) 123-4567"
+                  value={editingStudent.phone || ''}
+                  onChange={(e) => setEditingStudent({...editingStudent, phone: e.target.value})}
                   placeholder="(555) 123-4567"
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue text-sm min-h-[44px]"
                 />
@@ -5375,11 +5391,15 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               <div>
                 <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Program</label>
                 <select
-                  value={`Bachelor's Degree in ${skin.name}`}
+                  value={editingStudent.program || skin.people.defaultProgram}
+                  onChange={(e) => setEditingStudent({...editingStudent, program: e.target.value})}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue text-sm min-h-[44px]"
                 >
-                  <option value={`Bachelor's Degree in ${skin.name}`}>{`Bachelor's Degree in ${skin.name}`}</option>
-                  <option value={`Associate's Degree in ${skin.name}`}>{`Associate's Degree in ${skin.name}`}</option>
+                  <option value={skin.people.defaultProgram}>{skin.people.defaultProgram}</option>
+                  <option value="Advanced Program">Advanced Program</option>
+                  <option value="Specialized Track">Specialized Track</option>
+                  <option value="Management Program">Management Program</option>
+                  <option value="Industry Leadership">Industry Leadership</option>
                 </select>
               </div>
               
@@ -5524,20 +5544,37 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             
               <div className="flex justify-end mt-4 sm:mt-6">
                 <button
-                  onClick={() => {
+                  onClick={async () => {
                     if (!editingStudent.username?.trim() || !editingStudent.email?.trim()) {
                       showWarning('Please enter student name and email');
                       return;
                     }
                     
-                    // Update student in list
-                    setUsers(prev => prev.map(u => 
-                      u.id === editingStudent.id ? editingStudent : u
-                    ));
-                    
-                    setShowEditStudentModal(false);
-                    setEditingStudent(null);
-                    alert(t('admin.studentUpdatedSuccess', { defaultValue: 'Student updated successfully!' }));
+                    try {
+                      const { error } = await supabase
+                        .from('profiles')
+                        .update({
+                          username: editingStudent.username,
+                          email: editingStudent.email,
+                          phone: editingStudent.phone || null,
+                          program: editingStudent.program || null,
+                        })
+                        .eq('id', editingStudent.id);
+                      
+                      if (error) throw error;
+                      
+                      // Update student in list
+                      setUsers(prev => prev.map(u => 
+                        u.id === editingStudent.id ? editingStudent : u
+                      ));
+                      
+                      setShowEditStudentModal(false);
+                      setEditingStudent(null);
+                      showSuccess(t('admin.studentUpdatedSuccess', { defaultValue: 'Student updated successfully!' }));
+                    } catch (error: any) {
+                      console.error('Error updating student:', error);
+                      showError('Failed to update student: ' + error.message);
+                    }
                   }}
                   className="w-full sm:w-auto bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro text-sm min-h-[44px]"
                 >
