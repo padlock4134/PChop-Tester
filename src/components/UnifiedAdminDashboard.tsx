@@ -464,6 +464,10 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [showExitAdminModal, setShowExitAdminModal] = useState(false);
   const [showStudyGroupMonitorModal, setShowStudyGroupMonitorModal] = useState(false);
   const [showLtiMappingModal, setShowLtiMappingModal] = useState(false);
+  const [showFeedbackModal, setShowFeedbackModal] = useState(false);
+  const [feedbackText, setFeedbackText] = useState('');
+  const [feedbackCategory, setFeedbackCategory] = useState('general');
+  const [feedbackSubmitting, setFeedbackSubmitting] = useState(false);
   const [generatedApiKey, setGeneratedApiKey] = useState('');
   const [selectedLtiProvider, setSelectedLtiProvider] = useState('Canvas');
   const [ltiFieldMappings, setLtiFieldMappings] = useState<Record<string, string>>({
@@ -1288,6 +1292,37 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
     }
   };
 
+  const submitFeedback = async () => {
+    if (!feedbackText.trim()) return;
+    setFeedbackSubmitting(true);
+    try {
+      await fetch('/.netlify/functions/submit-feedback', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          category: feedbackCategory,
+          message: feedbackText.trim(),
+          submitterEmail: currentUser?.email || 'Unknown',
+          schoolName: schoolBranding.schoolName || 'Unknown School',
+        }),
+      });
+      setFeedbackText('');
+      setFeedbackCategory('general');
+      setShowFeedbackModal(false);
+      setDownloadedReportInfo({
+        type: 'Feedback Submitted',
+        count: 1,
+        filename: 'Thank you! Your feedback has been sent.',
+      });
+      setShowDownloadSuccessModal(true);
+    } catch (error: any) {
+      console.error('Failed to submit feedback:', error);
+      showError(`Failed to submit feedback: ${error.message}`);
+    } finally {
+      setFeedbackSubmitting(false);
+    }
+  };
+
   useEffect(() => {
     fetchAdminData();
     loadModulePermissions();
@@ -1809,6 +1844,12 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               </option>
             ))}
           </select>
+          <button
+            onClick={() => setShowFeedbackModal(true)}
+            className="flex items-center gap-1 px-3 py-2 bg-seafoam text-black border-2 border-maineBlue rounded-lg font-retro text-sm hover:bg-teal-400 transition-colors whitespace-nowrap"
+          >
+            💬 Feedback
+          </button>
         </div>
 
         <p className="text-xs sm:text-sm text-gray-600 italic text-center sm:text-right">
@@ -8290,6 +8331,63 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               >
                 Confirm
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Feedback Modal */}
+      {showFeedbackModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-md w-full p-6">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-xl font-bold text-maineBlue font-retro">💬 Submit Feedback</h3>
+              <button
+                onClick={() => { setShowFeedbackModal(false); setFeedbackText(''); setFeedbackCategory('general'); }}
+                className="text-gray-500 hover:text-gray-700 text-2xl font-bold leading-none"
+              >
+                ×
+              </button>
+            </div>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                <select
+                  value={feedbackCategory}
+                  onChange={(e) => setFeedbackCategory(e.target.value)}
+                  className="w-full border-2 border-maineBlue rounded-lg px-3 py-2 font-retro text-sm bg-white text-maineBlue focus:ring-2 focus:ring-seafoam focus:outline-none"
+                >
+                  <option value="general">💬 General Feedback</option>
+                  <option value="bug">🐛 Bug Report</option>
+                  <option value="feature">✨ Feature Request</option>
+                  <option value="content">📚 Content Issue</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Message</label>
+                <textarea
+                  rows={5}
+                  placeholder="Share your feedback, report an issue, or suggest an improvement..."
+                  value={feedbackText}
+                  onChange={(e) => setFeedbackText(e.target.value)}
+                  className="w-full px-3 py-2 border-2 border-maineBlue rounded-lg focus:outline-none focus:ring-2 focus:ring-seafoam text-sm bg-white resize-none"
+                />
+              </div>
+              <div className="flex justify-end gap-3">
+                <button
+                  onClick={() => { setShowFeedbackModal(false); setFeedbackText(''); setFeedbackCategory('general'); }}
+                  className="px-4 py-2 border border-gray-300 rounded hover:bg-gray-100 transition-colors text-sm"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={submitFeedback}
+                  disabled={!feedbackText.trim() || feedbackSubmitting}
+                  className="px-4 py-2 bg-maineBlue text-white rounded hover:bg-blue-700 transition-colors text-sm font-retro disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {feedbackSubmitting ? 'Submitting...' : 'Submit Feedback'}
+                </button>
+              </div>
             </div>
           </div>
         </div>
