@@ -83,64 +83,76 @@ ALTER TABLE public.user_activity_log ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.integrity_alerts ENABLE ROW LEVEL SECURITY;
 
 -- completion_tracking policies
+DROP POLICY IF EXISTS "Users can insert own completion tracking" ON public.completion_tracking;
 CREATE POLICY "Users can insert own completion tracking" ON public.completion_tracking
   FOR INSERT WITH CHECK (
     user_id IN (SELECT users.id FROM public.users WHERE users.external_id = (auth.jwt() ->> 'sub'))
   );
 
+DROP POLICY IF EXISTS "Users can view own completion tracking" ON public.completion_tracking;
 CREATE POLICY "Users can view own completion tracking" ON public.completion_tracking
   FOR SELECT USING (
     user_id IN (SELECT users.id FROM public.users WHERE users.external_id = (auth.jwt() ->> 'sub'))
   );
 
+DROP POLICY IF EXISTS "Admins can view all completion tracking" ON public.completion_tracking;
 CREATE POLICY "Admins can view all completion tracking" ON public.completion_tracking
   FOR SELECT USING (
     is_admin((SELECT users.id FROM public.users WHERE users.external_id = (auth.jwt() ->> 'sub')))
   );
 
 -- text_submissions policies
+DROP POLICY IF EXISTS "Users can insert own text submissions" ON public.text_submissions;
 CREATE POLICY "Users can insert own text submissions" ON public.text_submissions
   FOR INSERT WITH CHECK (
     user_id IN (SELECT users.id FROM public.users WHERE users.external_id = (auth.jwt() ->> 'sub'))
   );
 
+DROP POLICY IF EXISTS "Authenticated users can read text submissions for comparison" ON public.text_submissions;
 CREATE POLICY "Authenticated users can read text submissions for comparison" ON public.text_submissions
   FOR SELECT USING (
     (auth.jwt() ->> 'sub') IS NOT NULL
   );
 
 -- user_activity_log policies
+DROP POLICY IF EXISTS "Users can insert own activity" ON public.user_activity_log;
 CREATE POLICY "Users can insert own activity" ON public.user_activity_log
   FOR INSERT WITH CHECK (
     user_id IN (SELECT users.id FROM public.users WHERE users.external_id = (auth.jwt() ->> 'sub'))
   );
 
+DROP POLICY IF EXISTS "Users can view own activity" ON public.user_activity_log;
 CREATE POLICY "Users can view own activity" ON public.user_activity_log
   FOR SELECT USING (
     user_id IN (SELECT users.id FROM public.users WHERE users.external_id = (auth.jwt() ->> 'sub'))
   );
 
+DROP POLICY IF EXISTS "Admins can view all activity" ON public.user_activity_log;
 CREATE POLICY "Admins can view all activity" ON public.user_activity_log
   FOR SELECT USING (
     is_admin((SELECT users.id FROM public.users WHERE users.external_id = (auth.jwt() ->> 'sub')))
   );
 
 -- integrity_alerts policies
+DROP POLICY IF EXISTS "Users can insert own integrity alerts" ON public.integrity_alerts;
 CREATE POLICY "Users can insert own integrity alerts" ON public.integrity_alerts
   FOR INSERT WITH CHECK (
     user_id IN (SELECT users.id FROM public.users WHERE users.external_id = (auth.jwt() ->> 'sub'))
   );
 
+DROP POLICY IF EXISTS "Users can view own integrity alerts" ON public.integrity_alerts;
 CREATE POLICY "Users can view own integrity alerts" ON public.integrity_alerts
   FOR SELECT USING (
     user_id IN (SELECT users.id FROM public.users WHERE users.external_id = (auth.jwt() ->> 'sub'))
   );
 
+DROP POLICY IF EXISTS "Admins can view all integrity alerts" ON public.integrity_alerts;
 CREATE POLICY "Admins can view all integrity alerts" ON public.integrity_alerts
   FOR SELECT USING (
     is_admin((SELECT users.id FROM public.users WHERE users.external_id = (auth.jwt() ->> 'sub')))
   );
 
+DROP POLICY IF EXISTS "Admins can update integrity alerts" ON public.integrity_alerts;
 CREATE POLICY "Admins can update integrity alerts" ON public.integrity_alerts
   FOR UPDATE USING (
     is_admin((SELECT users.id FROM public.users WHERE users.external_id = (auth.jwt() ->> 'sub')))
