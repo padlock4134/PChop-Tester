@@ -20,6 +20,7 @@ import {
   ExclamationTriangleIcon,
 } from '@heroicons/react/24/outline';
 import { getIntegrityAlerts, reviewIntegrityAlert, IntegrityAlert } from '../services/integrityMonitoring';
+import HowToGuides from './HowToGuides';
 
 interface AdminStats {
   totalUsers: number;
@@ -1850,6 +1851,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
           >
             💬 Feedback
           </button>
+          <HowToGuides />
         </div>
 
         <p className="text-xs sm:text-sm text-gray-600 italic text-center sm:text-right">
