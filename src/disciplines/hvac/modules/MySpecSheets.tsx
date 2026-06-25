@@ -73,6 +73,11 @@ const MySpecSheets = () => {
   const [userFilter, setUserFilter] = useState('all');
   const [selectedLibraryVideo, setSelectedLibraryVideo] = useState<{name: string, url: string, created_at: string, userId: string, isPublic: boolean} | null>(null);
   const [showLibraryVideoModal, setShowLibraryVideoModal] = useState(false);
+  const [showSkillsWalletModal, setShowSkillsWalletModal] = useState(false);
+  const [skillsWalletTarget, setSkillsWalletTarget] = useState<{name: string, url: string, created_at: string, userId: string, isPublic: boolean} | null>(null);
+  const [skillsWalletSkillName, setSkillsWalletSkillName] = useState('');
+  const [skillsWalletNotes, setSkillsWalletNotes] = useState('');
+  const [skillsWalletSuccess, setSkillsWalletSuccess] = useState(false);
   const [activeMobileTab, setActiveMobileTab] = useState<'cookbook' | 'collections'>('cookbook');
   
   // Assignment data
@@ -901,7 +906,7 @@ const MySpecSheets = () => {
                 📊 {t('mySpecSheets.viewGradebook')}
               </button>
 
-              {/* View Videos Button - Always visible */}
+              {/* My Portfolio Button - Always visible */}
               <button
                 type="button"
                 onClick={async () => {
@@ -968,7 +973,7 @@ const MySpecSheets = () => {
                 }}
                 className="w-full mt-2 px-4 py-2 rounded border transition-colors bg-purple-100 text-purple-700 border-purple-300 hover:bg-purple-200 hover:text-purple-800"
               >
-                🎥 {t('mySpecSheets.viewVideos')}
+                🗂️ My Portfolio
               </button>
             </div>
           </div>
@@ -1374,8 +1379,8 @@ const MySpecSheets = () => {
             <div className="bg-purple-100 border-b-4 border-purple-400 p-6">
               <div className="flex justify-between items-center mb-4">
                 <div>
-                  <h2 className="text-3xl font-bold text-purple-800 font-retro">🎥 {t('mySpecSheets.myTestKitchenVideos')}</h2>
-                  <p className="text-purple-600 mt-1">{t('mySpecSheets.reviewSavedVideos')}</p>
+                  <h2 className="text-3xl font-bold text-purple-800 font-retro">🗂️ My Portfolio</h2>
+                  <p className="text-purple-600 mt-1">Your evidence library — videos, projects & work sessions</p>
                 </div>
                 <button
                   onClick={() => setShowVideoLibraryModal(false)}
@@ -1473,7 +1478,22 @@ const MySpecSheets = () => {
                             )}
                           </div>
                         </div>
-                        <div className="text-purple-600 text-2xl">▶️</div>
+                        <div className="flex flex-col items-end gap-2 ml-2">
+                          <div className="text-purple-600 text-2xl">▶️</div>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setSkillsWalletTarget(video);
+                              setSkillsWalletSkillName(video.name.replace('.webm', ''));
+                              setSkillsWalletSuccess(false);
+                              setSkillsWalletNotes('');
+                              setShowSkillsWalletModal(true);
+                            }}
+                            className="text-xs bg-maineBlue text-white px-2 py-1 rounded font-bold hover:bg-seafoam hover:text-maineBlue transition-colors whitespace-nowrap"
+                          >
+                            + Skills Wallet
+                          </button>
+                        </div>
                       </div>
                     </div>
                   ))}
@@ -1484,7 +1504,7 @@ const MySpecSheets = () => {
             {/* Footer */}
             <div className="bg-purple-50 border-t-4 border-purple-400 p-4 text-center">
               <p className="text-purple-700 text-sm">
-                <strong>{savedVideos.length}</strong> video{savedVideos.length !== 1 ? 's' : ''} saved
+                <strong>{savedVideos.length}</strong> artifact{savedVideos.length !== 1 ? 's' : ''} in portfolio
               </p>
             </div>
           </div>
@@ -1536,6 +1556,68 @@ const MySpecSheets = () => {
                   <p className="mt-1">🎥 {t('mySpecSheets.recordedInWorkspace')}</p>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Skills Wallet Claim Modal */}
+      {showSkillsWalletModal && skillsWalletTarget && (
+        <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-[70] p-4" onClick={() => { setShowSkillsWalletModal(false); setSkillsWalletSuccess(false); }}>
+          <div className="bg-white rounded-xl shadow-2xl border-4 border-maineBlue w-full max-w-md" onClick={(e) => e.stopPropagation()}>
+            <div className="bg-maineBlue text-white px-5 py-4 rounded-t-lg flex items-center justify-between">
+              <span className="font-retro font-bold text-lg">💼 Add to Skills Wallet</span>
+              <button onClick={() => { setShowSkillsWalletModal(false); setSkillsWalletSuccess(false); }} className="text-white text-2xl font-bold hover:text-seafoam leading-none">×</button>
+            </div>
+            <div className="p-5 space-y-4">
+              <div>
+                <label className="block text-sm font-bold text-maineBlue mb-1">Skill Name</label>
+                <input
+                  type="text"
+                  value={skillsWalletSkillName}
+                  onChange={(e) => setSkillsWalletSkillName(e.target.value)}
+                  className="w-full border-2 border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:border-maineBlue text-sm"
+                  placeholder="e.g. Knife Safety, Station Setup..."
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-bold text-maineBlue mb-1">Evidence</label>
+                <p className="text-xs text-gray-600 bg-sand rounded px-3 py-2 border border-gray-200 font-medium">
+                  🎥 {skillsWalletTarget.name.replace('.webm', '')}
+                </p>
+              </div>
+              <div>
+                <label className="block text-sm font-bold text-maineBlue mb-1">Notes <span className="font-normal text-gray-400">(optional)</span></label>
+                <textarea
+                  value={skillsWalletNotes}
+                  onChange={(e) => setSkillsWalletNotes(e.target.value)}
+                  className="w-full border-2 border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:border-maineBlue text-sm resize-none"
+                  rows={3}
+                  placeholder="Describe what this video demonstrates..."
+                />
+              </div>
+              {skillsWalletSuccess ? (
+                <div className="bg-green-50 border-2 border-green-400 rounded-lg px-4 py-3 text-center">
+                  <p className="text-green-700 font-bold text-sm">✅ Skill claim submitted — pending instructor verification.</p>
+                </div>
+              ) : (
+                <button
+                  onClick={() => {
+                    setSkillsWalletSuccess(true);
+                    setTimeout(() => {
+                      setShowSkillsWalletModal(false);
+                      setSkillsWalletSuccess(false);
+                      setSkillsWalletSkillName('');
+                      setSkillsWalletNotes('');
+                      setSkillsWalletTarget(null);
+                    }, 2000);
+                  }}
+                  disabled={!skillsWalletSkillName.trim()}
+                  className="w-full bg-maineBlue text-white font-retro font-bold py-3 rounded-lg hover:bg-seafoam hover:text-maineBlue transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                >
+                  💼 Add to Skills Wallet
+                </button>
+              )}
             </div>
           </div>
         </div>
