@@ -1642,7 +1642,7 @@ const MyManual = () => {
       )}
 
       {/* Skills Wallet Claim Modal */}
-      {showSkillsWalletModal && skillsWalletTarget && (
+      {showSkillsWalletModal && (
         <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-[70] p-4" onClick={() => { setShowSkillsWalletModal(false); setSkillsWalletSuccess(false); }}>
           <div className="bg-white rounded-xl shadow-2xl border-4 border-maineBlue w-full max-w-md" onClick={(e) => e.stopPropagation()}>
             <div className="bg-maineBlue text-white px-5 py-4 rounded-t-lg flex items-center justify-between">
