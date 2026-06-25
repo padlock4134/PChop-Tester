@@ -1604,6 +1604,7 @@ const MySpecBook = () => {
                     { id: 'iq4', label: 'IQ4', icon: '🎓' },
                     { id: 'velocity', label: 'Velocity', icon: '⚡' },
                     { id: 'territorium', label: 'Territorium', icon: '🌐' },
+                    { id: 'learncard', label: 'LearnCard', icon: '🪪' },
                     { id: 'government', label: 'Government', icon: '🏗️' },
                   ].map(dest => (
                     <button
