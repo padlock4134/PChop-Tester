@@ -1387,6 +1387,20 @@ const MyCodeBook = () => {
                 <div className="flex items-center gap-3">
                   <button
                     onClick={() => {
+                      const data = savedVideos.map(v => ({ name: v.name.replace('.webm', ''), recorded: v.created_at, visibility: v.isPublic ? 'Public' : 'Private', url: v.url }));
+                      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+                      const link = document.createElement('a');
+                      link.href = URL.createObjectURL(blob);
+                      link.download = 'my-portfolio.json';
+                      link.click();
+                      URL.revokeObjectURL(link.href);
+                    }}
+                    className="bg-purple-600 text-white font-retro font-bold px-4 py-2 rounded-lg text-sm hover:bg-purple-800 transition-colors whitespace-nowrap"
+                  >
+                    ⬇ Download Portfolio
+                  </button>
+                  <button
+                    onClick={() => {
                       setSkillsWalletTarget(null);
                       setSkillsWalletSkillName('');
                       setSkillsWalletSuccess(false);
