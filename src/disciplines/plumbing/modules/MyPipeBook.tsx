@@ -1670,11 +1670,11 @@ const MyPipeBook = () => {
                 <label className="block text-sm font-bold text-maineBlue mb-1">Send To <span className="font-normal text-gray-400">(required)</span></label>
                 <div className="grid grid-cols-2 gap-2">
                   {[
-                    { id: 'credivera', label: 'Credivera', logo: 'https://logo.clearbit.com/credivera.com' },
-                    { id: 'iq4', label: 'IQ4', logo: 'https://logo.clearbit.com/iq4.com' },
-                    { id: 'velocity', label: 'Velocity', logo: 'https://logo.clearbit.com/velocitycareerlabs.com' },
-                    { id: 'territorium', label: 'Territorium', logo: 'https://logo.clearbit.com/territorium.com' },
-                    { id: 'learncard', label: 'LearnCard', logo: 'https://logo.clearbit.com/learncard.app' },
+                    { id: 'credivera', label: 'Credivera', logo: 'https://www.google.com/s2/favicons?domain=credivera.com&sz=64' },
+                    { id: 'iq4', label: 'IQ4', logo: 'https://www.google.com/s2/favicons?domain=iq4.com&sz=64' },
+                    { id: 'velocity', label: 'Velocity', logo: 'https://www.google.com/s2/favicons?domain=velocitycareerlabs.com&sz=64' },
+                    { id: 'territorium', label: 'Territorium', logo: 'https://www.google.com/s2/favicons?domain=territorium.com&sz=64' },
+                    { id: 'learncard', label: 'LearnCard', logo: 'https://www.google.com/s2/favicons?domain=learncard.app&sz=64' },
                     { id: 'government', label: 'Government', logo: null },
                   ].map(dest => (
                     <button
@@ -1684,7 +1684,7 @@ const MyPipeBook = () => {
                       className={`flex items-center gap-2 px-3 py-2 rounded-lg border-2 text-sm font-bold transition-colors ${skillsWalletDestination === dest.id ? 'border-maineBlue bg-maineBlue text-white' : 'border-gray-300 bg-white text-gray-700 hover:border-maineBlue hover:text-maineBlue'}`}
                     >
                       {dest.logo ? (
-                        <img src={dest.logo} alt={dest.label} className="h-5 w-5 object-contain rounded" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
+                        <img src={dest.logo} alt={dest.label} className="h-6 w-6 object-contain rounded" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
                       ) : (
                         <span className="text-base leading-none">⚖️</span>
                       )}
