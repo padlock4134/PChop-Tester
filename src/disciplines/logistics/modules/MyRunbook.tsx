@@ -82,6 +82,8 @@ const MyRunbook = () => {
   const [skillsWalletSkillName, setSkillsWalletSkillName] = useState('');
   const [skillsWalletNotes, setSkillsWalletNotes] = useState('');
   const [skillsWalletSuccess, setSkillsWalletSuccess] = useState(false);
+  const [skillsWalletDestination, setSkillsWalletDestination] = useState('');
+  const [skillsWalletGovState, setSkillsWalletGovState] = useState('');
   const [activeMobileTab, setActiveMobileTab] = useState<'cookbook' | 'collections'>('cookbook');
   
   // Assignment data
@@ -1407,6 +1409,8 @@ const MyRunbook = () => {
                       setSkillsWalletSkillName('');
                       setSkillsWalletSuccess(false);
                       setSkillsWalletNotes('');
+                      setSkillsWalletDestination('');
+                      setSkillsWalletGovState('');
                       setShowSkillsWalletModal(true);
                     }}
                     className="bg-maineBlue text-white font-retro font-bold px-4 py-2 rounded-lg text-sm hover:bg-seafoam hover:text-maineBlue transition-colors whitespace-nowrap"
@@ -1519,6 +1523,8 @@ const MyRunbook = () => {
                               setSkillsWalletSkillName(video.name.replace('.webm', ''));
                               setSkillsWalletSuccess(false);
                               setSkillsWalletNotes('');
+                              setSkillsWalletDestination('');
+                              setSkillsWalletGovState('');
                               setShowSkillsWalletModal(true);
                             }}
                             className="text-xs bg-maineBlue text-white px-2 py-1 rounded font-bold hover:bg-seafoam hover:text-maineBlue transition-colors whitespace-nowrap"
@@ -1603,6 +1609,46 @@ const MyRunbook = () => {
             </div>
             <div className="p-5 space-y-4">
               <div>
+                <label className="block text-sm font-bold text-maineBlue mb-1">Send To <span className="font-normal text-gray-400">(required)</span></label>
+                <div className="grid grid-cols-2 gap-2">
+                  {[
+                    { id: 'credivera', label: 'Credivera', icon: '🏅' },
+                    { id: 'iq4', label: 'IQ4', icon: '🎓' },
+                    { id: 'velocity', label: 'Velocity', icon: '⚡' },
+                    { id: 'territorium', label: 'Territorium', icon: '🌐' },
+                    { id: 'government', label: 'Government', icon: '🏗️' },
+                  ].map(dest => (
+                    <button
+                      key={dest.id}
+                      type="button"
+                      onClick={() => { setSkillsWalletDestination(dest.id); setSkillsWalletGovState(''); }}
+                      className={`flex items-center gap-2 px-3 py-2 rounded-lg border-2 text-sm font-bold transition-colors ${skillsWalletDestination === dest.id ? 'border-maineBlue bg-maineBlue text-white' : 'border-gray-300 bg-white text-gray-700 hover:border-maineBlue hover:text-maineBlue'}`}
+                    >
+                      <span>{dest.icon}</span> {dest.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              {skillsWalletDestination === 'government' && (
+                <div>
+                  <label className="block text-sm font-bold text-maineBlue mb-1">Select State</label>
+                  <select
+                    value={skillsWalletGovState}
+                    onChange={(e) => setSkillsWalletGovState(e.target.value)}
+                    className="w-full border-2 border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:border-maineBlue text-sm"
+                  >
+                    <option value="">-- Select a State --</option>
+                    <option value="Alabama">Alabama</option>
+                    <option value="Arkansas">Arkansas</option>
+                    <option value="California">California</option>
+                    <option value="Colorado">Colorado</option>
+                    <option value="Indiana">Indiana</option>
+                    <option value="North Dakota">North Dakota</option>
+                    <option value="Wyoming">Wyoming</option>
+                  </select>
+                </div>
+              )}
+              <div>
                 <label className="block text-sm font-bold text-maineBlue mb-1">Skill Name</label>
                 <input
                   type="text"
@@ -1644,9 +1690,11 @@ const MyRunbook = () => {
                       setSkillsWalletSkillName('');
                       setSkillsWalletNotes('');
                       setSkillsWalletTarget(null);
+                      setSkillsWalletDestination('');
+                      setSkillsWalletGovState('');
                     }, 2000);
                   }}
-                  disabled={!skillsWalletSkillName.trim()}
+                  disabled={!skillsWalletSkillName.trim() || !skillsWalletDestination || (skillsWalletDestination === 'government' && !skillsWalletGovState)}
                   className="w-full bg-maineBlue text-white font-retro font-bold py-3 rounded-lg hover:bg-seafoam hover:text-maineBlue transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
                 >
                   💼 Add to Skills Wallet
