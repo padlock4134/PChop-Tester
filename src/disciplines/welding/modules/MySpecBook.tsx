@@ -1600,12 +1600,12 @@ const MySpecBook = () => {
                 <label className="block text-sm font-bold text-maineBlue mb-1">Send To <span className="font-normal text-gray-400">(required)</span></label>
                 <div className="grid grid-cols-2 gap-2">
                   {[
-                    { id: 'credivera', label: 'Credivera' },
-                    { id: 'iq4', label: 'IQ4' },
-                    { id: 'velocity', label: 'Velocity' },
-                    { id: 'territorium', label: 'Territorium' },
-                    { id: 'learncard', label: 'LearnCard' },
-                    { id: 'government', label: 'Government' },
+                    { id: 'credivera', label: 'Credivera', logo: 'https://logo.clearbit.com/credivera.com' },
+                    { id: 'iq4', label: 'IQ4', logo: 'https://logo.clearbit.com/iq4.com' },
+                    { id: 'velocity', label: 'Velocity', logo: 'https://logo.clearbit.com/velocitycareerlabs.com' },
+                    { id: 'territorium', label: 'Territorium', logo: 'https://logo.clearbit.com/territorium.com' },
+                    { id: 'learncard', label: 'LearnCard', logo: 'https://logo.clearbit.com/learncard.app' },
+                    { id: 'government', label: 'Government', logo: null },
                   ].map(dest => (
                     <button
                       key={dest.id}
@@ -1613,6 +1613,11 @@ const MySpecBook = () => {
                       onClick={() => { setSkillsWalletDestination(dest.id); setSkillsWalletGovState(''); }}
                       className={`flex items-center gap-2 px-3 py-2 rounded-lg border-2 text-sm font-bold transition-colors ${skillsWalletDestination === dest.id ? 'border-maineBlue bg-maineBlue text-white' : 'border-gray-300 bg-white text-gray-700 hover:border-maineBlue hover:text-maineBlue'}`}
                     >
+                      {dest.logo ? (
+                        <img src={dest.logo} alt={dest.label} className="h-5 w-5 object-contain rounded" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
+                      ) : (
+                        <span className="text-base leading-none">⚖️</span>
+                      )}
                       {dest.label}
                     </button>
                   ))}
