@@ -1382,12 +1382,26 @@ const MySpecSheets = () => {
                   <h2 className="text-3xl font-bold text-purple-800 font-retro">🗂️ My Portfolio</h2>
                   <p className="text-purple-600 mt-1">Your evidence library — videos, projects & work sessions</p>
                 </div>
-                <button
-                  onClick={() => setShowVideoLibraryModal(false)}
-                  className="text-purple-600 hover:text-purple-800 text-3xl font-bold"
-                >
-                  ×
-                </button>
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={() => {
+                      setSkillsWalletTarget(null);
+                      setSkillsWalletSkillName('');
+                      setSkillsWalletSuccess(false);
+                      setSkillsWalletNotes('');
+                      setShowSkillsWalletModal(true);
+                    }}
+                    className="bg-maineBlue text-white font-retro font-bold px-4 py-2 rounded-lg text-sm hover:bg-seafoam hover:text-maineBlue transition-colors whitespace-nowrap"
+                  >
+                    + Skills Wallet
+                  </button>
+                  <button
+                    onClick={() => setShowVideoLibraryModal(false)}
+                    className="text-purple-600 hover:text-purple-800 text-3xl font-bold leading-none"
+                  >
+                    ×
+                  </button>
+                </div>
               </div>
               
               {/* Filter Dropdowns */}
@@ -1580,12 +1594,14 @@ const MySpecSheets = () => {
                   placeholder="e.g. Knife Safety, Station Setup..."
                 />
               </div>
-              <div>
-                <label className="block text-sm font-bold text-maineBlue mb-1">Evidence</label>
-                <p className="text-xs text-gray-600 bg-sand rounded px-3 py-2 border border-gray-200 font-medium">
-                  🎥 {skillsWalletTarget.name.replace('.webm', '')}
-                </p>
-              </div>
+              {skillsWalletTarget && (
+                <div>
+                  <label className="block text-sm font-bold text-maineBlue mb-1">Evidence</label>
+                  <p className="text-xs text-gray-600 bg-sand rounded px-3 py-2 border border-gray-200 font-medium">
+                    🎥 {skillsWalletTarget.name.replace('.webm', '')}
+                  </p>
+                </div>
+              )}
               <div>
                 <label className="block text-sm font-bold text-maineBlue mb-1">Notes <span className="font-normal text-gray-400">(optional)</span></label>
                 <textarea
