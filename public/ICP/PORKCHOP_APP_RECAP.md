@@ -1,7 +1,7 @@
 # PorkChop — Complete App Recap
 **Purpose-Built LMS for Trade Education**
 
-*Last Updated: June 17, 2026 (public-safe recap)*
+*Last Updated: June 26, 2026 (public-safe recap)*
 
 ---
 
@@ -38,7 +38,7 @@ PorkChop provides trade-specific tools through a multi-discipline platform:
 5. **Live Streaming Sessions** — Global Test Kitchen with scheduling, recording, classroom integration, and real-time viewer tracking
 6. **Scheduled Live Sessions** — full Supabase-backed session scheduling table (dish/project name, cuisine, session type, teacher tagging, discipline silo)
 7. **Nutritional Analysis** — real-time nutritional data and health tagging (Heart Healthy, Anti Inflammatory, Low Glycemic, etc.)
-8. **AR Practice Scenes** — interactive augmented reality practice with camera-based pose tracking, guided overlays, and step-by-step technique feedback, powered by AI-generated scene generation per discipline
+8. **AR/VR Practice Scenes** — interactive augmented reality and virtual reality practice with camera-based pose tracking, guided overlays, and step-by-step technique feedback; discipline-specific theme colors; AR/VR mode toggle via `PracticeModeSwitch`; device selection modal for AR-on-device vs. headset modes; rendered by shared `GenericFirstPersonARScene` component; AI-generated per discipline
 9. **AR Practice Scene Caching** — server-side caching of AI-generated AR scenes in Supabase to reduce generation latency and API costs
 10. **Integrity Monitoring System** — comprehensive academic integrity tracking with plagiarism detection, completion pattern analysis, activity anomaly monitoring, and admin alert review workflow — backed by 4 dedicated Supabase tables (completion_tracking, text_submissions, user_activity_log, integrity_alerts)
 11. **Single-Session Enforcement** — active_user_sessions table enforces one live browser/device session per Wristband user per tenant; prior sessions are invalidated on new login
@@ -47,7 +47,7 @@ PorkChop provides trade-specific tools through a multi-discipline platform:
 14. **Inspirational Quote System** — daily inspiration from industry-specific leaders
 15. **Job Timer Suite** — multi-timer system with preset options, serving size calculations, and audio notifications
 16. **Auto-Logout Security** — inactivity detection with countdown warning modal and automatic session termination via `useAutoLogout` hook
-17. **Close-on-Unload Session** — `useCloseSessionOnUnload` hook closes the Wristband session cleanly when the browser tab is closed
+17. **Close-on-Unload Session** — `useCloseSessionOnUnload` hook uses the Page Visibility API to detect when a tab is hidden; starts a 5-minute timer and calls the auth-close-session endpoint if the tab does not become visible again, preventing false logouts on refresh
 18. **Social Timeline** — community feed with posts, likes, comments, live session announcements, and marketplace discoveries
 19. **PWA Installation** — service worker registration, install prompts, and offline capabilities across all disciplines
 20. **Geolocation Services** — GPS-based location discovery for nearby trade suppliers, markets, and resources
@@ -86,6 +86,9 @@ PorkChop provides trade-specific tools through a multi-discipline platform:
 53. **Live Session Viewer Count** — real-time viewer tracking and participant management for streaming sessions
 54. **Feedback Submission System** — in-app user feedback collection routed through `submit-feedback` serverless function
 55. **Admin Toggle Context** — `AdminToggleProvider` + `useAdminToggle` hook allowing staff-level admin mode switching from within the app
+56. **How-To Guides** — draggable floating flier system (`HowToGuides`) for in-app instructional content; accessible from the admin navbar; flier content is easily added via a centralized array
+57. **Practice Lesson Selector** — `PracticeLessonSelect` component populates AR/VR lesson pickers from live curriculum data (grouped by course); `PracticeLessonHistorySelect` shows the last practiced lesson
+58. **AR/VR Mode Switch** — `PracticeModeSwitch` toggle UI component for switching between AR and VR practice modes with animated pill indicator
 
 ### Dynamic Discipline System
 
@@ -93,7 +96,7 @@ PorkChop uses a sophisticated skin system that adapts the entire platform experi
 
 1. **9 Fully Deployed Trade Disciplines** — Culinary, Plumbing, Automotive, Construction, Electrical, HVAC, Manufacturing, Logistics, Welding — each with full module, routing, AI assistant, and UI skin
 2. **Dynamic UI Adaptation** — module names, assistant personas, terminology, and branding automatically adjust per discipline
-3. **Discipline-Specific AI Assistants** — Chef Freddie (Culinary), Pete the Plumber, Gus the Mechanic, Foreman Frank (Construction), Sparky (Electrical), Cool Cal (HVAC), Mac the Manufacturer, Lou the Dispatcher (Logistics), Max the Machinist (Welding)
+3. **Discipline-Specific AI Assistants** — Chef Freddie (Culinary), Pete the Plumber (Plumbing), Garage Puddy (Automotive), Foreman Frank (Construction), Sparky the Lineman (Electrical), Freon Frankie (HVAC), Button Pusher Max (Manufacturing), Gear Jamming Daniel (Logistics), Ironworker Jake (Welding)
 4. **Tojimaster Kito** — admin-facing curriculum assistant persona, available in the Unified Admin Dashboard for creating assignments, lesson plans, rubrics, and mapping curriculum to modules
 5. **Director Vance** — CTE Director AI persona available inside the admin dashboard for institutional guidance on student management, reports, and platform operations
 6. **Custom Program Creation** — admins can instantly generate new trade disciplines using AI with custom names and context; custom disciplines load from Supabase (`custom_disciplines` table) and receive generic module routes (`/my-workspace`, `/my-notebook`, `/community`, `/school`) rendering culinary base components
@@ -109,7 +112,7 @@ PorkChop uses a sophisticated skin system that adapts the entire platform experi
 - **Progressive Web App** — mobile-friendly, installable on devices, offline-capable with responsive design across desktop, tablet, and mobile
 - **Service Worker Integration** — automatic registration, offline caching, and install prompts with cache management and network fallback
 - **Enterprise-grade authentication** — Wristband OAuth 2.0 multi-tenant architecture so each school operates in its own secure environment; Wristband JWT is passed to Supabase for RLS-enforced data access
-- **Single-Session Enforcement** — `active_user_sessions` table prevents concurrent logins; `useCloseSessionOnUnload` terminates sessions on tab close
+- **Single-Session Enforcement** — `active_user_sessions` table prevents concurrent logins; session state is tri-state: `current`, `orphaned`, or `superseded`; superseded sessions receive 401 and are forced to re-authenticate; fails open if the table is unavailable to avoid hard blocking users
 - **Auto-Logout Security** — inactivity detection with countdown warning modal and automatic session termination
 - **Multi-discipline architecture** — 9 built-in trade programs with dynamic skin system + unlimited custom program generation
 - **AI-powered core** — computer vision, natural language AI (Anthropic Claude), and discipline-specific intelligence woven throughout
@@ -133,7 +136,7 @@ PorkChop uses a sophisticated skin system that adapts the entire platform experi
 | **HVAC** | My Shop | My SpecSheets | Tech Talk | HVAC School |
 | **Manufacturing** | My Floor | My Playbook | Shop Talk | MFG Academy |
 | **Logistics** | My Dock | My Runbook | Dispatch Lounge | Logistics School |
-| **Welding** | My Torch | My WeldBook | Welders Hub | Welding School |
+| **Welding** | My Booth | My WeldBook | Welders Hub | Welding School |
 
 *Custom disciplines use generic routes: My Workspace / My Notebook / Community / School*
 
@@ -173,7 +176,7 @@ Structured learning with techniques, tutorials, AR-powered hands-on practice, an
 - **Educational techniques** — fundamental skills organized across domains appropriate to each discipline
 - **Automatic tutorial sourcing** — matched video content for projects and techniques
 - **Built-in timing tools** — for practice sessions and timed exercises
-- **AR Practice Integration** — interactive augmented reality scenes with pose tracking, guided overlays, and step-by-step technique feedback; scenes are AI-generated per discipline by the `generate-ar-practice` serverless function and cached in Supabase
+- **AR/VR Practice Integration** — interactive AR and VR practice scenes with pose tracking, guided overlays, and step-by-step technique feedback; discipline-specific theme colors; AR/VR mode toggle and device selection modal; shared `GenericFirstPersonARScene` renderer; scenes AI-generated per discipline by `generate-ar-practice` serverless function and cached in Supabase
 - **Job Timer Suite** — multi-timer system with preset options, serving size calculations, and audio notifications
 - **AI Weekly Challenge Generator** — discipline-specific challenges generated via Anthropic with structured parsing and error handling
 - **Educational content display** — structured course content and lessons
@@ -201,13 +204,13 @@ A contextual AI assistant available on every page, customized to each discipline
 
 - **Chef Freddie** (Culinary) — recipes, techniques, nutrition
 - **Pete the Plumber** (Plumbing) — systems, codes, troubleshooting
-- **Gus the Mechanic** (Automotive) — diagnostics, repairs, maintenance
-- **Foreman Frank** (Construction) — blueprints, materials, safety
-- **Sparky** (Electrical) — circuits, codes, troubleshooting
-- **Cool Cal** (HVAC) — systems, refrigeration, diagnostics
-- **Mac the Manufacturer** (Manufacturing) — quality control, process optimization, safety
-- **Lou the Dispatcher** (Logistics) — supply chain, routing, inventory
-- **Max the Machinist** (Welding) — welding techniques, electrode angles, materials, precision
+- **Garage Puddy** (Automotive) — diagnostics, repairs, brake/engine procedures
+- **Foreman Frank** (Construction) — blueprints, framing, site safety
+- **Sparky the Lineman** (Electrical) — circuits, NEC code, panel installation
+- **Freon Frankie** (HVAC) — refrigeration, heat pumps, EPA 608 prep
+- **Button Pusher Max** (Manufacturing) — quality control, lean manufacturing, precision measurement
+- **Gear Jamming Daniel** (Logistics) — supply chain, freight routing, warehouse operations
+- **Ironworker Jake** (Welding) — welding techniques, electrode angles, process selection (SMAW/GMAW/GTAW/FCAW)
 
 Each assistant is trained on discipline-specific knowledge, adapts its persona to the trade, and maintains conversation history for institutional analytics.
 
@@ -251,7 +254,7 @@ A 440KB+ single-component institutional administration panel:
 - **JWT bridge** — Wristband JWT injected into Supabase client via `setSupabaseJwt()` before first authenticated request
 - **Single-session enforcement** — `active_user_sessions` Supabase table; new login invalidates all prior sessions per tenant
 - **Auto-logout** — `useAutoLogout` hook with configurable inactivity timeout, countdown warning modal, and hard termination
-- **Close-on-unload** — `useCloseSessionOnUnload` hook fires auth-close-session on browser tab close
+- **Close-on-unload** — `useCloseSessionOnUnload` hook uses Page Visibility API; 5-minute hidden-tab timer before firing auth-close-session; cancels on tab refocus to prevent false logouts on reload
 - **CSRF protection** — token validation and secure cookies on all mutating serverless endpoints
 - **Session encryption** — iron-webcrypto encrypted session cookies with automatic expiration
 
@@ -283,8 +286,8 @@ A 440KB+ single-component institutional administration panel:
 | `vision-proxy` | Server-side computer vision with confidence thresholds |
 | `anthropic-proxy` | General Anthropic AI routing |
 | `chefFreddieQuery` | Discipline assistant query handler |
-| `generate-ar-practice` | AI-generated AR practice scenes per discipline (TypeScript, Anthropic) |
-| `content-processor` | PDF/DOCX/TXT syllabus extraction + AI module mapping |
+| `generate-ar-practice` | AI-generated AR/VR practice scenes per discipline (TypeScript, Anthropic claude-opus-4-5); checks `ar_scenes_cache` first |
+| `content-processor` | PDF/DOCX/TXT syllabus extraction + AI module mapping; discipline-aware prompts for Culinary, Plumbing, HVAC (generic fallback for others); detects single-lesson vs. multi-lesson syllabus |
 | `usda-nutrition` | USDA nutrition data lookup |
 | `get-places` | Google Places radius search |
 | `text-search-places` | Google Places text search |
