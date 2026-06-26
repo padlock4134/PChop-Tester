@@ -1307,6 +1307,17 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
           schoolName: schoolBranding.schoolName || 'Unknown School',
         }),
       });
+      await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+          'form-name': 'user-feedback',
+          category: feedbackCategory,
+          message: feedbackText.trim(),
+          submitterEmail: currentUser?.email || 'Unknown',
+          schoolName: schoolBranding.schoolName || 'Unknown School',
+        }).toString(),
+      });
       setFeedbackText('');
       setFeedbackCategory('general');
       setShowFeedbackModal(false);
