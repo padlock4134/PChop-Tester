@@ -1,0 +1,763 @@
+
+
+   
+ 
+                     
+1 
+Future Builders RFP Guide  | 
+ 
+This guide supplements the BlackRock Future Builders Request for Proposals (RFP) website and provides 
+applicants with additional detail, including the application text, to support proposal development and submission. 
+To access the full RFP oppor tunit y page, application por tal, and related resources, please visit the official 
+BlackRock Future Builders website: https://info.jff.org/blackrock-future-builders-rfp  
+How to Read This RFP Guide 
+This RFP Guide is organized into three parts: the Overview, the Application Questions, and the Appendix. 
+The Overview provides the core narrative for the funding opportunity, including the purpose of BlackRock Future 
+Builders, the types of solutions eligible for funding, applicant eligibility, grant structure, selection criteria, timeline, 
+and submission process. 
+The Application Questions section outlines the information applicants will be asked to submit through 
+Submittable, including organization details, proposed program type, program narrative responses, budget 
+information, funding sources, and required attachments. 
+The Appendix provides supporting definitions, reporting guidance, and KPI reference materials to help applicants 
+understand key terms, expected outcomes, and potential reporting requirements. The appendix is intended as a 
+reference tool and does not replace the application questions or formal submission requirements. 
+Overview 
+BlackRock Future Builders is a $100M philanthropic initiative funded by The BlackRock Foundation to expand 
+economic opportunity and power the next generation of America’s skilled trades workers. Through this Request for 
+Proposals (RFP) process, The Foundation seeks to support U.S. nonprofit organizations (i.e., registered 501(c)3 
+organizations) delivering or supporting high-quality skilled trades training. 
+This competitive grant opportunity operates in parallel to other BlackRock Future Builders partnerships and is 
+intended to surface additional, regionally grounded solutions across the skilled trades ecosystem. Organizations 
+may propose direct worker training programs or capacity-building efforts that enable systems to function more 
+effectively and at greater scale. 
+
+   
+ 
+                     
+2 
+Future Builders RFP Guide  | 
+The BlackRock Foundation intends to commit $25 million over two funding cycles to support two-year grants 
+ranging from $500,000 to $1 million through this RFP process. This first round RFP will be administered by Jobs 
+for the Future (JFF), a national nonprofit that transforms U.S. education and workforce systems. 
+Focus Areas & Solutions 
+Applicants may propose worker training or capacity-building solutions aligned to skilled trades workforce 
+development. 
+Worker training interventions may include direct service proposals such as pre-apprenticeship or career 
+navigation programs, workforce training programs, apprenticeship programs, or wrap-around participant supports 
+that are supportive of training persistence and completion. 
+Capacity-building interventions are organizational and system-focused, rather than in direct service of 
+participants, and may include, but are not limited to, proposals such as ecosystem-building, demonstration 
+projects, technology or tool adoptions, or research, among others. 
+Eligibility 
+This application is open to U.S.-based nonprofit organizations (including Puerto Rico and U.S. Virgin Islands) that 
+align with The BlackRock Foundation’s charitable purpose to strengthen financial security for more people, and 
+meet The Foundation’s standard eligibility requirements. 
+Occupations: All skilled trades are eligible, provided applicants demonstrate a strong connection to infrastructure 
+projects such as data center construction or related supply chains, energy infrastructure, or transportation 
+infrastructure. Some examples include, but are not limited to, electricians, HVAC technicians, plumbers, pipefitters 
+and steamfitters, ironworkers, insulation workers, and construction equipment operators.   
+Organizations must: 
+• Be recognized as a 501(c)(3) public charity or equivalent 
+• Propose funding for a specific program or project, not general operating support 
+• Demonstrate sound governance, leadership, and financial health 
+Additional requirements: 
+• Typically, no more than 25% of an organization’s annual budget should be directed to administrative and 
+fundraising overhead 
+• Applicants may request grant funding ranging from $500,000 to $1 million 
+ 
+Grant funds may not be used for lobbying, political activity, impermissible private benefit or inurement, or any 
+other non-charitable purpose. Grant recipients must use funds only for the approved program, comply with 
+applicable reporting and monitoring requirements, and adhere to any additional restrictions or safeguards 
+(including, where applicable, expenditure responsibility requirements) specified by The BlackRock Foundation. The 
+following types of organizations are not eligible for consideration: 
+
+   
+ 
+                     
+3 
+Future Builders RFP Guide  | 
+• Organizations that discriminate against any person or group of people in their hiring and employment 
+practices, codes of conduct, programs, services, or in any other aspect of their operations or activities on 
+the basis of a person’s or group of people’s personal characteristics or attributes 
+• Lobbying groups, partisan political organizations, political candidates, or others to support or challenge 
+specific legislation 
+• Personal or family foundations (private foundations) 
+• Civic organizations (e.g., a local fire department) 
+Grant proposals may support discrete pilot or demonstration projects within larger organizations, as well as 
+organization-wide or core initiatives within smaller organizations, provided the proposed scope is appropriate to 
+the organization’s role, capacity, and ability to execute. 
+Lead organizations should be prepared to provide the following information for this proposal:  
+• Basic information: name, address, website, mission statement, head of organization details 
+• W-9 
+• Most recent Form 990 
+• List of board of directors of lead organization 
+• Letters of Commitment from partners (if applicable) 
+• IRS 501(c)(3) determination letter 
+• Most recent financial statements 
+• List of top funders 
+Grant Structure 
+Grants will be awarded for a two-year period. Proposed budgets should be clearly aligned to activities, deliverables, 
+and expected outcomes, and reflect efficient, cost-effective use of funds. The scope of funded work should be 
+feasible within the grant timeframe and appropriately tailored to the applicant’s organizational capacity. 
+Reporting & Key Performance Indicators 
+Grantees will be required to submit biannual progress reports over the grant period. Reporting will focus on 
+progress against a defined set of key performance indicators (KPIs) aligned to the proposed intervention, such as 
+participant outcomes, system-level improvements, employer engagement, and other relevant measures of 
+progress and impact. 
+Selection Criteria 
+Applications will be initially evaluated using a structured rubric. Core evaluation criteria include: 
+• Strategic fit with regional labor demand – alignment to documented skilled trades workforce needs and 
+regional priorities 
+• Strength of the proposed solution – clarity of the intervention, outcomes, and connection between 
+activities and impact 
+• Ecosystem engagement – depth of partnerships across employers, training providers, workforce systems, 
+and public agencies 
+• Program design – quality of training or capacity-building models and related supports that drive access, 
+persistence, and completion 
+
+   
+ 
+                     
+4 
+Future Builders RFP Guide  | 
+• Organizational capacity and readiness – ability to execute at scale, manage funds, and deliver within a 
+two-year timeframe 
+• Leadership strength and governance – experience and credibility of organizational leadership and 
+demonstrated ability to lead complex initiatives and partnerships 
+• Sustainability and catalytic impact – potential to scale, accelerate, or sustain outcomes beyond the grant 
+period 
+• Data, budget, and implementation feasibility – strength of data collection plans, realistic timelines, and 
+cost-effective budgets 
+Timeline & Key Dates 
+• RFP release date: Monday, June 1 
+• Submit questions to FutureBuildersRFP@jff.org by: Wednesday, July 1 
+• Proposals due: Friday, July 10 by 11:59 p.m. PT 
+• Anticipated award notification date: Late September 
+How to Apply & Contact Information 
+Submission method: Applications must be submitted on Submittable. JFF will not accept emailed submissions. 
+Application Questions  
+The application questions below are provided for preview purposes only. All applications must be submitted 
+through the Submittable platform. 
+ 
+Basic Information  
+ 
+Primary Contact Information for Application  
+• Primary Contact Name (First and Last)  
+• Title  
+• Organization Name  
+• Email Address  
+• Phone Number  
+ 
+Applicant Organization Information  
+• Legal Organization Name  
+• EIN  
+• Street Address  
+• City  
+• State  
+• ZIP Code  
+• Website  
+• IRS Organization Status (501c3, public charity, foundation, operating charity fiscal sponsor)  
+• Is your organization using a fiscal sponsor?  
+ 
+ 
+ 
+ 
+ 
+
+   
+ 
+                     
+5 
+Future Builders RFP Guide  | 
+Organization Role (Select all that apply): 
+• Direct training provider 
+• Employer or employer consortium 
+• Workforce intermediary 
+• Sector or industry partnership 
+• Systems-change or policy organization 
+• Technology or data platform 
+• Capital access or financing intermediary 
+• Other (please specify) 
+ 
+How did you hear about this funding opportunity? (This will be a drop down)  
+• Email from our organization 
+• Email from a partner organization 
+• JFF website 
+• BlackRock website 
+• Social media (LinkedIn, X/Twitter, Facebook, Instagram) 
+• Online advertisement 
+• Professional association 
+• Conference or event 
+• Webinar or info session 
+• News article or press coverage 
+• BlackRock employee 
+• Other (please specify) 
+ 
+Has your organization received any funding from BlackRock or The BlackRock Foundation in the past? (Yes/No) 
+ 
+Program Narrative Questions 
+The BlackRock Foundation seeks proposals that directly or indirectly increase the number of individuals prepared 
+for and successfully entering skilled trades careers. Applicants may include training providers, workforce 
+intermediaries, sector partnerships, or other organizations or coalitions that strengthen the skilled trades talent 
+ecosystem. Proposals must address how the work will lead to measurable improvements in workforce readiness, 
+training capacity, job placement, retention, or wage progression. 
+Proposals must fit into one of two possible program types: Worker training or capacity-building.  
+“Worker training” interventions may include proposals such as pre-apprenticeship or career navigation programs, 
+workforce training programs, apprenticeship programs, or wrap-around participant supports that are additive to 
+training. 
+“Capacity-building” interventions may include, but are not limited to, proposals such as ecosystem-building, 
+demonstration projects, technology or data infrastructure, or tool adoption, among others. 
+Proposals may include both worker training and capacity-building components, as long as they are both clearly 
+connected to meeting the proposal’s goals. 
+Which type of program are you proposing? (check all that apply) 
+• Worker Training 
+• Capacity-Building 
+ 
+ 
+
+   
+ 
+                     
+6 
+Future Builders RFP Guide  | 
+The Data 
+1. What skilled trades occupations or occupational pathways does your work target or influence (directly or 
+indirectly)? 
+Describe the projected regional, statewide, or national demand for these occupations over the next two 
+years. Cite relevant labor market data, employer demand signals, or industry studies that demonstrate the 
+workforce gap your work seeks to address. Capacity-building applicants should clearly describe how their 
+work connects to and influences these occupational outcomes. 
+Regional Context 
+2. Select your service area for this proposal: (multi-select)  
+• National 
+• Multi-state 
+• Statewide 
+• Regional 
+• County 
+• City/Local 
+ 
+3. Describe your region’s (local communities, state, national) current ecosystem for training and placing 
+workers in these occupations. What related initiatives, funding streams, employer partnerships, public 
+policies, or sector strategies already exist? How does your organization complement, strengthen, or 
+uniquely contribute to this landscape?  
+Capacity-building applicants should describe their role within the ecosystem and how their work enables or 
+accelerates workforce readiness, placement, or retention outcomes.  
+ 
+Role in the Skilled Trades Ecosystem 
+4. Describe your organization’s primary role in the skilled trades talent ecosystem. 
+How does your role increase readiness, capacity, placement, retention, or wage advancement in the skilled 
+trades?  
+Intervention and Outcomes 
+5. Describe your proposed intervention and how it responds to the workforce need identified above. 
+• If you provide direct training or participant services, summarize the program model, core activities, and 
+service components. 
+• For capacity-building applicants, describe how your intervention strengthens, enables, coordinates, 
+finances, improves quality of, or scales skilled trades preparation and placement efforts (e.g., employer 
+engagement, curriculum alignment, instructor development, data infrastructure, policy reform, shared 
+services, capital access, technology platforms).  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+   
+ 
+                     
+7 
+Future Builders RFP Guide  | 
+6. What measurable outcomes will your work drive during the two-year grant period? 
+ Outcomes may include but are not limited to: 
+ 
+• Number of individuals enrolled, trained, credentialed, or placed 
+• Retention or wage progression outcomes 
+• Increased employer commitments or apprenticeship slots 
+• Expanded training capacity 
+• Reduced time to placement 
+• System-level improvements (policy adoption, funding alignment, credential recognition, etc.) 
+ 
+Clearly describe how your activities will lead to your proposed outcomes within the two-year grant period.  
+ 
+Catalytic Impact 
+7. How will this funding enable your organization and region to scale or accelerate workforce efforts beyond 
+current capacity? What unique regional assets (e.g., employer networks, policy supports, data systems, 
+technology platforms, or financing mechanisms, partnerships) will you leverage to increase impact? If 
+serving a specific population, explain the rationale [for that focus] based on workforce gaps and barriers to 
+employment.  
+Constraints, Assumptions, & Risk Mitigation 
+8. What are the primary risks or constraints that could affect your ability to meet project goals (e.g., 
+recruitment challenges, employer demand fluctuations, partner coordination, policy timelines, funding 
+gaps, data access)? What strategies will you use to mitigate these risks and ensure successful 
+implementation?  
+ 
+Program Design 
+9. How does your work ensure alignment with industry standards, employer demand, and high-quality career 
+pathways. 
+ 
+• If you provide training, describe recruitment strategies, curriculum design, and wrap-around supports 
+in detail, noting industry-recognized credentials and any apprenticeship alignment (Registered 
+Apprenticeship, pre-apprenticeship), union or non-union pathways, work-based learning components, 
+and employer engagement. 
+• For capacity-building applicants, describe your proposed core activities, tools, or structures in detail. 
+ 
+Provide evidence of effectiveness, including prior outcomes or comparable initiatives where available.  
+Participant Supports & Barrier Reduction  
+10. What support is provided—directly or through partners—to improve participant enrollment, persistence, 
+completion, and employment outcomes across the skilled trades ecosystem? Examples may include 
+stipends, transportation, childcare, case management, financial coaching, mentoring, or employer-based 
+supports. How do these supports improve retention and long-term career outcomes? 
+ 
+For capacity-building applicants, describe how your intervention might strengthen access to or 
+coordination of such services. 
+ 
+ 
+
+   
+ 
+                     
+8 
+Future Builders RFP Guide  | 
+Sustainability of Outcomes 
+11. How will you sustain program operations, partnerships, and outcomes beyond the grant period? Where 
+applicable, describe plans for: 
+• Long-term funding 
+• Institutionalization within workforce or education systems 
+• Policy adoption 
+• Employer investment 
+• Ongoing performance accountability 
+ 
+For capacity-building proposals, explain how structural changes (e.g., funding alignment, employer 
+practices, credential standards, data systems) will persist after grant funding ends. 
+ 
+Organizational Capacity & Readiness 
+12. Describe your organization’s capacity to implement this project at the proposed scale. Include staffing 
+structure, leadership experience, governance structures, and past performance. If applicable, describe 
+partner roles (e.g., fiscal sponsor, training providers, employers) and how you will coordinate 
+implementation.  
+Ecosystem Engagement 
+13. Describe the depth and strength of your organization’s partnerships across employers, education and 
+training providers, workforce organizations, and other community-based partners. How are these 
+relationships actively engaged in your work (e.g., advisory roles, co-design, hiring commitments, 
+governance, or board participation), and what commitments have partners made to support program 
+implementation and outcomes?  
+Data Collection Methodology 
+14. How will you collect, manage, and use data to track participant progress and outcomes over the two-year 
+period? Describe your tools, partners, and processes for data collection, evaluation, and continuous 
+improvement. Include plans for any ongoing participant engagement after training completion.  
+Budget  
+15. Provide applicant organization’s 2026 operating budget. 
+ 
+16. Provide a high-level summary of your proposed budget and [project] timeline. How are costs aligned with 
+deliverables and outcomes? Please attach your project budget. See template linked below.  
+ 
+Additional Funding Sources  
+17. List up to five primary funders supporting this work (current or pending): 
+• Funder Name  
+• Funding Amount  
+• Funding Duration  
+• Funding Confirmed (Y/N)  
+o Note: Funding is considered confirmed when an organization has a signed grant 
+agreement/commitment letter 
+ 
+ 
+
+   
+ 
+                     
+9 
+Future Builders RFP Guide  | 
+Do you have another funder to add? If yes is selected, response boxes will populate  
+18. If applicable, describe how this grant would complement existing funding to your organization and whether 
+it fills a gap, enables expansion, or catalyzes new work.  
+ 
+Attachments 
+19. Please attach the following documents: Acceptable file types: .pdf 
+• W-9   
+• Most recent Form 990   
+• List of board of directors of lead organization  
+• Letters of Commitment from partners (if applicable) 
+• IRS determination letter 
+• Most recent financial statement 
+ 
+  
+
+   
+ 
+                     
+10 
+Future Builders RFP Guide  | 
+Appendix A: RFP Narrative Key Terms & Definitions  
+Completion of an Apprenticeship Program or Training Program: Completion is defined as a participant 
+successfully finishing the program that results in credential attainment. For Registered Apprenticeship programs, 
+completion is defined as earning a journey worker credential/journey-level certification (or equivalent program 
+completion credential recognized by the sponsor/industry). For pre-apprenticeship and other training, completion 
+is defined as earning the industry-recognized credential(s) tied to the program design.  
+Credentials in Scope: Industry-recognized credentials (defined by the grant; reported by credential type). 
+Job Placement: Placement into a Registered Apprenticeship or other certified skilled trades roles that don’t require 
+apprenticeships (e.g., HVAC, carpentry). Placements must be training pathway aligned. Placements in unrelated 
+occupations pathways (i.e., a job not related to the individual’s training) will not be considered for reporting 
+purposes. 
+Placement Window: Placement is counted when it occurs within 90 days of program completion (or within 90 days 
+of exit, if applicable). 
+Pre-Apprenticeship Program: A program designed to prepare individuals to enter and succeed in Registered 
+Apprenticeships or other high-quality apprenticeship or work-based learning programs and ultimately careers.  
+Registered Apprenticeship Program: An apprenticeship program approved by either the U.S. Department of 
+Labor’s Office of Apprenticeship or by a state apprenticeship agency. Participants in Registered Apprenticeship 
+programs receive on-the-job supervision and mentorship, are paid increasingly higher wages as they progress 
+through their training and earn industry-recognized credentials upon successful completion of the program. 
+Retention: Participant is currently active in the apprenticeship/training program and working toward credential 
+attainment (active status at reporting cut-off). 
+Skilled Trades: Occupations requiring a particular skill set, ability, or knowledge, including but not limited to 
+electricians, HVAC technicians, plumbers, pipefitters and steamfitters, ironworkers, insulation workers, 
+construction equipment operators, and other industrial skilled trades, and advanced manufacturing occupations 
+explicitly connected to infrastructure, energy transition, and AI-related supply chains. 
+Solutions: Any program, project, or initiative that aims to fill critical labor market gaps by training and placing 
+participants directly into jobs or work-based learning programs such as an apprenticeship. 
+Support Services: Services that address the interrelated barriers preventing learners from successfully completing 
+work-based learning programs, such as financial literacy education, transportation, childcare, housing, and 
+emergency assistance. 
+Training Program (Workforce Training Program): A structured education or workforce program that prepares 
+participants for high-demand skilled trades roles but is not a Registered Apprenticeship. These programs typically 
+combine classroom and/or lab instruction with hands-on learning, are aligned to employer and labor market 
+needs, and are designed to lead to industry-recognized credentials and/or direct employment in the skilled trades.  
+Work-Based Learning: An approach to training in which a student or worker completes meaningful tasks in a 
+workplace. Such programs are designed to prepare participants for full-time work and help them acquire the 
+knowledge and skills they need to enter or advance in particular career fields.  
+
+   
+ 
+                     
+11 
+Future Builders RFP Guide  | 
+Appendix B: KPI Data Dictionary & Reporting Schedule (Two-Year Grant) 
+Purpose and Reporting Expectations 
+Grantees will collect and report performance data to document progress toward the goals of their proposed project. 
+The following metrics represent standard reporting requirements.  Because this funding opportunity is designed to 
+support a broad range of strategies — including worker training, system-building, capacity-building, and related 
+implementation activities — not every metric in this appendix will apply to every proposal. 
+This appendix provides a menu of potential reporting metrics that may be used across funded projects. In the 
+application, applicants should identify the metrics that best align with their proposed activities, intended 
+outcomes, and grant logic model. Final reporting expectations for selected grantees will be determined in 
+partnership with The BlackRock Foundation and will reflect the specific scope, deliverables, and outcomes 
+associated with each funded project. 
+Grantees will not be expected to report on every metric listed below. Instead, funded projects will be assigned a 
+tailored set of reporting requirements based on the nature of the work proposed. 
+Reporting will generally include: 
+• selected quantitative metrics aligned to the approved project scope; and 
+• a brief quarterly narrative summarizing progress, implementation lessons, barriers, adaptations, and 
+emerging outcomes. 
+The BlackRock Foundation recognizes that grant partners operate within varied data environments, reporting 
+systems, and jurisdictional requirements. Wherever possible, grantees should leverage existing data systems, 
+administrative records, and program documentation to meet reporting expectations. 
+Applicants should select the measures below that most closely align to their proposed grant goals and activities. 
+The final set of required KPIs will be confirmed during grant finalization.  
+Worker Training  
+Outcome Area KPI 
+What to 
+Count/Definition 
+Unit of 
+Analysis 
+Data Source(s) 
+Reporting 
+Frequency 
+Enrollment  
+# Grant-Funded 
+Participants 
+Enrolled 
+Individuals 
+enrolled in 
+training 
+supported by 
+grant dollars 
+during the quarter. 
+Participant 
+Sponsor/provider 
+rosters; training 
+provider 
+SIS/LMS; grant 
+enrollment list 
+Bi-Annual 
+Supportive 
+Services  
+# Participants 
+Receiving 
+Supports + 
+Support Types 
+Participants 
+receiving at least 
+one support 
+(financial literacy 
+education, 
+Participant 
+Case 
+management 
+logs; partner 
+records 
+Bi-Annual 
+
+   
+ 
+                     
+12 
+Future Builders RFP Guide  | 
+transportation, 
+child care, 
+tools/PPE, 
+tutoring, case 
+management). 
+Include type of 
+support counts. 
+Participation User Experience 
+Satisfaction 
+scores, usability 
+ratings, and 
+qualitative 
+feedback. 
+Employee 
+Surveys, 
+interviews. 
+Bi-Annual 
+Participation 
+# Active 
+Participants 
+(Retention Count) 
+Participants 
+currently active in-
+program and 
+working toward 
+credential 
+attainment at 
+quarter end. 
+Participant 
+Sponsor/provider 
+records; RAPIDS 
+(if available) 
+Bi-Annual 
+Training 
+Hours/Dosage 
+# Hours Delivered 
+(Total) + Avg. 
+Hours/Participant 
+Total 
+instructional/supp
+ort hours 
+delivered, and 
+average hours 
+completed per 
+participant (where 
+tracked). 
+Hours + 
+Participant 
+Attendance logs; 
+LMS 
+Bi-Annual 
+Credential 
+Attainment  
+# Earning 
+Industry-
+Recognized 
+Credentials 
+Count of industry-
+recognized 
+credentials earned 
+during the quarter. 
+Report by 
+credential type. 
+Credential 
+Event + 
+Participant 
+Credentialing 
+body reports; 
+provider/sponsor 
+records; testing 
+records 
+Bi-Annual 
+Credential 
+Attainment 
+# Earning Journey 
+Worker Credential 
+Participants who 
+earned journey 
+worker 
+credential/journey
+-level certification 
+Participant 
+Sponsor records; 
+RAPIDS; 
+licensing/credent
+ial 
+documentation 
+Bi-Annual 
+
+   
+ 
+                     
+13 
+Future Builders RFP Guide  | 
+during grant 
+period (subset of 
+credential 
+attainment). 
+Employment/Plac
+ement 
+# Placed within 90 
+Days 
+Participants 
+placed into 
+apprenticeship, 
+employment, or 
+retained 
+employment 
+within 90 days of 
+completion/exit. 
+Specify whether 
+placement is in-
+field/related-field. 
+Participant 
+Employer 
+verification; wage 
+records (if 
+available); 
+participant 
+follow-up 
+Bi-Annual 
+Advancement 
+Average Hiring 
+Wages 
+Cohort average 
+wages on 
+enrollment. 
+Participant 
+Intake + program 
+records 
+Bi-Annual 
+Advancement 
+Average Wages 
+Post-Placement 
+Wages reported by 
+employer or 
+participants 
+following 
+placement. 
+Participant 
+Employer 
+verification; wage 
+records (if 
+available); 
+participant 
+follow-up 
+ 
+Bi-Annual 
+ 
+ 
+Capacity-Building 
+Outcome Area KPI 
+What to 
+Count/Definition 
+Unit of 
+Analysis 
+Data Source(s) 
+Reporting 
+Frequency 
+Ecosystem 
+Activation 
+# Active 
+Employer 
+Partners 
+Employers engaged in 
+hiring, interviews, 
+curriculum validation, 
+work-based learning, 
+or documented 
+placement 
+Employer 
+Engagement 
+logs; MOUs; 
+sponsor notes 
+Bi-Annual 
+
+   
+ 
+                     
+14 
+Future Builders RFP Guide  | 
+collaboration during 
+the quarter. 
+Ecosystem 
+Activation 
+# Ecosystem 
+Events Hosted 
+or Participated 
+In 
+Co-design sessions, 
+roundtables, 
+committee meetings, 
+communities of 
+practice, and 
+attendance. 
+Event 
+Engagement 
+logs 
+Bi-Annual 
+System Change 
+# of Work 
+Artifacts 
+New articulation 
+agreements, updated 
+CTE frameworks, 
+toolkits, use-cases, 
+white papers, etc. 
+Work 
+products 
+Deliverables or 
+outputs. 
+Bi-Annual 
+Tool or Process 
+Adoption 
+Active User 
+Rate 
+% of registered users 
+using the tool above a 
+threshold (e.g., at least 
+X sessions/month). 
+Organization 
+Administrative 
+data 
+Bi-Annual 
+Tool or Process 
+Adoption 
+User 
+Experience 
+Satisfaction scores, 
+usability ratings, and 
+qualitative feedback. 
+Employee 
+Surveys, 
+interviews. 
+Bi-Annual 
+Tool or Process 
+Adoption 
+# of 
+Participating 
+sites or systems 
+Organizations actively 
+participating in pilot or 
+adoption. # of internal 
+systems using tools 
+(LMS, CRM, etc) 
+Ecosystem 
+MOUs, 
+contracts, 
+project 
+meeting 
+attendance 
+Bi-Annual 
+ 
+ 
+ 

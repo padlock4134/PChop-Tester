@@ -1,0 +1,485 @@
+[
+  {
+    "sheet": "Sample Budget",
+    "data": [
+      [
+        "Future Builders RFP \nBUDGET for [ORGANIZATION NAME]",
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      [
+        null,
+        "YEAR 1",
+        null,
+        "YEAR 2",
+        null,
+        null,
+        null
+      ],
+      [
+        "Budget Category",
+        "Description",
+        "YEAR 1 TOTAL",
+        "Description",
+        "YEAR 2 TOTAL",
+        null,
+        "Further Notes or Narrative"
+      ],
+      [
+        "PERSONNEL",
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      [
+        "Salaries & Benefits",
+        "Project Director and Coordinator",
+        150000,
+        "Project Director and Coordinator",
+        150000,
+        null,
+        "Compensation for project staff, including salary and fringe, based on the portion of their time. Estimate percentage of time on this project, if possible."
+      ],
+      [
+        "Personnel Subtotal",
+        null,
+        150000,
+        null,
+        150000,
+        null,
+        null
+      ],
+      [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      [
+        "DIRECT EXPENSES",
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      [
+        "Partners",
+        "Sub-grant to community-based organization",
+        45000,
+        "Sub-grant to community-based organization",
+        45000,
+        null,
+        "CBO costs include $15,000 for program manager and $30,000 for outreach"
+      ],
+      [
+        "Contractors",
+        "Instructors",
+        75000,
+        "Instructors",
+        75000,
+        null,
+        "Wages for two external instructors ($40,000) and contract with evaluation consultant ($35,000)"
+      ],
+      [
+        "Technology + Software",
+        "Cloud hosting storage and prototyping software",
+        35000,
+        "Cloud hosting storage and prototyping software",
+        35000,
+        null,
+        "Digital tools, platforms, subscriptions, and technical systems"
+      ],
+      [
+        "Supplies + Materials",
+        "Supplies and consumables for project activities",
+        10000,
+        "Supplies and consumables for project activities",
+        10000,
+        null,
+        "Consumable or low-cost items required for project activities, meetings, or training"
+      ],
+      [
+        "Marketing + Communications",
+        "Project website, reports, and briefs",
+        5000,
+        "Project website, reports, and briefs",
+        5000,
+        null,
+        "Costs to develop and distribute project-related communications, outreach, or public-facing materials."
+      ],
+      [
+        "Stipends and Participant Supports",
+        "Work-based learning payments for participants",
+        25000,
+        "Work-based learning payments for participants",
+        25000,
+        null,
+        "$1,000 payments to 25 participants over the course of the program"
+      ],
+      [
+        "Events",
+        "3 project workshops with local employers.  Attendance and supplies for project team",
+        15000,
+        "3 project workshops with local employers.  Attendance and supplies for project team",
+        15000,
+        null,
+        "Costs related to hosting convenings or project workshops (venue, speaker fees, catering, etc.)"
+      ],
+      [
+        "Travel",
+        null,
+        0,
+        null,
+        0,
+        null,
+        null
+      ],
+      [
+        "Other",
+        "Miscellaneous costs",
+        3000,
+        "Miscellaneous costs",
+        3000,
+        null,
+        "Minor expenses that do not fall within the categories listed above"
+      ],
+      [
+        "Direct Expenses Subtotal",
+        null,
+        213000,
+        null,
+        213000,
+        null,
+        null
+      ],
+      [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      [
+        "INDIRECT EXPENSES",
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      [
+        "Indirect cost rate (not to exceed 25%)",
+        null,
+        0.25,
+        null,
+        0.25,
+        null,
+        "General administrative and overhead expenses that support the project but aren't attributed to a specific line item above (applied at the organization’s approved rate)."
+      ],
+      [
+        "Indirect Expenses Subtotal",
+        null,
+        90750,
+        null,
+        90750,
+        null,
+        null
+      ],
+      [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      [
+        "TOTAL PROGRAM BUDGET",
+        null,
+        453750,
+        null,
+        453750,
+        null,
+        null
+      ],
+      [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      [
+        "TOTAL PROGRAM BUDGET",
+        null,
+        null,
+        null,
+        907500,
+        null,
+        null
+      ]
+    ]
+  },
+  {
+    "sheet": "Budget Template",
+    "data": [
+      [
+        "Future Builders RFP \nBUDGET for [ORGANIZATION NAME]",
+        null,
+        null,
+        null,
+        null
+      ],
+      [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      [
+        null,
+        "YEAR 1",
+        null,
+        "YEAR 2",
+        null
+      ],
+      [
+        "Budget Category",
+        "Description",
+        "YEAR 1 TOTAL",
+        "Description",
+        "YEAR 2 TOTAL"
+      ],
+      [
+        "PERSONNEL",
+        null,
+        null,
+        null,
+        null
+      ],
+      [
+        "Salaries & Benefits",
+        null,
+        null,
+        null,
+        null
+      ],
+      [
+        "Personnel Subtotal",
+        null,
+        0,
+        null,
+        0
+      ],
+      [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      [
+        "DIRECT EXPENSES",
+        null,
+        null,
+        null,
+        null
+      ],
+      [
+        "Partners",
+        null,
+        null,
+        null,
+        null
+      ],
+      [
+        "Contractors",
+        null,
+        null,
+        null,
+        null
+      ],
+      [
+        "Technology + Software",
+        null,
+        null,
+        null,
+        null
+      ],
+      [
+        "Supplies + Materials",
+        null,
+        null,
+        null,
+        null
+      ],
+      [
+        "Marketing + Communications",
+        null,
+        null,
+        null,
+        null
+      ],
+      [
+        "Stipends and Participant Supports",
+        null,
+        null,
+        null,
+        null
+      ],
+      [
+        "Events",
+        null,
+        null,
+        null,
+        null
+      ],
+      [
+        "Travel",
+        null,
+        null,
+        null,
+        null
+      ],
+      [
+        "Other Direct Expenses",
+        null,
+        null,
+        null,
+        null
+      ],
+      [
+        "Direct Expenses Subtotal",
+        null,
+        0,
+        null,
+        0
+      ],
+      [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      [
+        "INDIRECT EXPENSES",
+        null,
+        null,
+        null,
+        null
+      ],
+      [
+        "Indirect cost rate (not to exceed 25%)",
+        null,
+        null,
+        null,
+        null
+      ],
+      [
+        null,
+        null,
+        0,
+        null,
+        0
+      ],
+      [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      [
+        "TOTAL ANNUAL BUDGET",
+        null,
+        0,
+        null,
+        0
+      ],
+      [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      [
+        "TOTAL PROGRAM BUDGET",
+        null,
+        null,
+        null,
+        0
+      ]
+    ]
+  },
+  {
+    "sheet": "Instructions",
+    "data": [
+      [
+        "Future Builders RFP \nBUDGET INSTRUCTIONS"
+      ],
+      [
+        null
+      ],
+      [
+        "TO SUBMIT"
+      ],
+      [
+        "Upload this completed template, as an Excel file, when prompted in the application form."
+      ],
+      [
+        "PURPOSE + GUIDANCE"
+      ],
+      [
+        "• This budget template is designed to provide a clear, high-level overview of the resources required to implement the proposed project.  \n• Please complete each section using reasonable assumptions and the best available cost estimates, ensuring all figures align with the project narrative, selected funding tier, and timeline."
+      ],
+      [
+        "- Row 1: Insert the name of your organization.\n- Columns B and D \"Description\": Provide a short explanation and/or additional detail for each line item within each year.  \n- Column C and E \"Total\": All amounts should be rounded to whole dollars.A11\n- Rows in gray and green contain total/sub-total formulas and should not be overwritten.\n- Do not delete any existing categories or line items. You may add additional rows under any main or sub-category as needed.\n- A \"Sample Budget\" tab is provided to illustrate format, level of detail, and typical entries"
+      ],
+      [
+        null
+      ],
+      [
+        "BUDGET CATEGORIES"
+      ],
+      [
+        "Personnel\nInclude all staff whose time will be allocated to the project. Personnel costs should reflect salary and associated benefits proportional to the time committed."
+      ],
+      [
+        "Direct Expenses\nDirect Costs include all project-specific expenses that can be clearly attributed to the work being performed. These may include:\n- Partners (sub-grants/pass-throughs with partner organizations. Detailed Cost-breakdown should be included in the notes or narrative.)\n- Contractors (external expertise or specialized services)\n- Technology & Software (digital tools, platforms, hosting, and subscriptions)\n- Supplies & Materials (consumables, training materials, and workshop items)\n- Marketing & Communications (project outreach, reports, and dissemination)\n- Stipends and Participant Supports (payments to participants or advisors)\n- Events (costs to host/attend required convenings or project sessions)\n- Travel (transportation, lodging, meals, and related project travel).  \n- Other Direct Expenses (minor project expenses not covered by the categories above)"
+      ],
+      [
+        "Indirect Costs\nIndirect Costs represent general administrative and overhead expenses that support the project but cannot be tied to a specific activity or line item. \nThese costs may include operational support, utilities, office administration, or other shared resources.  \nApply your organization’s approved indirect cost rate, up to a maximum of 25% of total direct costs"
+      ]
+    ]
+  }
+]
