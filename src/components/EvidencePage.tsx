@@ -93,8 +93,8 @@ const EvidencePage = () => {
         {/* Nav bar */}
         <div className="px-6 py-4 flex items-center justify-center gap-3 border-b border-gray-200 bg-white">
           <img src="/logo.png" alt="PorkChop" className="h-10 w-10 object-contain" />
-          <span className="font-retro font-bold text-black text-xl tracking-wide">PorkChop</span>
-          <span className="text-xs text-seafoam font-bold uppercase tracking-widest opacity-70">Skills Evidence</span>
+          <span className="font-retro font-bold text-black text-3xl tracking-wide">PorkChop</span>
+          <span className="text-base text-seafoam font-bold uppercase tracking-widest opacity-70">Skills Evidence</span>
         </div>
 
         {/* Empty state */}
@@ -127,8 +127,8 @@ const EvidencePage = () => {
       {/* Nav bar */}
       <div className="px-6 py-4 flex items-center justify-center gap-3 border-b border-gray-200 bg-white">
         <img src="/logo.png" alt="PorkChop" className="h-10 w-10 object-contain" />
-        <span className="font-retro font-bold text-black text-xl tracking-wide">PorkChop</span>
-        <span className="text-xs text-seafoam font-bold uppercase tracking-widest opacity-70">Skills Evidence</span>
+        <span className="font-retro font-bold text-black text-3xl tracking-wide">PorkChop</span>
+        <span className="text-base text-seafoam font-bold uppercase tracking-widest opacity-70">Skills Evidence</span>
       </div>
 
       <div className="flex-1 px-4 py-8">
