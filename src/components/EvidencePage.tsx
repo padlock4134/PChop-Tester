@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { supabase } from '../supabaseClient';
+import { createClient } from '@supabase/supabase-js';
+
+const anonSupabase = createClient(
+  import.meta.env.VITE_SUPABASE_URL as string,
+  import.meta.env.VITE_SUPABASE_ANON_KEY as string
+);
 
 interface SkillClaim {
   id: string;
@@ -44,7 +49,7 @@ const EvidencePage = () => {
   useEffect(() => {
     if (!id) return;
     const fetchClaim = async () => {
-      const { data, error } = await supabase
+      const { data, error } = await anonSupabase
         .from('skill_claims')
         .select('id, discipline, skill_name, video_url, video_name, notes, destination, verified, created_at')
         .eq('id', id)
