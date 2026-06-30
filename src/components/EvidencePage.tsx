@@ -91,9 +91,9 @@ const EvidencePage = () => {
     return (
       <div className="min-h-screen flex flex-col" style={{ background: '#0a1628' }}>
         {/* Nav bar */}
-        <div className="px-6 py-4 flex items-center gap-3 border-b border-white border-opacity-10">
+        <div className="px-6 py-4 flex items-center gap-3 border-b border-gray-200 bg-white">
           <img src="/logo.png" alt="PorkChop" className="h-8 w-8 object-contain" />
-          <span className="font-retro font-bold text-white text-lg tracking-wide">PorkChop</span>
+          <span className="font-retro font-bold text-black text-lg tracking-wide">PorkChop</span>
           <span className="ml-2 text-xs text-seafoam font-bold uppercase tracking-widest opacity-70">Skills Evidence</span>
         </div>
 
@@ -125,9 +125,9 @@ const EvidencePage = () => {
   return (
     <div className="min-h-screen flex flex-col" style={{ background: '#0a1628' }}>
       {/* Nav bar */}
-      <div className="px-6 py-4 flex items-center gap-3 border-b border-white border-opacity-10">
+      <div className="px-6 py-4 flex items-center gap-3 border-b border-gray-200 bg-white">
         <img src="/logo.png" alt="PorkChop" className="h-8 w-8 object-contain" />
-        <span className="font-retro font-bold text-white text-lg tracking-wide">PorkChop</span>
+        <span className="font-retro font-bold text-black text-lg tracking-wide">PorkChop</span>
         <span className="ml-2 text-xs text-seafoam font-bold uppercase tracking-widest opacity-70">Skills Evidence</span>
       </div>
 
