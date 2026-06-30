@@ -91,7 +91,7 @@ const EvidencePage = () => {
     return (
       <div className="min-h-screen flex flex-col" style={{ background: '#0a1628' }}>
         {/* Nav bar */}
-        <div className="px-6 py-4 flex items-center gap-3 border-b border-gray-200 bg-white">
+        <div className="px-6 py-4 flex items-center justify-center gap-3 border-b border-gray-200 bg-white">
           <img src="/logo.png" alt="PorkChop" className="h-10 w-10 object-contain" />
           <span className="font-retro font-bold text-black text-xl tracking-wide">PorkChop</span>
           <span className="text-xs text-seafoam font-bold uppercase tracking-widest opacity-70">Skills Evidence</span>
@@ -125,7 +125,7 @@ const EvidencePage = () => {
   return (
     <div className="min-h-screen flex flex-col" style={{ background: '#0a1628' }}>
       {/* Nav bar */}
-      <div className="px-6 py-4 flex items-center gap-3 border-b border-gray-200 bg-white">
+      <div className="px-6 py-4 flex items-center justify-center gap-3 border-b border-gray-200 bg-white">
         <img src="/logo.png" alt="PorkChop" className="h-10 w-10 object-contain" />
         <span className="font-retro font-bold text-black text-xl tracking-wide">PorkChop</span>
         <span className="text-xs text-seafoam font-bold uppercase tracking-widest opacity-70">Skills Evidence</span>
