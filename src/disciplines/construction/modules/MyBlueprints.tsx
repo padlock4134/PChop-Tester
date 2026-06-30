@@ -80,6 +80,7 @@ const MyBlueprints = () => {
   const [skillsWalletSuccess, setSkillsWalletSuccess] = useState(false);
   const [skillsWalletDestination, setSkillsWalletDestination] = useState('');
   const [skillsWalletGovState, setSkillsWalletGovState] = useState('');
+  const [skillsWalletClaimId, setSkillsWalletClaimId] = useState<string | null>(null);
   const [activeMobileTab, setActiveMobileTab] = useState<'cookbook' | 'collections'>('cookbook');
   
   // Assignment data
@@ -1645,11 +1646,11 @@ const MyBlueprints = () => {
 
       {/* Skills Wallet Claim Modal */}
       {showSkillsWalletModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-[70] p-4" onClick={() => { setShowSkillsWalletModal(false); setSkillsWalletSuccess(false); }}>
+        <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-[70] p-4" onClick={() => { setShowSkillsWalletModal(false); setSkillsWalletSuccess(false); setSkillsWalletClaimId(null); }}>
           <div className="bg-white rounded-xl shadow-2xl border-4 border-maineBlue w-full max-w-md" onClick={(e) => e.stopPropagation()}>
             <div className="bg-maineBlue text-white px-5 py-4 rounded-t-lg flex items-center justify-between">
               <span className="font-retro font-bold text-lg">💼 Add to Skills Wallet</span>
-              <button onClick={() => { setShowSkillsWalletModal(false); setSkillsWalletSuccess(false); }} className="text-white text-2xl font-bold hover:text-seafoam leading-none">×</button>
+              <button onClick={() => { setShowSkillsWalletModal(false); setSkillsWalletSuccess(false); setSkillsWalletClaimId(null); }} className="text-white text-2xl font-bold hover:text-seafoam leading-none">×</button>
             </div>
             <div className="p-5 space-y-4">
               <div>
@@ -1727,14 +1728,28 @@ const MyBlueprints = () => {
                 />
               </div>
               {skillsWalletSuccess ? (
-                <div className="bg-green-50 border-2 border-green-400 rounded-lg px-4 py-3 text-center">
-                  <p className="text-green-700 font-bold text-sm">✅ Skill claim submitted — pending instructor verification.</p>
-                </div>
-              ) : (
-                <button
-                  onClick={() => {
-                    setSkillsWalletSuccess(true);
-                    setTimeout(() => {
+                <div className="space-y-3">
+                  <div className="bg-green-50 border-2 border-green-400 rounded-lg px-4 py-3 text-center">
+                    <p className="text-green-700 font-bold text-sm">✅ Skill claim saved!</p>
+                  </div>
+                  {skillsWalletClaimId && (
+                    <div className="bg-gray-50 rounded-lg border border-gray-200 p-3 space-y-2">
+                      <p className="text-xs font-bold text-maineBlue">📋 Your evidence link — paste this into your wallet:</p>
+                      <div className="flex items-center gap-2">
+                        <code className="text-xs bg-white border border-gray-300 rounded px-2 py-1 flex-1 overflow-hidden text-ellipsis whitespace-nowrap block">
+                          {`${window.location.origin}/evidence/${skillsWalletClaimId}`}
+                        </code>
+                        <button
+                          onClick={() => navigator.clipboard.writeText(`${window.location.origin}/evidence/${skillsWalletClaimId}`)}
+                          className="text-xs bg-maineBlue text-white px-2 py-1 rounded font-bold hover:bg-seafoam hover:text-maineBlue transition-colors whitespace-nowrap"
+                        >
+                          Copy
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                  <button
+                    onClick={() => {
                       setShowSkillsWalletModal(false);
                       setSkillsWalletSuccess(false);
                       setSkillsWalletSkillName('');
@@ -1742,7 +1757,31 @@ const MyBlueprints = () => {
                       setSkillsWalletTarget(null);
                       setSkillsWalletDestination('');
                       setSkillsWalletGovState('');
-                    }, 2000);
+                      setSkillsWalletClaimId(null);
+                    }}
+                    className="w-full bg-gray-100 text-gray-700 font-bold py-2 rounded-lg hover:bg-gray-200 transition-colors text-sm"
+                  >
+                    Done
+                  </button>
+                </div>
+              ) : (
+                <button
+                  onClick={async () => {
+                    const { data, error } = await supabase.from('skill_claims').insert({
+                      user_id: user?.id,
+                      discipline: 'construction',
+                      skill_name: skillsWalletSkillName.trim(),
+                      video_url: skillsWalletTarget?.url || null,
+                      video_name: skillsWalletTarget?.name || null,
+                      notes: skillsWalletNotes || null,
+                      destination: skillsWalletDestination,
+                      is_public: true,
+                      verified: false,
+                    }).select('id').single();
+                    if (!error && data) {
+                      setSkillsWalletClaimId(data.id);
+                    }
+                    setSkillsWalletSuccess(true);
                   }}
                   disabled={!skillsWalletSkillName.trim() || !skillsWalletDestination || (skillsWalletDestination === 'government' && !skillsWalletGovState)}
                   className="w-full bg-maineBlue text-white font-retro font-bold py-3 rounded-lg hover:bg-seafoam hover:text-maineBlue transition-colors disabled:opacity-40 disabled:cursor-not-allowed"

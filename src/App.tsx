@@ -126,6 +126,7 @@ import { useAutoLogout } from './disciplines/culinary/hooks/useAutoLogout';
 import { useCloseSessionOnUnload } from './hooks/useCloseSessionOnUnload';
 import UnifiedAdminDashboard from './components/UnifiedAdminDashboard';
 import { AdminToggleProvider } from './contexts/AdminToggleContext';
+import EvidencePage from './components/EvidencePage';
 export { useAdminToggle } from './contexts/AdminToggleContext';
 
 
@@ -470,6 +471,8 @@ const AppRoutes = () => {
 };
 
 const App = () => {
+  const location = useLocation();
+
   // Add meta viewport tag to ensure proper scaling on mobile devices
   useEffect(() => {
     // Check if the viewport meta tag exists
@@ -485,6 +488,11 @@ const App = () => {
     // Set the content attribute for proper mobile scaling
     viewportMeta.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');
   }, []);
+
+  // Public evidence pages bypass all auth — anyone with the link can view
+  if (location.pathname.startsWith('/evidence/')) {
+    return <EvidencePage />;
+  }
 
   return (
     <AdminToggleProvider>
