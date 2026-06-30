@@ -92,8 +92,8 @@ const EvidencePage = () => {
       <div className="min-h-screen flex flex-col" style={{ background: '#0a1628' }}>
         {/* Nav bar */}
         <div className="px-6 py-4 flex items-center gap-3 border-b border-white border-opacity-10">
-          <span className="text-2xl">🥩</span>
-          <span className="font-retro font-bold text-white text-lg tracking-wide">PChop</span>
+          <img src="/logo.png" alt="PorkChop" className="h-8 w-8 object-contain" />
+          <span className="font-retro font-bold text-white text-lg tracking-wide">PorkChop</span>
           <span className="ml-2 text-xs text-seafoam font-bold uppercase tracking-widest opacity-70">Skills Evidence</span>
         </div>
 
@@ -107,14 +107,14 @@ const EvidencePage = () => {
           <div className="mt-8 border border-white border-opacity-10 rounded-xl px-6 py-4 max-w-xs w-full text-left">
             <p className="text-xs font-bold text-seafoam uppercase tracking-widest mb-2">What is this?</p>
             <p className="text-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>
-              PChop learners share proof-of-work videos with third-party skills wallets using a private evidence link. If you received this link, the learner may need to make it public.
+              PorkChop learners share proof-of-work videos with third-party skills wallets using a private evidence link. If you received this link, the learner may need to make it public.
             </p>
           </div>
         </div>
 
         {/* Footer */}
         <div className="px-6 py-4 text-center">
-          <p className="text-xs" style={{ color: 'rgba(255,255,255,0.25)' }}>Powered by <span className="font-bold">PChop</span> — Trades & Technical Skills Platform</p>
+          <p className="text-xs" style={{ color: 'rgba(255,255,255,0.25)' }}>Powered by <span className="font-bold">PorkChop</span> — Trades & Technical Skills Platform</p>
         </div>
       </div>
     );
@@ -126,8 +126,8 @@ const EvidencePage = () => {
     <div className="min-h-screen flex flex-col" style={{ background: '#0a1628' }}>
       {/* Nav bar */}
       <div className="px-6 py-4 flex items-center gap-3 border-b border-white border-opacity-10">
-        <span className="text-2xl">🥩</span>
-        <span className="font-retro font-bold text-white text-lg tracking-wide">PChop</span>
+        <img src="/logo.png" alt="PorkChop" className="h-8 w-8 object-contain" />
+        <span className="font-retro font-bold text-white text-lg tracking-wide">PorkChop</span>
         <span className="ml-2 text-xs text-seafoam font-bold uppercase tracking-widest opacity-70">Skills Evidence</span>
       </div>
 
@@ -195,7 +195,7 @@ const EvidencePage = () => {
           {/* Footer */}
           <div className="text-center pt-4">
             <p className="text-xs" style={{ color: 'rgba(255,255,255,0.25)' }}>
-              Issued by <span className="font-bold text-white">PChop</span> — Trades & Technical Skills Platform
+              Issued by <span className="font-bold text-white">PorkChop</span> — Trades & Technical Skills Platform
             </p>
             <p className="text-xs mt-1" style={{ color: 'rgba(255,255,255,0.15)' }}>ID: {c.id}</p>
           </div>
