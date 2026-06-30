@@ -10,6 +10,7 @@ import { XP_REWARDS } from '../services/xpService';
 import { useLevelProgressContext } from '../components/NavBar';
 import { useSupabase } from '../components/SupabaseProvider';
 import { isSessionValid } from '../api/userSession';
+import { issueLearnCardCredential } from '../../../services/learncard';
 
 type PlumberQuote = {
   professional: string;
@@ -142,6 +143,7 @@ const MyPipeBook = () => {
   const [skillsWalletSuccess, setSkillsWalletSuccess] = useState(false);
   const [skillsWalletDestination, setSkillsWalletDestination] = useState('');
   const [skillsWalletGovState, setSkillsWalletGovState] = useState('');
+  const [skillsWalletLearnCardHandle, setSkillsWalletLearnCardHandle] = useState('');
   const [skillsWalletClaimId, setSkillsWalletClaimId] = useState<string | null>(null);
   const [activeMobileTab, setActiveMobileTab] = useState<'pipebook' | 'collections'>('pipebook');
   
@@ -1671,29 +1673,48 @@ const MyPipeBook = () => {
                 <label className="block text-sm font-bold text-maineBlue mb-1">Send To <span className="font-normal text-gray-400">(required)</span></label>
                 <div className="grid grid-cols-2 gap-2">
                   {[
-                    { id: 'credivera', label: 'Credivera', logo: 'https://www.google.com/s2/favicons?domain=credivera.com&sz=64' },
-                    { id: 'iq4', label: 'IQ4', logo: 'https://www.google.com/s2/favicons?domain=iq4.com&sz=64' },
-                    { id: 'velocity', label: 'Velocity', logo: 'https://www.google.com/s2/favicons?domain=velocitycareerlabs.com&sz=64' },
-                    { id: 'territorium', label: 'Territorium', logo: 'https://www.google.com/s2/favicons?domain=territorium.com&sz=64' },
+                    { id: 'credivera', label: 'Credivera', logo: 'https://www.google.com/s2/favicons?domain=credivera.com&sz=64', comingSoon: true },
+                    { id: 'iq4', label: 'IQ4', logo: 'https://www.google.com/s2/favicons?domain=iq4.com&sz=64', comingSoon: true },
+                    { id: 'velocity', label: 'Velocity', logo: 'https://www.google.com/s2/favicons?domain=velocitycareerlabs.com&sz=64', comingSoon: true },
+                    { id: 'territorium', label: 'Territorium', logo: 'https://www.google.com/s2/favicons?domain=territorium.com&sz=64', comingSoon: true },
                     { id: 'learncard', label: 'LearnCard', logo: 'https://www.google.com/s2/favicons?domain=learncard.app&sz=64' },
                     { id: 'government', label: 'Government', logo: null },
                   ].map(dest => (
-                    <button
-                      key={dest.id}
-                      type="button"
-                      onClick={() => { setSkillsWalletDestination(dest.id); setSkillsWalletGovState(''); }}
-                      className={`flex items-center gap-2 px-3 py-2 rounded-lg border-2 text-sm font-bold transition-colors ${skillsWalletDestination === dest.id ? 'border-maineBlue bg-maineBlue text-white' : 'border-gray-300 bg-white text-gray-700 hover:border-maineBlue hover:text-maineBlue'}`}
-                    >
-                      {dest.logo ? (
-                        <img src={dest.logo} alt={dest.label} className="h-6 w-6 object-contain rounded" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
-                      ) : (
-                        <span className="text-base leading-none">⚖️</span>
+                    <div key={dest.id} className="relative group">
+                      <button
+                        type="button"
+                        onClick={() => { if (!dest.comingSoon) { setSkillsWalletDestination(dest.id); setSkillsWalletLearnCardHandle(''); setSkillsWalletGovState(''); } }}
+                        className={`w-full flex items-center gap-2 px-3 py-2 rounded-lg border-2 text-sm font-bold transition-colors ${dest.comingSoon ? 'border-gray-200 bg-gray-50 text-gray-400 cursor-not-allowed opacity-50' : skillsWalletDestination === dest.id ? 'border-maineBlue bg-maineBlue text-white' : 'border-gray-300 bg-white text-gray-700 hover:border-maineBlue hover:text-maineBlue'}`}
+                      >
+                        {dest.logo ? (
+                          <img src={dest.logo} alt={dest.label} className="h-6 w-6 object-contain rounded" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
+                        ) : (
+                          <span className="text-base leading-none">⚖️</span>
+                        )}
+                        {dest.label}
+                      </button>
+                      {dest.comingSoon && (
+                        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                          <span className="bg-gray-800 text-white text-xs font-bold px-2 py-1 rounded shadow">Coming Soon</span>
+                        </div>
                       )}
-                      {dest.label}
-                    </button>
+                    </div>
                   ))}
                 </div>
               </div>
+              {skillsWalletDestination === 'learncard' && (
+                <div>
+                  <label className="block text-sm font-bold text-maineBlue mb-1">LearnCard Profile ID <span className="font-normal text-gray-400">(required)</span></label>
+                  <input
+                    type="text"
+                    value={skillsWalletLearnCardHandle}
+                    onChange={(e) => setSkillsWalletLearnCardHandle(e.target.value)}
+                    className="w-full border-2 border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:border-maineBlue text-sm"
+                    placeholder="e.g. @your-learncard-id"
+                  />
+                  <p className="text-xs text-gray-400 mt-1">Find this in your LearnCard app under My Account.</p>
+                </div>
+              )}
               {skillsWalletDestination === 'government' && (
                 <div>
                   <label className="block text-sm font-bold text-maineBlue mb-1">Select State</label>
@@ -1786,6 +1807,7 @@ const MyPipeBook = () => {
                       setSkillsWalletTarget(null);
                       setSkillsWalletDestination('');
                       setSkillsWalletGovState('');
+                      setSkillsWalletLearnCardHandle('');
                       setSkillsWalletClaimId(null);
                     }}
                     className="w-full bg-gray-100 text-gray-700 font-bold py-2 rounded-lg hover:bg-gray-200 transition-colors text-sm"
@@ -1809,10 +1831,18 @@ const MyPipeBook = () => {
                     }).select('id').single();
                     if (!error && data) {
                       setSkillsWalletClaimId(data.id);
+                      if (skillsWalletDestination === 'learncard' && skillsWalletLearnCardHandle.trim()) {
+                        await issueLearnCardCredential({
+                          recipientHandle: skillsWalletLearnCardHandle.trim(),
+                          skillName: skillsWalletSkillName.trim(),
+                          discipline: 'plumbing',
+                          evidenceUrl: `${window.location.origin}/evidence/${data.id}`,
+                        });
+                      }
                     }
                     setSkillsWalletSuccess(true);
                   }}
-                  disabled={!skillsWalletSkillName.trim() || !skillsWalletDestination || (skillsWalletDestination === 'government' && !skillsWalletGovState)}
+                  disabled={!skillsWalletSkillName.trim() || !skillsWalletDestination || (skillsWalletDestination === 'government' && !skillsWalletGovState) || (skillsWalletDestination === 'learncard' && !skillsWalletLearnCardHandle.trim())}
                   className="w-full bg-maineBlue text-white font-retro font-bold py-3 rounded-lg hover:bg-seafoam hover:text-maineBlue transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
                 >
                   💼 Add to Skills Wallet
