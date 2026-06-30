@@ -47,40 +47,74 @@ const EvidencePage = () => {
   const [notFound, setNotFound] = useState(false);
 
   useEffect(() => {
-    if (!id) return;
-    const fetchClaim = async () => {
-      const { data, error } = await anonSupabase
-        .from('skill_claims')
-        .select('id, discipline, skill_name, video_url, video_name, notes, destination, verified, created_at')
-        .eq('id', id)
-        .eq('is_public', true)
-        .single();
+    if (!id) {
+      setNotFound(true);
+      setLoading(false);
+      return;
+    }
 
-      if (error || !data) {
+    const timeout = setTimeout(() => {
+      setNotFound(true);
+      setLoading(false);
+    }, 6000);
+
+    const fetchClaim = async () => {
+      try {
+        const { data, error } = await anonSupabase
+          .from('skill_claims')
+          .select('id, discipline, skill_name, video_url, video_name, notes, destination, verified, created_at')
+          .eq('id', id)
+          .eq('is_public', true)
+          .single();
+        clearTimeout(timeout);
+        if (error || !data) {
+          setNotFound(true);
+        } else {
+          setClaim(data as SkillClaim);
+        }
+      } catch {
+        clearTimeout(timeout);
         setNotFound(true);
-      } else {
-        setClaim(data as SkillClaim);
       }
       setLoading(false);
     };
+
     fetchClaim();
+    return () => clearTimeout(timeout);
   }, [id]);
 
   if (loading) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-blue-800 text-xl font-semibold">Loading evidence...</div>
-      </div>
-    );
+    return <div className="min-h-screen" style={{ background: '#0a1628' }} />;
   }
 
   if (notFound) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center p-8">
-          <div className="text-6xl mb-4">🔒</div>
-          <h1 className="text-2xl font-bold text-gray-800 mb-2">Evidence Not Found</h1>
-          <p className="text-gray-500">This evidence is either private or doesn't exist.</p>
+      <div className="min-h-screen flex flex-col" style={{ background: '#0a1628' }}>
+        {/* Nav bar */}
+        <div className="px-6 py-4 flex items-center gap-3 border-b border-white border-opacity-10">
+          <span className="text-2xl">🥩</span>
+          <span className="font-retro font-bold text-white text-lg tracking-wide">PChop</span>
+          <span className="ml-2 text-xs text-seafoam font-bold uppercase tracking-widest opacity-70">Skills Evidence</span>
+        </div>
+
+        {/* Empty state */}
+        <div className="flex-1 flex flex-col items-center justify-center px-6 text-center">
+          <div className="text-6xl mb-6">🎥</div>
+          <h1 className="font-retro font-bold text-white text-2xl mb-3">No Evidence Found</h1>
+          <p className="text-white text-opacity-50 text-sm max-w-xs leading-relaxed" style={{ color: 'rgba(255,255,255,0.5)' }}>
+            This evidence link is private, expired, or doesn't exist yet.
+          </p>
+          <div className="mt-8 border border-white border-opacity-10 rounded-xl px-6 py-4 max-w-xs w-full text-left">
+            <p className="text-xs font-bold text-seafoam uppercase tracking-widest mb-2">What is this?</p>
+            <p className="text-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>
+              PChop learners share proof-of-work videos with third-party skills wallets using a private evidence link. If you received this link, the learner may need to make it public.
+            </p>
+          </div>
+        </div>
+
+        {/* Footer */}
+        <div className="px-6 py-4 text-center">
+          <p className="text-xs" style={{ color: 'rgba(255,255,255,0.25)' }}>Powered by <span className="font-bold">PChop</span> — Trades & Technical Skills Platform</p>
         </div>
       </div>
     );
@@ -89,75 +123,81 @@ const EvidencePage = () => {
   const c = claim!;
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4">
-      <div className="max-w-2xl mx-auto">
+    <div className="min-h-screen flex flex-col" style={{ background: '#0a1628' }}>
+      {/* Nav bar */}
+      <div className="px-6 py-4 flex items-center gap-3 border-b border-white border-opacity-10">
+        <span className="text-2xl">🥩</span>
+        <span className="font-retro font-bold text-white text-lg tracking-wide">PChop</span>
+        <span className="ml-2 text-xs text-seafoam font-bold uppercase tracking-widest opacity-70">Skills Evidence</span>
+      </div>
 
-        {/* Header bar */}
-        <div className="bg-blue-900 text-white rounded-t-xl px-6 py-4 flex items-center gap-3">
-          <span className="text-3xl">💼</span>
-          <div>
-            <div className="text-xs font-bold opacity-60 uppercase tracking-widest mb-0.5">PChop · Skills Evidence</div>
-            <h1 className="text-2xl font-bold leading-tight">{c.skill_name}</h1>
+      <div className="flex-1 px-4 py-8">
+        <div className="max-w-xl mx-auto">
+
+          {/* Skill header */}
+          <div className="mb-6">
+            <p className="text-xs font-bold uppercase tracking-widest mb-1" style={{ color: 'rgba(255,255,255,0.4)' }}>Proof of Work</p>
+            <h1 className="font-retro font-bold text-white text-3xl leading-tight">{c.skill_name}</h1>
           </div>
-        </div>
 
-        {/* Body card */}
-        <div className="bg-white border-x-4 border-b-4 border-blue-900 rounded-b-xl p-6 space-y-6">
-
-          {/* Tags row */}
-          <div className="flex flex-wrap gap-2">
-            <span className="bg-teal-100 text-teal-800 text-sm font-bold px-3 py-1 rounded-full">
+          {/* Tags */}
+          <div className="flex flex-wrap gap-2 mb-6">
+            <span className="bg-seafoam text-maineBlue text-xs font-bold px-3 py-1 rounded-full">
               {DISCIPLINE_LABELS[c.discipline] || c.discipline}
             </span>
-            <span className={`text-sm font-bold px-3 py-1 rounded-full ${c.verified ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'}`}>
+            <span className={`text-xs font-bold px-3 py-1 rounded-full ${
+              c.verified
+                ? 'bg-green-400 text-green-900'
+                : 'bg-yellow-400 text-yellow-900'
+            }`}>
               {c.verified ? '✅ Instructor Verified' : '⏳ Pending Verification'}
             </span>
-            <span className="bg-gray-100 text-gray-500 text-sm px-3 py-1 rounded-full">
+            <span className="text-xs px-3 py-1 rounded-full" style={{ background: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.6)' }}>
               {new Date(c.created_at).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}
             </span>
             {c.destination && (
-              <span className="bg-blue-50 text-blue-700 text-sm px-3 py-1 rounded-full font-medium">
-                Submitted to {DESTINATION_LABELS[c.destination] || c.destination}
+              <span className="text-xs px-3 py-1 rounded-full" style={{ background: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.6)' }}>
+                → {DESTINATION_LABELS[c.destination] || c.destination}
               </span>
             )}
           </div>
 
           {/* Video */}
           {c.video_url ? (
-            <div>
-              <h2 className="text-sm font-bold text-blue-900 mb-2 uppercase tracking-wide">🎥 Proof of Work</h2>
+            <div className="mb-6">
               <video
                 src={c.video_url}
                 controls
-                className="w-full rounded-lg border-2 border-gray-200 bg-black"
-                style={{ maxHeight: '420px' }}
+                className="w-full rounded-xl bg-black"
+                style={{ maxHeight: '420px', border: '2px solid rgba(255,255,255,0.1)' }}
               >
                 Your browser does not support video playback.
               </video>
               {c.video_name && (
-                <p className="text-xs text-gray-400 mt-1">{c.video_name.replace('.webm', '')}</p>
+                <p className="text-xs mt-2" style={{ color: 'rgba(255,255,255,0.3)' }}>{c.video_name.replace('.webm', '')}</p>
               )}
             </div>
           ) : (
-            <div className="bg-gray-50 rounded-lg p-6 text-center text-gray-400 text-sm border-2 border-dashed border-gray-200">
-              No video evidence attached to this claim.
+            <div className="rounded-xl p-8 text-center mb-6" style={{ border: '2px dashed rgba(255,255,255,0.15)' }}>
+              <div className="text-4xl mb-2">🎥</div>
+              <p className="text-sm" style={{ color: 'rgba(255,255,255,0.4)' }}>No video attached to this claim.</p>
             </div>
           )}
 
           {/* Notes */}
           {c.notes && (
-            <div>
-              <h2 className="text-sm font-bold text-blue-900 mb-1 uppercase tracking-wide">Notes</h2>
-              <p className="text-sm text-gray-700 bg-gray-50 rounded-lg p-3 border border-gray-200 leading-relaxed">{c.notes}</p>
+            <div className="rounded-xl p-4 mb-6" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}>
+              <p className="text-xs font-bold uppercase tracking-widest text-seafoam mb-2">Notes</p>
+              <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.7)' }}>{c.notes}</p>
             </div>
           )}
 
           {/* Footer */}
-          <div className="border-t border-gray-100 pt-4 text-center">
-            <p className="text-xs text-gray-400">
-              Issued by <span className="font-bold text-blue-900">PChop</span> — Trades & Technical Skills Platform
+          <div className="text-center pt-4">
+            <p className="text-xs" style={{ color: 'rgba(255,255,255,0.25)' }}>
+              Issued by <span className="font-bold text-white">PChop</span> — Trades & Technical Skills Platform
             </p>
-            <p className="text-xs text-gray-300 mt-0.5">Claim ID: {c.id}</p>
+            <p className="text-xs mt-1" style={{ color: 'rgba(255,255,255,0.15)' }}>ID: {c.id}</p>
           </div>
         </div>
       </div>
