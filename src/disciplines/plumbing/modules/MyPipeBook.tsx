@@ -1747,19 +1747,34 @@ const MyPipeBook = () => {
                     <p className="text-green-700 font-bold text-sm">✅ Skill claim saved!</p>
                   </div>
                   {skillsWalletClaimId && (
-                    <div className="bg-gray-50 rounded-lg border border-gray-200 p-3 space-y-2">
-                      <p className="text-xs font-bold text-maineBlue">📋 Your evidence link — paste this into your wallet:</p>
-                      <div className="flex items-center gap-2">
-                        <code className="text-xs bg-white border border-gray-300 rounded px-2 py-1 flex-1 overflow-hidden text-ellipsis whitespace-nowrap block">
-                          {`${window.location.origin}/evidence/${skillsWalletClaimId}`}
-                        </code>
+                    <div className="space-y-2">
+                      {'share' in navigator ? (
                         <button
-                          onClick={() => navigator.clipboard.writeText(`${window.location.origin}/evidence/${skillsWalletClaimId}`)}
-                          className="text-xs bg-maineBlue text-white px-2 py-1 rounded font-bold hover:bg-seafoam hover:text-maineBlue transition-colors whitespace-nowrap"
+                          onClick={() => (navigator as any).share({
+                            title: skillsWalletSkillName,
+                            text: `Check out my proof-of-work for: ${skillsWalletSkillName}`,
+                            url: `${window.location.origin}/evidence/${skillsWalletClaimId}`,
+                          })}
+                          className="w-full bg-maineBlue text-white font-retro font-bold py-3 rounded-lg hover:bg-seafoam hover:text-maineBlue transition-colors"
                         >
-                          Copy
+                          📤 Send to Wallet
                         </button>
-                      </div>
+                      ) : (
+                        <div className="bg-gray-50 rounded-lg border border-gray-200 p-3 space-y-2">
+                          <p className="text-xs font-bold text-maineBlue">📋 Copy your evidence link:</p>
+                          <div className="flex items-center gap-2">
+                            <code className="text-xs bg-white border border-gray-300 rounded px-2 py-1 flex-1 overflow-hidden text-ellipsis whitespace-nowrap block">
+                              {`${window.location.origin}/evidence/${skillsWalletClaimId}`}
+                            </code>
+                            <button
+                              onClick={() => navigator.clipboard.writeText(`${window.location.origin}/evidence/${skillsWalletClaimId}`)}
+                              className="text-xs bg-maineBlue text-white px-2 py-1 rounded font-bold hover:bg-seafoam hover:text-maineBlue transition-colors whitespace-nowrap"
+                            >
+                              Copy
+                            </button>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   )}
                   <button
